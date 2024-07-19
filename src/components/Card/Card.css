@@ -1,0 +1,36 @@
+.container-card{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 150px;
+    border: 1px solid rgb(0, 68, 142);
+    border-radius: 10px;
+    padding: 10px;
+    gap: 10px;
+    background-color: #fff;
+    box-shadow:  5px 5px 10px #22222270;
+}
+
+.container-card h3{
+    font-size: 16px;
+    font-weight: 500;
+    color: #000 ;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.container-card  img{
+    width: 30%;
+}
+
+.container-card .card-info{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.title-discount{
+    font-size: 40px;
+    font-weight: 500;
+    color: rgb(0, 68, 142);
+}

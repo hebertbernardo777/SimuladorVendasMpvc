@@ -1,0 +1,74 @@
+.heading {
+  height: 10vh;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(253, 253, 253);
+  box-shadow: 1px 3px 7px rgba(0, 0, 0, 0.205);
+  margin-bottom: 20px;
+}
+
+.heading img{
+    width: 150px;
+}
+
+.heading ul{
+    display: flex;
+   gap: 20px;
+}
+
+.heading li{
+    list-style: none;
+    color:  rgb(0, 68, 142);
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.heading a{
+    text-decoration: none;
+}
+
+.heading .container-image-contact{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+   
+}
+
+.heading .image-contact{
+   background-color: rgba(128, 128, 128, 0.411);
+   width: 70px;
+   height: 70px;
+   border-radius: 50%;
+}
+
+
+.heading p{
+    color:  rgb(0, 68, 142);
+    font-size: 18px;
+}
+
+.go-out{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.go-out .icon{
+    font-size: 20px;
+    color: rgb(0, 68, 142);
+}
+
+@media screen and (max-width: 1000px) {
+    .heading li{
+        list-style: none;
+        color:  rgb(0, 68, 142);
+        font-weight: 700;
+        font-size: 18px;
+    }
+    
+}

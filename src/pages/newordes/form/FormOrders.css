@@ -1,0 +1,101 @@
+.form-partners {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+}
+
+.search-partners {
+  position: relative;
+}
+
+.search-partners {
+  position: relative;
+}
+
+.search-partners input[type="search"] {
+  width: 100%;
+  position: relative;
+  padding: 10px 40px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  outline: none;
+  margin-bottom: 20px;
+ 
+}
+
+.search-partners .icon {
+  position: absolute;
+  top: 20%;
+  left: 10px;
+  font-size: 20px;
+  color: #5a5a5a;
+}
+
+h2 {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.container-checked {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#customer-registration {
+  display: none;
+}
+
+.container-checked label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+#customer-registration-label::before {
+  content: "";
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%23e8eaed'%3E%3Cpath d='M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center center;
+  transition: 0.2s ease-in-out;
+}
+
+#customer-registration:checked + #customer-registration-label::before {
+  background-color: #07bdac;
+}
+
+.container-checked-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.container-checked-form input[type="text"] {
+  width: 100%;
+  position: relative;
+  padding: 10px 40px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  outline: none;
+}
+
+.clients ul{
+  list-style: none;
+}
+
+.clients ul li{
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}

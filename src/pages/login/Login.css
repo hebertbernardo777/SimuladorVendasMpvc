@@ -26,11 +26,11 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   gap: 20px;
+  
 }
 
-.container-form input {
+.container .container-form input {
   width: 400px;
   padding: 20px 40px;
   outline: none;
@@ -49,12 +49,14 @@
   font-size: 20px;
   font-weight: bold;
   opacity: 1;
+  margin-top: 30px;
 }
 
 input::placeholder {
   color: #5a5a5a;
   font-size: 14px;
 }
+
 .container-form button:hover {
   opacity: 0.9;
 }
@@ -68,4 +70,11 @@ input::placeholder {
 
 .container-login a:hover {
   color:  rgba(0, 69, 142, 0.829);
+}
+
+
+.errors{
+  color: #5a5a5a;
+  text-align: left;
+  font-size: 12px;
 }

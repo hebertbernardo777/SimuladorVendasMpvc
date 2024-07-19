@@ -9,7 +9,7 @@ console.log(error)
     <div className="container-error">
         <h1>{error.status}</h1>
         <p>Página não encontrada </p>
-        <Link to="/" className="link-error">
+        <Link to="/orders" className="link-error">
             Ir para página inicial
         </Link>
     </div>

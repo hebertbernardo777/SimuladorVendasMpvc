@@ -1,5 +1,4 @@
 import Login from './pages/login/Login'
-import './App.css'
 
 function App() {
   
@@ -7,6 +6,7 @@ function App() {
   return (
     <>
     <Login/>
+  
     </>
   )
 }
