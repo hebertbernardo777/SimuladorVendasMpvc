@@ -1,0 +1,114 @@
+.container-main {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+}
+
+.section-products {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 450px;
+  background-color: rgb(253, 253, 253);
+  border-radius: 10px;
+  gap: 10px;
+}
+
+img {
+  width: 50%;
+  margin-bottom: 10px;
+}
+
+.container-product h4 {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.results {
+  width: 100px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.section-products input {
+  width: 100px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+  padding-top: 10px;
+  outline: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none; 
+  margin: 0;}
+
+button {
+  border: none;
+  background-color: transparent;
+}
+
+.btn-product {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn-product p:nth-last-child(-n +1){
+  width: 20px;
+  font-size: 14px;
+}
+
+.icon-minus {
+  color: red;
+  font-size: 16px;
+}
+
+.icon-minus:hover {
+  background-color: #f6f6f6;
+}
+
+.icon-plus {
+  color: green;
+  font-size: 16px;
+}
+
+.infos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  border-top: 1px solid #ccc;
+  background-color: #eeeeee;
+}
+
+.infos h3{
+  margin-top: 20px;
+}
+
+.btn-product p {
+  width: 60px;
+  text-align: right;
+}
+
+.infos-products {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 450px;
+  padding: 10px 40px;
+  margin-bottom: 10px;  
+}
+
+.infos-products p{
+  width: 160px;
+  text-align: left;
+}
+
+.infos-products span{
+width: 60px;
+}

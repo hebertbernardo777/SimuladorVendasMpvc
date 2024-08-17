@@ -1,0 +1,80 @@
+.container-summary {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  border-radius: 5px;
+  background-color: #ccc;
+  margin-bottom: 50px;
+}
+
+.container-summary h3 {
+  text-align: center;
+  border-bottom: 1px solid #8d8d8d;
+  padding: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.products-summary {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.products-summary p {
+  font-size: 12px;
+  width: 180px;
+}
+
+.summary-buy{
+  display: flex;
+
+}
+
+.summary-buy span{
+  width: 70px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.summary-discount{
+  display: flex;
+  flex-direction: column;
+
+  padding: 10px 20px;
+}
+.summary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.infos-summary{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+ 
+}
+
+.summary-btn .btn {
+  background-color: #4f8f45;
+  width: 90%;
+  font-weight: 600;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.summary-btn .btn:hover {
+  opacity: 1;
+}
+
+.drafts {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.drafts a {
+  text-decoration: none;
+  color: rgb(0, 68, 142);
+  font-weight: 600;
+}

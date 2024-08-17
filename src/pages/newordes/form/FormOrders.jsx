@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { Field, ErrorMessage } from "formik";
 import dataEstados from "../../../data/estados.json";
-
-
 import "./FormOrders.css";
 
 const FormOrders = ({ setFieldValue }) => {
@@ -13,6 +11,7 @@ const FormOrders = ({ setFieldValue }) => {
     setIsChecked(!isChecked);
     setFieldValue("customerRegistration", !isChecked);
   };
+  
 
   return (
     <>

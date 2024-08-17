@@ -48,13 +48,15 @@
 .heading p{
     color:  rgb(0, 68, 142);
     font-size: 18px;
+    text-align: center;
 }
 
 .go-out{
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 1px;
     cursor: pointer;
 }
 
