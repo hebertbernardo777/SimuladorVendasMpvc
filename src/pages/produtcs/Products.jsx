@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Card from "../../components/Card/Card";
 import { FiPlusCircle } from "react-icons/fi";
 import { FiMinusCircle } from "react-icons/fi";
@@ -8,67 +8,30 @@ import Summary from "../../components/summary/Summary";
 import formatCurrency from "../../utils/formatCurrency";
 import { AuthContext } from "../../context/AuthContext";
 
-
 const Products = (props) => {
- 
-  const { data, products } = useContext(AuthContext);
-  const productName = data.product;
-  const suframa = data.suframa;
-  const { selectedProduct, setSelectedProduct } = useContext(AuthContext);
-  const {product, imagePath} = useContext(AuthContext);
- 
-  const getProductPrice = () => {
-    switch (suframa) {
-      case "Não optante":
-        return product.AD_VLRINTERESTADUAL;
-      case "isento-todos":
-        return product.AD_VLRISENTOTODOSIMP;
-      case "isento-ICMSIPI":
-        return product.AD_ISENTOICMSIPI;
-      case "isento-IPI":
-        return product.AD_VLRISENTOIPI;
-      default:
-        return product.VLRVENDA;
-    }
-  };
-  const productPrice = getProductPrice();
-console.log(product)
-  const [quantity, setQuantity] = useState(product.AD_QTDPC);
-  const [discount, setDiscount] = useState(0);
-
-  const quantidadeMininia = product.AD_QTDPC;
-
-  const minusQuantity = () => {
-    if (quantity > 0) {
-      setQuantity(quantity - quantidadeMininia);
-    }
-  };
-  const plusQuantity = () => {
-    setQuantity(product["AD_QTDPC"] + quantity);
-  };
-
-  const plusDiscount = () => {
-    const numericDiscount = parseFloat(discount);
-
-    if (Number.isInteger(numericDiscount)) {
-      setDiscount(numericDiscount + 1);
-    } else {
-      setDiscount((numericDiscount + 0.1).toFixed(1));
-    }
-  };
-  const minusDiscount = () => {
-    const numericDiscount = parseFloat(discount);
-
-    if (Number.isInteger(numericDiscount)) {
-      setDiscount(numericDiscount - 1);
-    } else {
-      setDiscount((numericDiscount - 0.1).toFixed(1));
-    }
-  };
-
-  const discountPercent = discount / 100;
-  const finalPrice = productPrice * (1 - discountPercent);
-  const discountApplied = productPrice - finalPrice;
+  const {
+    data,
+    selectedProduct,
+    product,
+    imagePath,
+    cartItems,
+    setCartItems,
+    productPrice,
+    setProductPrice,
+    quantity,
+    setQuantity,
+    discount,
+    setDiscount,
+    productName,
+    finalPrice,
+    discountApplied,
+    minusQuantity,
+    plusQuantity,
+    calculateTotalPrice,
+    minusDiscount,
+    plusDiscount,
+    orderTotal
+  } = useContext(AuthContext);
 
   const handleFocus = (e) => {
     e.target.value = "";
@@ -79,6 +42,34 @@ console.log(product)
     props.handlePrevStep(values);
   };
 
+  const newItem = {
+    productId: product.CODPROD,
+    name: selectedProduct,
+    price: productPrice,
+    quantity: quantity,
+    discount: discount,
+    image: imagePath,
+    priceFinal: finalPrice,
+    appliedDiscount: discountApplied,
+    totalOrders: orderTotal
+   
+  };
+
+  // useEffect(() => {
+  //   localStorage.setItem("carrinho", JSON.stringify(newItem));
+  // }, []);
+
+  const handleAddCart = () => {
+    const itemsExists = cartItems.some(
+      (item) => item.productId === product.CODPROD
+    );
+    if (!itemsExists) {
+      setCartItems([...cartItems, newItem]);
+    } else {
+      alert("Este item já foi adcionado ao carrinho");
+    }
+  };
+
   return (
     <>
       {/* <Card /> */}
@@ -87,10 +78,6 @@ console.log(product)
           <section className="section-products">
             <img src={imagePath} alt="imagem do produto" />
             <h4 className="product-title">{selectedProduct}</h4>
-            {/* <h3 className="product-price">
-              {formatCurrency(productPrice, "BRL")}
-            </h3> */}
-
             <div className="btn-product">
               <p>Qtd:</p>
               <button onClick={minusQuantity}>
@@ -115,8 +102,8 @@ console.log(product)
             </div>
             <div className="btn-product">
               <p>Desc: </p>
-              <button>
-                <FiMinusCircle className="icon-minus" onClick={minusDiscount} />
+              <button onClick={minusDiscount}>
+                <FiMinusCircle className="icon-minus" />
               </button>
               <input
                 type="number"
@@ -126,8 +113,8 @@ console.log(product)
                 onFocus={handleFocus}
                 onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
               />
-              <button>
-                <FiPlusCircle className="icon-plus" onClick={plusDiscount} />
+              <button onClick={plusDiscount}>
+                <FiPlusCircle className="icon-plus" />
               </button>
               <p>%</p>
             </div>
@@ -139,11 +126,12 @@ console.log(product)
                 <span>{formatCurrency(productPrice, "BRL")}</span>
               </div>
               <div className="infos-products">
-                <p>Vlr item: </p>{" "}
-                <span>{formatCurrency(finalPrice, "BRL")}</span>
+                <p>Vlr total item: </p>{" "}
+                <span>{formatCurrency(calculateTotalPrice(), "BRL")}</span>
               </div>
               <div className="infos-products">
-                <p>Vlr Total pedido: </p> <span></span>
+                <p>Vlr Total pedido: </p>{" "}
+                <span>{formatCurrency( orderTotal, "BRL")}</span>
               </div>
               <div className="infos-products">
                 <p>Desconto aplicado: </p>
@@ -158,10 +146,12 @@ console.log(product)
               children={"Voltar"}
               onClick={handleBack}
             />
+
             <Button
               className="btn"
               type="Submit"
               children={"Adicionar Produtos"}
+              onClick={handleAddCart}
             />
           </div>
         </div>

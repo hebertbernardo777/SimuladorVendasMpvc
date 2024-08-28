@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import Modal from "../../components/modal/Modal";
 import FormOrdes from "./form/FormOrders";
 import { useContext, useState } from "react";
@@ -14,12 +13,12 @@ const NewOrdes = (props) => {
   const { data, setData } = useContext(AuthContext);
 
   const [openModal, setOpenModal] = useState(false);
-  const navigate = useNavigate();
+  
 
   const handleSubmit = (values) => {
     console.log("Form values on submit:", values);
     props.handleNextStep(values);
-    navigate("/product", { state: { suframa: values.suframa } });
+  
   };
 
   return (

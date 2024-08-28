@@ -3,6 +3,7 @@ import { IoMdSearch } from "react-icons/io";
 import { Field, ErrorMessage } from "formik";
 import dataEstados from "../../../data/estados.json";
 import "./FormOrders.css";
+import Search from "../../../components/Search/Search";
 
 const FormOrders = ({ setFieldValue }) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -15,17 +16,18 @@ const FormOrders = ({ setFieldValue }) => {
 
   return (
     <>
+
       <div className="container-form">
         <div className="form-partners">
           <h1>Seleção de Parceiros</h1>
           {!isChecked && (
             <div className="search-partners">
-              <Field
+              <Search
                 type="search"
-                name="search"
+                name="searchClients"
                 id="search"
                 placeholder="Selecione o parceiro"
-              />
+               />
               <IoMdSearch className="icon" />
             </div>
           )}

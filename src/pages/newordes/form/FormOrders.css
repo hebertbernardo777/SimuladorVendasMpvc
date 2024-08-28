@@ -9,21 +9,6 @@
   position: relative;
 }
 
-.search-partners {
-  position: relative;
-}
-
-.search-partners input[type="search"] {
-  width: 100%;
-  position: relative;
-  padding: 10px 40px;
-  border: none;
-  border-bottom: 2px solid #ccc;
-  outline: none;
-  margin-bottom: 20px;
- 
-}
-
 .search-partners .icon {
   position: absolute;
   top: 20%;

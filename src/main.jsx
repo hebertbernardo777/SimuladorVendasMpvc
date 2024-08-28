@@ -4,37 +4,27 @@ import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider, Router } from "react-router-dom";
 import Error from "../src/routes/Error.jsx";
-import NewOrders from "./pages/newordes/NewOrdes.jsx";
-import CategoryProducts from "./pages/categoryProducts/CategoryProducts.jsx";
-import Products from "./pages/produtcs/Products.jsx";
+
 import Login from "./pages/login/Login.jsx";
 import { AuthContextProvider } from "./context/AuthContext.jsx";
-import Card from "./components/Card/Card.jsx";
-import { CalculationContextProvider } from "./context/CalculationContext.jsx";
+import Clients from "./pages/Clients/Clients.jsx";
+import FormMultistep from "./pages/FormMultstep/FormMultistep.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <Error />,
-    children: [
+     errorElement: <Error />,
+  },
       {
         path: "/orders",
-        element: <NewOrders />,
+        element: <FormMultistep/>
       },
-      {
-        path: "/categories",
-        element: <CategoryProducts />,
+         {
+        path: "/clients",
+        element: <Clients/>
       },
-      {
-        path: "/product",
-        element: <Products />,
-      },
-      // {
-      //   path: "/clients",
-      //   element: <Card />,
-      // },
-    ],
-  },
+    
+
 
   {
     path: "/login",
@@ -45,9 +35,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthContextProvider>
-      {/* <CalculationContextProvider> */}
-        <RouterProvider router={router} />
-      {/* </CalculationContextProvider> */}
+      <RouterProvider router={router} />
     </AuthContextProvider>
   </React.StrictMode>
 );

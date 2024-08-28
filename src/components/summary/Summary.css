@@ -1,10 +1,12 @@
 .container-summary {
   display: flex;
-  flex-direction: column;
-  width: 400px;
+   flex-direction: column;
+  width: 450px;
+  max-height: 685px;
   border-radius: 5px;
   background-color: #ccc;
   margin-bottom: 50px;
+ 
 }
 
 .container-summary h3 {
@@ -15,32 +17,22 @@
   font-weight: 600;
 }
 
-.products-summary {
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
+.items-cart{
+  overflow-y: scroll;
+  
 }
 
-.products-summary p {
-  font-size: 12px;
-  width: 180px;
+.items-cart::-webkit-scrollbar{
+  
+  width: 15px;
+  height: 3px;
 }
 
-.summary-buy{
-  display: flex;
-
-}
-
-.summary-buy span{
-  width: 70px;
-  font-size: 14px;
-  font-weight: 500;
-}
 
 .summary-discount{
   display: flex;
   flex-direction: column;
-
+  border-top: 1px solid #8d8d8d;
   padding: 10px 20px;
 }
 .summary-btn {

@@ -1,19 +1,20 @@
 import { React, useState, useContext } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { IoMdSearch } from "react-icons/io";
+
 import DataProducts from "../../data/produtcs.json";
 import * as Yup from "yup";
 import "./CategoryProducts.css";
 import Button from "../../components/Button/Button";
 import { AuthContext } from "../../context/AuthContext";
+import Search from "../../components/Search/Search";
 
 const CategoryProducts = (props) => {
   const { data} = useContext(AuthContext);
 
-  const {selectedCategory, setSelectedCategory} = useContext(AuthContext);
+ const { selectedCategory, setSelectedCategory, letterInitial, setLetterInitial } = useContext(AuthContext);
   const {selectedProduct, setSelectedProduct} =useContext(AuthContext);
   const [search, setSearch] = useState("");
-  const [letterInitial, setLetterInitial] = useState("");
+ 
  
 
   const rows = DataProducts.rows;
@@ -63,14 +64,14 @@ const CategoryProducts = (props) => {
             <Form id="form-category-product">
               <h1>Produtos</h1>
               <div className="search-products">
-                <Field
+                <Search
                   type="search"
                   name="searchProduct"
                   placeholder="Procurar produto"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
-                <IoMdSearch className="icon" />
+              
               </div>
               <div className="select-products">
                 <Field

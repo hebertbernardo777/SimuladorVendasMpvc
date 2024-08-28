@@ -7,7 +7,9 @@ import "./NavBar.css"
 const NavBar = () => {
   return (
     <header className="heading">
+      <Link to="/">
       <img src={Logo} alt="" />
+      </Link>
       <ul>
          <Link to="/orders">
           <li>Novo Pedido</li>

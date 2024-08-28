@@ -1,0 +1,30 @@
+.input-search input[type="search"] {
+  width: 100%;
+  position: relative;
+  padding: 10px 40px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  background-color: #f6f6f6;
+  outline: none;
+  margin-bottom: 20px;
+}
+
+.input-search .icon {
+  position: absolute;
+  top: 20%;
+  left: 10px;
+  font-size: 20px;
+  color: #5a5a5a;
+}
+
+.input-search {
+  position: relative;
+}
+
+.input-search .icon {
+  position: absolute;
+  top: 20%;
+  left: 10px;
+  font-size: 20px;
+  color: #5a5a5a;
+}

@@ -4,36 +4,13 @@
   justify-content: center;
   flex-direction: column;
   gap: 15px;
+ 
 }
 
 #form-category-product{
 width: 400px;
 }
 
-.search-products {
-  
-  position: relative;
- 
-}
-
-.search-products input[type="search"] {
-  width: 100%;
-  position: relative;
-  padding: 10px 40px;
-  border: none;
-  border-bottom: 2px solid #ccc;
-  background-color: #f6f6f6;
-  outline: none;
-  margin-bottom: 20px;
-}
-
-.search-products .icon {
-  position: absolute;
-  top: 20%;
-  left: 10px;
-  font-size: 20px;
-  color: #5a5a5a;
-}
 
 .select-products select {
   width: 100%;
@@ -48,7 +25,6 @@ width: 400px;
   align-items: center;
   padding: 10px 0;
   border-radius: 10px;
-
   margin-bottom: 20px;
   overflow-y: scroll;
 }
