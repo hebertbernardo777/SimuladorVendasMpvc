@@ -1,36 +1,55 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "../../components/modal/Modal";
 import FormOrdes from "./form/FormOrders";
 import { useContext, useState } from "react";
-import dataValue from "../../data/data.json";
 import Button from "../../components/Button/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "./NewOrdes.css";
 import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { api } from "../../lib/parametros";
+import { FaCheck } from "react-icons/fa";
 
-const NewOrdes = (props) => {
-  const { data, setData } = useContext(AuthContext);
-
+const NewOrdes = () => {
+  const { data, setData, loading, setLoading, selectedClient } =
+    useContext(AuthContext);
   const [openModal, setOpenModal] = useState(false);
-  
+  const Navigate = useNavigate();
+
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    api
+      .get("/")
+      .then((response) => {
+        setPosts(response.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err.toJSON());
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <p>carregando</p>;
 
   const handleSubmit = (values) => {
     console.log("Form values on submit:", values);
-    props.handleNextStep(values);
-  
-  };
+    setData({ ...data, ...values });
+    Navigate("/category");
+ };
 
   return (
     <>
       <Formik
         initialValues={data}
         validationSchema={Yup.object({
-          tipoVenda: Yup.string().required("Requerido"),
-          faturamento: Yup.string().required("Requerido"),
-          frete: Yup.string().required("Requerido"),
-          transportadora: Yup.string().required("Requerido"),
-          negociacao: Yup.string().required("Requerido"),
+          tipoVenda: Yup.string(),
+          faturamento: Yup.string(),
+          frete: Yup.string(),
+          transportadora: Yup.string(),
+          negociacao: Yup.string(),
           valorFinal: Yup.boolean().oneOf([true], "marque a opção"),
           freteNegociado: Yup.boolean().oneOf([true], "marque a opção"),
           consultarST: Yup.boolean().oneOf([true], "marque a opção"),
@@ -59,8 +78,21 @@ const NewOrdes = (props) => {
                 isOpen={openModal}
                 onClose={() => setOpenModal(!openModal)}
               >
-                <FormOrdes setFieldValue={setFieldValue} />
+                <FormOrdes
+                  setFieldValue={setFieldValue}
+                  onClose={() => setOpenModal(false)}
+                />
               </Modal>
+              {selectedClient ? (
+                <div className="parceiro-selected">
+                  <div className="selected">
+                    <FaCheck /> <p>Parceiro selecionado:</p>
+                  </div>
+                  <p>{selectedClient.RAZAOSOCIAL}</p>
+                </div>
+              ) : (
+                <p></p>
+              )}
               <div>
                 <div className="form-group">
                   <label>Tipo de venda</label>
@@ -82,11 +114,15 @@ const NewOrdes = (props) => {
                   <label>Faturamento</label>
                   <Field as="select" name="faturamento" id="faturamento">
                     <option value="">Selecione um tipo de faturamento</option>
-                    {dataValue.tiposFaturamento.map((tiposFaturamento) => (
-                      <option key={tiposFaturamento.VALOR}>
-                        {tiposFaturamento.OPCAO}
-                      </option>
-                    ))}
+                    {posts.length === 0 ? (
+                      <option>carregando</option>
+                    ) : (
+                      posts.tiposFaturamento.map((tiposFaturamento) => (
+                        <option key={tiposFaturamento.VALOR}>
+                          {tiposFaturamento.OPCAO}
+                        </option>
+                      ))
+                    )}
                   </Field>
                   <ErrorMessage
                     name="faturamento"
@@ -101,9 +137,13 @@ const NewOrdes = (props) => {
                   <label>Modalidade de frete</label>
                   <Field as="select" name="frete" id="frete">
                     <option value="">Selecione uma modalidade de frete</option>
-                    {dataValue.tipoFrete.map((tipoFrete) => (
-                      <option key={tipoFrete.VALOR}>{tipoFrete.OPCAO}</option>
-                    ))}
+                    {posts.length === 0 ? (
+                      <option>carregando</option>
+                    ) : (
+                      posts.tipoFrete.map((tipoFrete) => (
+                        <option key={tipoFrete.VALOR}>{tipoFrete.OPCAO}</option>
+                      ))
+                    )}
                   </Field>
                   <ErrorMessage
                     name="frete"
@@ -117,11 +157,15 @@ const NewOrdes = (props) => {
                   <label>Transportadora</label>
                   <Field as="select" name="transportadora" id="transportadora">
                     <option value="">Selecione uma transportadora</option>
-                    {dataValue.transportadoras.map((transportadora) => (
-                      <option key={transportadora.VALOR}>
-                        {transportadora.OPCAO}
-                      </option>
-                    ))}
+                    {posts.length === 0 ? (
+                      <option>carregando</option>
+                    ) : (
+                      posts.transportadoras.map((transportadora) => (
+                        <option key={transportadora.VALOR}>
+                          {transportadora.OPCAO}
+                        </option>
+                      ))
+                    )}
                   </Field>
                   <ErrorMessage
                     name="transportadora"
@@ -136,11 +180,15 @@ const NewOrdes = (props) => {
                   <label>Tipo de negociação</label>
                   <Field as="select" name="negociacao" id="negociacao">
                     <option value="">Selecione um tipo de negociação</option>
-                    {dataValue.tiposNegociacao.map((tiposNegociacao) => (
-                      <option key={tiposNegociacao.CODTIPVENDA}>
-                        {tiposNegociacao.DESCRTIPVENDA}
-                      </option>
-                    ))}
+                    {posts.length === 0 ? (
+                      <option>carregando</option>
+                    ) : (
+                      posts.tiposNegociacao.map((tiposNegociacao) => (
+                        <option key={tiposNegociacao.CODTIPVENDA}>
+                          {tiposNegociacao.DESCRTIPVENDA}
+                        </option>
+                      ))
+                    )}
                   </Field>
                   <ErrorMessage
                     name="negociacao"

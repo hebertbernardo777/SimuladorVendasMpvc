@@ -1,12 +1,13 @@
 .container-summary {
   display: flex;
-   flex-direction: column;
+  flex-direction: column;
+  justify-content: center;
+   margin: 0 auto;
   width: 450px;
   max-height: 685px;
   border-radius: 5px;
   background-color: #ccc;
   margin-bottom: 50px;
- 
 }
 
 .container-summary h3 {
@@ -17,19 +18,16 @@
   font-weight: 600;
 }
 
-.items-cart{
+.items-cart {
   overflow-y: scroll;
-  
 }
 
-.items-cart::-webkit-scrollbar{
-  
+.items-cart::-webkit-scrollbar {
   width: 15px;
   height: 3px;
 }
 
-
-.summary-discount{
+.summary-discount {
   display: flex;
   flex-direction: column;
   border-top: 1px solid #8d8d8d;
@@ -41,11 +39,18 @@
   justify-content: center;
 }
 
-.infos-summary{
+.infos-summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
- 
+}
+
+.infos-line{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #8d8d8d;
 }
 
 .summary-btn .btn {
@@ -60,12 +65,12 @@
   opacity: 1;
 }
 
-.drafts {
+.drafts-link {
   text-align: center;
   margin: 20px 0;
 }
 
-.drafts a {
+.drafts-link a {
   text-decoration: none;
   color: rgb(0, 68, 142);
   font-weight: 600;

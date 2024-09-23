@@ -20,6 +20,23 @@ h1 {
   gap: 5px;
 }
 
+.form .parceiro-selected{
+  margin: 20px 0;
+  text-align: center;
+  border-bottom: 1px solid #257C3D;
+  font-weight: 500;
+
+}
+
+.selected{
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 10px;
+color: #257C3D;
+padding-bottom: 10px;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;

@@ -1,16 +1,13 @@
-import NavBar from "./components/header/NavBar";
-import "./App.css";
+import NavBar from "../src/components/header/NavBar";
 import { Outlet } from "react-router-dom";
-import FormMultistep from "./pages/FormMultstep/FormMultistep";
 
-function App() {
+const App = () => {
   return (
     <>
       <NavBar />
-      <FormMultistep/>
       <Outlet />
     </>
   );
-}
+};
 
 export default App;

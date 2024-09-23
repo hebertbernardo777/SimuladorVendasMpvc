@@ -1,5 +1,5 @@
 .heading {
-  height: 10vh;
+  height: 9vh;
   padding: 0 40px;
   display: flex;
   justify-content: space-between;
@@ -9,68 +9,84 @@
   margin-bottom: 40px;
 }
 
-.heading img{
-    width: 150px;
+.heading img {
+  width: 50%;
 }
 
-.heading ul{
-    display: flex;
-   gap: 20px;
+.heading ul {
+  display: flex;
+  gap: 20px;
 }
 
-.heading li{
-    list-style: none;
-    color:  rgb(0, 68, 142);
-    font-weight: 500;
-    font-size: 20px;
+.heading li {
+  list-style: none;
+  color: rgb(0, 68, 142);
+  font-weight: 500;
+  font-size: 20px;
 }
 
-.heading a{
-    text-decoration: none;
+.heading a {
+  display: flex;
+  text-decoration: none;
 }
 
-.heading .container-image-contact{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-   
+.heading .container-contact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
-.heading .image-contact{
-   background-color: rgba(128, 128, 128, 0.411);
-   width: 70px;
-   height: 70px;
-   border-radius: 50%;
+.heading p {
+  color: rgb(0, 68, 142);
+  font-size: 18px;
+  text-align: center;
 }
 
+.go-out {
+  display: flex;
 
-.heading p{
-    color:  rgb(0, 68, 142);
-    font-size: 18px;
-    text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  cursor: pointer;
 }
 
-.go-out{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1px;
-    cursor: pointer;
+.go-out .icon {
+  font-size: 20px;
+  color: rgb(0, 68, 142);
 }
 
-.go-out .icon{
-    font-size: 20px;
-    color: rgb(0, 68, 142);
+.cart-link {
+  position: relative;
+}
+
+.icon-Cart {
+  color: rgb(0, 68, 142);
+  font-size: 1.5rem;
+}
+
+.cart-status {
+  background-color: rgb(0, 68, 142);
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: -7px;
+  left: 20px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media screen and (max-width: 1000px) {
-    .heading li{
-        list-style: none;
-        color:  rgb(0, 68, 142);
-        font-weight: 700;
-        font-size: 18px;
-    }
-    
+  .heading li {
+    list-style: none;
+    color: rgb(0, 68, 142);
+    font-weight: 700;
+    font-size: 18px;
+  }
 }

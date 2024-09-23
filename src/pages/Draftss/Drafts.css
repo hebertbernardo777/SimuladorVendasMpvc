@@ -1,0 +1,68 @@
+.drafts-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.drafts {
+  position: relative;
+  width: 60%;
+  box-shadow: 1px 3px 7px rgba(0, 0, 0, 0.205);
+  text-align: left;
+  border-radius: 10px;
+  padding: 20px 40px;
+}
+
+.resume {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.resume p {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.resume span {
+  font-size: 16px;
+}
+
+.resume-btn {
+  display: flex;
+  justify-content: space-around;
+}
+
+.resume-btn a {
+  margin-top: 40px;
+  text-decoration: none;
+  color: rgb(0, 68, 142);
+  font-weight: 500;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.resume-btn a:hover {
+  opacity: 0.8;
+}
+
+.drafts .delete-orders {
+  position: absolute;
+  top: 30px;
+  right: 50px;
+  cursor: pointer;
+  font-size: 18px;
+  color: red;
+}
+
+.drafts .loading-orders {
+  position: absolute;
+  top: 70px;
+  right: 48px;
+  font-size: 23px;
+  cursor: pointer;
+  color: #257c3d;
+}

@@ -1,4 +1,76 @@
-import { React, useState, useContext, useEffect } from "react";
+function percFrete(codprod:number){
+        // Rota Parceiro 
+        // codprod
+        // Parceiro uf
+        // Tipo do frete e transportadora
+       
+         
+        if(!tipoFrete){
+            return 0;
+        }
+
+        const item = tabela?.find( item => item.CODPROD === codprod);
+
+        const rotaParceiro = rotas?.find( rot => rot.CODROTA === parceiro?.CODROTA)
+
+        var desconto = 0;
+        
+                
+        //Verificar outra opcao valor tbm esta como negociado
+        if(transportadoraFrete === 'N - Negociado com o cliente'){
+            return percFreteNegociado;
+        }else{
+
+            if(transportadoraFrete === 'R - Retira'){
+                return 0;
+            }
+
+            if(transportadoraFrete === 'O - Outra Transportadora do Cliente'){
+                return 0;
+            }
+           
+            if(codprod === 12917 || codprod === 12918 || codprod === 502700 || codprod === 505000 || codprod === 507500 || codprod === 510000 ){
+
+                if( codprod === 12917 ){
+                  return rotaParceiro?.AD_TANQUE500-desconto;
+                }
+      
+                if( codprod === 12918 ){
+                  return rotaParceiro?.AD_TANQUE1000-desconto;
+                }
+      
+                if( codprod === 502700 ){
+                  return rotaParceiro?.AD_TANQUE2700-desconto;
+                }
+      
+                if( codprod === 505000 ){
+                  return rotaParceiro?.AD_TANQUE5000-desconto;
+                }
+      
+                if( codprod === 507500 ){
+                  return rotaParceiro?.AD_TANQUE7500-desconto;
+                }
+      
+                if( codprod === 510000 ){
+                  return rotaParceiro?.AD_TANQUE10000-desconto;
+                }
+      
+      
+              }
+
+            if(item?.CODGRUPOPROD === 41900){
+                return rotaParceiro?.AD_PERC_FRETE_CAIXA_TANQUE-desconto;
+            }
+            else {
+                
+                return rotaParceiro?.AD_PERC_FRETE-desconto;
+            }
+
+        }
+    };
+
+
+    import { React, useState, useContext, useEffect } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../lib/products";
@@ -16,15 +88,16 @@ const CategoryProducts = () => {
     setSelectedCategory,
     selectedSubCategory,
     setSelectedSubCategory,
+    selectedProduct,
     setSelectedProduct,
     letterInitial,
     setLetterInitial,
     loading,
     setLoading,
   } = useContext(AuthContext);
+
   const [search, setSearch] = useState("");
   const [posts, setPosts] = useState([]);
-  const [isActive, setIsActive] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,7 +132,7 @@ const CategoryProducts = () => {
   const filterCategory = Object.keys(
     filteredProducts.reduce((acc, rows) => {
       if (rows.AD_CLASSE !== null && rows.AD_CLASSE !== undefined) {
-        acc[rows.AD_CLASSE] = true; 
+        acc[rows.AD_CLASSE] = true; // Acessa a chave usando colchetes
       }
       return acc;
     }, {})
@@ -69,36 +142,29 @@ const CategoryProducts = () => {
     ? rows.filter((product) => product.AD_CLASSE === selectedSubCategory)
     : filteredProducts;
 
-  const handleCategory = (setFieldValue, category) => {
+  const handleSelectProducts = (setFieldValue, category) => {
     setFieldValue("category", category);
     setSelectedCategory(category);
-    setSelectedSubCategory("");
-    setSelectedProduct("");
     setLetterInitial(category.charAt(0).toUpperCase());
   };
 
-  const handleSubCategory = (setFieldValue, subCategory) => {
-    setFieldValue("subCategory", subCategory);
-    setSelectedSubCategory(subCategory);
+  const handleCategoryChange = (setFieldValue, product) => {
+    setFieldValue("subCategory", product);
+    setSelectedSubCategory(product);
   };
 
-  // const handleProductChange = (setFieldValue, product) => {
-  //   setFieldValue("product", product);
-  //   setSelectedProduct(product);
-  //   console.log(selectedProduct)
-  // };
-
-  const handleSelectCliente = (product) => {
-    setSelectedProduct(product.DESCRPROD);
-    setIsActive(product.CODPROD);
+  const handdleProductSelected = (product) => {
+    setSelectedProduct(product);
     console.log(product);
+    console.log("selectedProduct:", selectedProduct);
   };
-
+  
   const handleSubmit = (values) => {
     console.log("Form values on submit:", values);
     setData({ ...data, ...values });
     navigate("/products");
   };
+
 
   return (
     <>
@@ -108,7 +174,7 @@ const CategoryProducts = () => {
           validationSchema={Yup.object({
             searchProduct: Yup.string(),
             category: Yup.string().required("Requerido"),
-            product: Yup.string(),
+            subCategory: Yup.string().required("Requerido"),
           })}
           onSubmit={handleSubmit}
         >
@@ -130,7 +196,7 @@ const CategoryProducts = () => {
                   name="category"
                   id="category"
                   onChange={(e) =>
-                    handleCategory(setFieldValue, e.target.value)
+                    handleSelectProducts(setFieldValue, e.target.value)
                   }
                 >
                   <option value="">TODOS</option>
@@ -152,7 +218,7 @@ const CategoryProducts = () => {
                   name="subCategory"
                   id="subCategory"
                   onChange={(e) =>
-                    handleSubCategory(setFieldValue, e.target.value)
+                    handleCategoryChange(setFieldValue, e.target.value)
                   }
                 >
                   <option value="">TODOS</option>
@@ -168,28 +234,6 @@ const CategoryProducts = () => {
                   className="errors"
                 />
               </div>
-              {/* <div className="select-products">
-                <Field
-                  as="select"
-                  name="product"
-                  id="product"
-                  onChange={(e) =>
-                    handleProductChange(setFieldValue, e.target.value)
-                  }
-                >
-                  <option value="">TODOS</option>
-                  {filteredProducts.map((product) => (
-                    <option key={product.CODPROD} value={product.DESCRPROD}>
-                      {product.DESCRPROD}
-                    </option>
-                  ))}
-                </Field>
-                <ErrorMessage
-                  name="product"
-                  component="div"
-                  className="errors"
-                />
-              </div> */}
               <div className="lists-products">
                 <h3 id="title-list-products">Lista Produtos</h3>
                 <ul>
@@ -200,11 +244,8 @@ const CategoryProducts = () => {
                             <span>{letterInitial}</span>
                           </div>
                           <li
-                            className={
-                              isActive === product.CODPROD ? "active" : ""
-                            }
                             onClick={() => {
-                              handleSelectCliente(product);
+                              handdleProductSelected(product);
                             }}
                           >
                             {product.DESCRPROD}
@@ -219,13 +260,7 @@ const CategoryProducts = () => {
 
               <div className="btn-steps">
                 <Link to="/orders">
-                  <Button
-                    className="btn"
-                    type="Button"
-                    children={"voltar"}
-
-                    // onClick={() => props.handlePrevStep(values)}
-                  />
+                  <Button className="btn" type="Button" children={"voltar"} />
                 </Link>
                 <Button className="btn" type="Submit" children={"Avançar"} />
               </div>

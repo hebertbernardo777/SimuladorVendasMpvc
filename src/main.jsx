@@ -1,31 +1,60 @@
-import React, { Children } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
-import "./index.css";
 import { createBrowserRouter, RouterProvider, Router } from "react-router-dom";
-import Error from "../src/routes/Error.jsx";
-
-import Login from "./pages/login/Login.jsx";
 import { AuthContextProvider } from "./context/AuthContext.jsx";
+import Error from "../src/routes/Error.jsx";
+import Login from "./pages/login/Login.jsx";
 import Clients from "./pages/Clients/Clients.jsx";
 import FormMultistep from "./pages/FormMultstep/FormMultistep.jsx";
+import NewOrdes from "./pages/newordes/NewOrdes.jsx";
+import CategoryProducts from "./pages/categoryProducts/CategoryProducts.jsx";
+import Products from "./pages/produtcs/Products.jsx";
+import Drafts from "./pages/Draftss/Drafts.jsx";
+import Summary from "./pages/summary/Summary.jsx";
+import "./index.css";
+import ResumeDrafts from "./pages/Draftss/ResumeDrafts.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-     errorElement: <Error />,
-  },
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/",
+        element: <FormMultistep />,
+      },
       {
         path: "/orders",
-        element: <FormMultistep/>
+        element: <NewOrdes />,
       },
-         {
+      {
+        path: "/category",
+        element: <CategoryProducts />,
+      },
+      {
+        path: "/products",
+        element: <Products />,
+      },
+      {
         path: "/clients",
-        element: <Clients/>
+        element: <Clients />,
       },
-    
-
-
+      {
+        path: "/drafts",
+        element: <Drafts />,
+      },
+      {
+        path: "/resumedrafts",
+        element: <ResumeDrafts />,
+      },
+      {
+        path: "/cart",
+        element: <Summary />,
+      },
+    ],
+  },
   {
     path: "/login",
     element: <Login />,

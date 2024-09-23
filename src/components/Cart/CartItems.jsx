@@ -9,7 +9,7 @@ const CartItems = ({ newItem }) => {
     return null;
   }
   const { productId, name, quantity, image, totalOrders} = newItem;
-  const { cartItems, setCartItems, orderTotal } = useContext(AuthContext);
+  const { cartItems, setCartItems } = useContext(AuthContext);
 
   const handleRemoveItem = () => {
     const updatesItems = cartItems.filter(

@@ -1,26 +1,25 @@
 .container-card{
     display: flex;
     flex-direction: column;
-    width: 300px;
-    height: 150px;
-    border: 1px solid rgb(0, 68, 142);
+    width: 280px;
+    height: 140px;
     border-radius: 10px;
     padding: 10px;
     gap: 10px;
-    background-color: #fff;
+    background-color: #f6f6f6;
     box-shadow:  5px 5px 10px #22222270;
 }
 
 .container-card h3{
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 400;
     color: #000 ;
     text-align: center;
     margin-bottom: 10px;
 }
 
 .container-card  img{
-    width: 30%;
+    width: 50%;
 }
 
 .container-card .card-info{

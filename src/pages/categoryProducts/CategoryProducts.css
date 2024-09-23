@@ -7,12 +7,12 @@
  
 }
 
-#form-category-product{
+.form-category-product{
 width: 400px;
 }
 
 
-.select-products select {
+.form-category-product select {
   width: 100%;
   box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.205);
   margin-bottom: 20px;
@@ -51,6 +51,12 @@ width: 400px;
   padding: 5px 10px;
   margin-bottom: 20px;
   border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.active{
+  border-radius: 3px;
+  background-color: rgba(0, 69, 142, 0.685);
 }
 
 .lists-container {

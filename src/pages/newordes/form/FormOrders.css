@@ -76,11 +76,11 @@ h2 {
   outline: none;
 }
 
-.clients ul{
+.clients ul {
   list-style: none;
 }
 
-.clients ul li{
+.clients ul li {
   padding: 10px;
   border-bottom: 1px solid #ccc;
 }

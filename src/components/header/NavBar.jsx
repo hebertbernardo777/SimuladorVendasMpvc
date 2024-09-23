@@ -1,32 +1,43 @@
-import React from "react";
+import React, { useContext } from "react";
 import Logo from "../../assets/fotos/maispvc-logo.svg";
 import { Link } from "react-router-dom";
 import { CiLogout } from "react-icons/ci";
-import "./NavBar.css"
+import { FiShoppingCart } from "react-icons/fi";
+import "./NavBar.css";
+import { AuthContext } from "../../context/AuthContext";
 
 const NavBar = () => {
+  const { cartItems, resetForm } = useContext(AuthContext);
+
   return (
     <header className="heading">
       <Link to="/">
-      <img src={Logo} alt="" />
+        <img src={Logo} alt="" />
       </Link>
       <ul>
-         <Link to="/orders">
+        <Link to="/orders" onClick={resetForm}>
           <li>Novo Pedido</li>
         </Link>
         <Link to="/clients">
-        <li>Clientes</li>
+          <li>Clientes</li>
         </Link>
-        <li>Rascunhos</li>
-      
+        <Link to="/drafts">
+          <li>Rascunhos</li>
+        </Link>
       </ul>
-      <div className="container-image-contact">
-          <span className="image-contact"><img src="#" alt="" /></span>
-          <p>José Correia</p>
-          <div className="go-out">
-            <CiLogout className="icon"/>
-            <p>Sair</p>
-          </div>
+      <div className="container-contact">
+        <div className="cart-link">
+          <Link to="/cart">
+            <FiShoppingCart className="icon-Cart" />
+            <span className="cart-status">{cartItems.length}</span>
+          </Link>
+        </div>
+        <p>José Correia</p>
+
+        <div className="go-out">
+          <CiLogout className="icon" />
+          <p>Sair</p>
+        </div>
       </div>
     </header>
   );

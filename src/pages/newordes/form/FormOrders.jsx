@@ -4,34 +4,21 @@ import { Field, ErrorMessage } from "formik";
 import dataEstados from "../../../data/estados.json";
 import "./FormOrders.css";
 import Search from "../../../components/Search/Search";
+import Clients from "../../Clients/Clients";
 
-const FormOrders = ({ setFieldValue }) => {
+const FormOrders = ({ setFieldValue, onClose }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
     setFieldValue("customerRegistration", !isChecked);
   };
-  
 
   return (
     <>
-
       <div className="container-form">
         <div className="form-partners">
           <h1>Seleção de Parceiros</h1>
-          {!isChecked && (
-            <div className="search-partners">
-              <Search
-                type="search"
-                name="searchClients"
-                id="search"
-                placeholder="Selecione o parceiro"
-               />
-              <IoMdSearch className="icon" />
-            </div>
-          )}
-
           <div className="container-checked">
             <Field
               type="checkbox"
@@ -40,7 +27,6 @@ const FormOrders = ({ setFieldValue }) => {
               checked={isChecked}
               onChange={handleCheckboxChange}
             />
-
             <label
               htmlFor="customer-registration"
               id="customer-registration-label"
@@ -48,7 +34,6 @@ const FormOrders = ({ setFieldValue }) => {
               Cliente sem cadastro
             </label>
           </div>
-
           {isChecked && (
             <div className="container-checked-form">
               <div className="form-group">
@@ -91,17 +76,8 @@ const FormOrders = ({ setFieldValue }) => {
             </div>
           )}
         </div>
-        {!isChecked && (
-          <div className="clients">
-            <ul>
-              <li>Clientes 1</li>
-              <li>Clientes 2</li>
-              <li>Clientes 3</li>
-            </ul>
-          </div>
-        )}
+        {!isChecked && <Clients style={{ height: '400px' }} onClose={onClose}/>}
       </div>
-   
     </>
   );
 };

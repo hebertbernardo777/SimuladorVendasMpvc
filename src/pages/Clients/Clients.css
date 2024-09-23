@@ -1,35 +1,55 @@
-.clients-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 15px;
-    width: 600px;
-    margin: 0 auto;
-    gap: 5px;
-   
+.clients-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 800px;
+  margin: 0 auto;
+  gap: 5px;
+  height: 700px;
 }
 
-.list-clients{
- max-height: 580px;   
- overflow-y: scroll;
- margin-top: 40px;
+.list-clients {
+  overflow-y: scroll;
+  margin-top: 20px;
 }
-
 
 .list-clients::-webkit-scrollbar {
-    width: 3px;
-    height: 3px;
-  }
-
-.list-clients ul{
-    list-style: none;
-
+  width: 3px;
+  height: 3px;
 }
 
-.list-clients li{
-    width: 100%;
-    padding: 5px 10px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #ccc;
+.list-clients ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 600px;
+  list-style: none;
+}
+
+.list-clients li {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 5px 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  font-size: 15px;
+  font-weight: 400;
+  gap: 10px;
+}
+
+.list-clients span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgb(0, 68, 142);
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
 }

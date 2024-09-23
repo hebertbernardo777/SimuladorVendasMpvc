@@ -1,0 +1,57 @@
+.container-resume-drafts {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.infos-resume {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 40px;
+  width: 700px;
+}
+
+.container-resume-drafts p {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.container-resume-drafts span {
+  margin-left: 10px;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.orders-cart {
+  width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.orders-cart h3 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-weight: 500;
+  font-size: 22px;
+  color: rgb(0, 68, 142);
+}
+
+.contianer-orders-cart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #257c3d;
+  margin-bottom: 20px;
+}
+
+.infos-orders-cart {
+  width: 100%;
+  display: flex;
+  margin: 20px 0;
+  justify-content: space-between;
+}
