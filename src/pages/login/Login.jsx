@@ -1,21 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../../assets/fotos/maispvc-logo.svg";
 import "./Login.css";
 import { Link } from "react-router-dom";
 import { Field, Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { api } from "../../lib/login";
 
 const Login = () => {
+
+  const user = ""; // Defina o usuário
+  const password = ""; // Defina a senha
+
+  useEffect(() => {
+    api.post("/", {
+      user,
+      password, // Corrigido o erro de digitação
+    })
+    .then((response) => {
+      if (response.data.user) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+    })
+    .catch((error) => {
+      console.error("Houve um erro no login!", error);
+    });
+  }, []);
+
   return (
     <Formik
       initialValues={{
-        email: "",
+        user: "",
         password: "",
       }}
       validationSchema={Yup.object({
-        email: Yup.string()
-          .email("Digite um email válido")
-          .required("Campo obrigatório"),
+        user: Yup.string().required("Campo obrigatório"),
         password: Yup.string().required("Campo obrigatório"),
       })}
       onSubmit={(values) => {
@@ -29,14 +47,14 @@ const Login = () => {
           <Form className="container-form">
             <label>
               <Field
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Digite seu email"
+                id="user"
+                name="user"
+                type="text"
+                placeholder="Digite seu usuário"
                 autoComplete="username"
               />
             </label>
-            <ErrorMessage name="email" 
+            <ErrorMessage name="user" 
            component="div" className="errors" />
             <label>
               <Field
@@ -49,7 +67,7 @@ const Login = () => {
             </label>
             <ErrorMessage name="password" component="div" className="errors"/>
 
-            <Link to="./orders">
+            <Link to="/orders">
             <button type="submit">Acessar</button>
             </Link>
           </Form>

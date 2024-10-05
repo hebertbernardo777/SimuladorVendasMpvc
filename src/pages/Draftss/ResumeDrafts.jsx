@@ -11,7 +11,8 @@ const ResumeDrafts = () => {
       <h1>Resumo do Pedido</h1>
       <div className="infos-resume">
         <p>
-          Cliente: <span>{selectedClient.RAZAOSOCIAL}</span>
+          Cliente:
+          <span> {selectedClient?.RAZAOSOCIAL || selectedClient }</span>
         </p>
         <p>
           Tipo de Pagamento: <span>{data.negociacao}</span>
@@ -33,22 +34,21 @@ const ResumeDrafts = () => {
         <h3>Itens do Pedido</h3>
         {cartItems.map((item) => (
           <div key={item.productId} className="contianer-orders-cart">
-            
-                <p>
-                  Produto: <span>{item.name}</span>
-                </p>
-                <div className="infos-orders-cart">
-                <p>
-                  Valor do item: <span>{formatCurrency(item.price, "BRL")}</span>
-                </p>
-                <p>
-                  Quantidade: <span>{item.quantity}</span>
-                </p>
-                <p>
-                  Valor Total:<span> {formatCurrency(item.priceTotal, "BRL")}</span>
-                </p>
+            <p>
+              Produto: <span>{item.name}</span>
+            </p>
+            <div className="infos-orders-cart">
+              <p>
+                Valor do item: <span>{formatCurrency(item.price, "BRL")}</span>
+              </p>
+              <p>
+                Quantidade: <span>{item.quantity}</span>
+              </p>
+              <p>
+                Valor Total:
+                <span> {formatCurrency(item.totalOrders, "BRL")}</span>
+              </p>
             </div>
-    
           </div>
         ))}
       </div>

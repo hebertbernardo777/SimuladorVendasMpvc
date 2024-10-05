@@ -5,28 +5,11 @@
   gap: 30px;
 }
 
-.search-partners {
-  position: relative;
-}
-
-.search-partners .icon {
-  position: absolute;
-  top: 20%;
-  left: 10px;
-  font-size: 20px;
-  color: #5a5a5a;
-}
-
-h2 {
-  text-align: center;
-  font-size: 16px;
-  font-weight: 500;
-}
-
 .container-checked {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px; 
 }
 
 #customer-registration {
@@ -39,7 +22,7 @@ h2 {
   align-items: center;
   gap: 20px;
   font-weight: 300;
-  cursor: pointer;
+  cursor: pointer;font-weight: 500;
 }
 
 #customer-registration-label::before {
@@ -58,7 +41,8 @@ h2 {
 }
 
 #customer-registration:checked + #customer-registration-label::before {
-  background-color: #07bdac;
+  background-color: #257c3d;
+  border: #257c3d;
 }
 
 .container-checked-form {

@@ -1,8 +1,8 @@
 .container-card{
     display: flex;
     flex-direction: column;
-    width: 280px;
-    height: 140px;
+    width: 310px;
+    height: 160px;
     border-radius: 10px;
     padding: 10px;
     gap: 10px;
@@ -18,18 +18,28 @@
     margin-bottom: 10px;
 }
 
-.container-card  img{
-    width: 50%;
-}
 
 .container-card .card-info{
+    
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    width: 100%;
+}
+
+
+.container-card  img{
+    width: 50%;
+    flex-grow: 2;
+     max-width: 150px;
 }
 
 .title-discount{
-    font-size: 40px;
+    flex-grow: 3; /* Faz o texto crescer mais do que a imagem */
+    flex-shrink: 1; 
+    font-size: 38px;
     font-weight: 500;
     color: rgb(0, 68, 142);
+    text-align: right; /* Alinha o texto à direita */
+    white-space: nowrap; 
 }

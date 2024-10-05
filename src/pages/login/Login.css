@@ -22,7 +22,7 @@
    border-radius: 40px;
 }
 
-.container-form {
+.container-form-login  {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -30,7 +30,7 @@
   
 }
 
-.container .container-form input {
+.container-form-login  input {
   width: 400px;
   padding: 20px 40px;
   outline: none;
@@ -39,7 +39,7 @@
   box-shadow: 1px 3px 7px rgba(0, 0, 0, 0.205);
 }
 
-.container-form button {
+.container-form-login button {
   width: 400px;
   padding: 20px 40px;
   border: none;

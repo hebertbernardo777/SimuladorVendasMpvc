@@ -24,7 +24,7 @@ const Drafts = () => {
   };
 
   const handleLoadDraft = (pedido, redirectToForm = true) => {
-    setSelectedClient(pedido.client);
+    setSelectedClient(pedido.client );
     setData(pedido.form);
     setCartItems(pedido.cart);
     setCurrentStep(pedido.currentStep || 0);
@@ -47,7 +47,11 @@ const Drafts = () => {
         savedData.map((pedido) => (
           <div key={pedido.id} className="drafts">
             <div className="resume">
-              <p>Cliente:</p> <span>{pedido.client.RAZAOSOCIAL}</span>
+              <span>
+                {pedido.client
+                  ? pedido.client.RAZAOSOCIAL || pedido.client
+                  : "Cliente não disponível"}
+              </span>
             </div>
             <div className="resume">
               <p>Data do pedido:</p>

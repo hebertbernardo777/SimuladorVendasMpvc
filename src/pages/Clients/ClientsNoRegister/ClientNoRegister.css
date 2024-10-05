@@ -1,0 +1,20 @@
+.container-no-register .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .container-no-register .selected {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: #257c3d;
+    padding-bottom: 10px;
+  }
+
+
+  .container-no-register label {
+    font-size: 18px;
+    font-weight: 500;
+  }

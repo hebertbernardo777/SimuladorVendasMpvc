@@ -1,0 +1,132 @@
+import React, { useContext, useState, useEffect } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { api } from "../lib/products";
+
+const useCategoriesFunctions = () => {
+  const {
+    posts,
+    setPosts,
+    selectedCategory,
+    setSelectedCategory,
+    selectedSubCategory,
+    setSelectedSubCategory,
+    selectSubLinha,
+    setSelectSubLinha,
+    selectedProduct,
+    setSelectedProduct,
+    setLetterInitial,
+    loading,
+    setLoading,
+  } = useContext(AuthContext);
+
+  const [search, setSearch] = useState("");
+  const [isActive, setIsActive] = useState(null);
+
+  useEffect(() => {
+    api
+      .get("/")
+      .then((response) => {
+        setPosts(response.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err.toJSON());
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <p>carregando</p>;
+
+  const rows = posts.rows || [];
+
+  const categories = Object.keys(
+    rows.reduce((acc, row) => ({ ...acc, [row.AD_SUBGRUPO]: true }), {})
+  );
+
+  const searchProducts = rows.filter(
+    (produto) =>
+      produto.DESCRPROD &&
+      produto.DESCRPROD.toUpperCase().includes(search.toUpperCase())
+  );
+
+  const filteredProducts = selectedCategory
+    ? rows.filter((product) => product.AD_SUBGRUPO === selectedCategory)
+    : [];
+
+  const filterCategory = Object.keys(
+    filteredProducts.reduce((acc, row) => {
+      if (row.AD_CLASSE !== null && row.AD_CLASSE !== undefined) {
+        acc[row.AD_CLASSE] = true;
+      }
+      return acc;
+    }, {})
+  );
+
+  const filteredLines = Object.keys(
+    rows.reduce((acc, product) => {
+      if (
+        product.AD_SUBGRUPO === selectedCategory &&
+        product.AD_LINHAPRODUTOS
+      ) {
+        acc[product.AD_LINHAPRODUTOS] = true;
+      }
+      return acc;
+    }, {})
+  );
+
+  const filterSubCategory = selectedSubCategory
+    ? rows.filter((product) => product.AD_CLASSE === selectedSubCategory)
+    : filteredProducts;
+
+  const filteredProductsByLineAndSubCategory = rows.filter((product) => {
+    return (
+      product.AD_SUBGRUPO === selectedCategory &&
+      (!selectedSubCategory || product.AD_CLASSE === selectedSubCategory) &&
+      (!selectSubLinha || product.AD_LINHAPRODUTOS === selectSubLinha)
+    );
+  });
+
+  const handleCategory = (setFieldValue, category) => {
+    setFieldValue("category", category);
+    setSelectedCategory(category);
+    setSelectedSubCategory("");
+    setSelectedProduct("");
+    setLetterInitial(category.charAt(0).toUpperCase());
+  };
+
+  const handleSubCategory = (setFieldValue, subCategory) => {
+    setFieldValue("subCategory", subCategory);
+    setSelectedSubCategory(subCategory);
+  };
+
+  const handleSelectProduct = (product) => {
+    console.log("Selected Product CODPROD:", product.CODPROD); // Verifique se está definido
+    setSelectedProduct(product.DESCRPROD);
+    setIsActive(product.CODPROD);
+  };
+
+  const handleSelectLine = (setFieldValue, line) => {
+    setSelectSubLinha(line);
+    setFieldValue("line", line);
+    console.log("Selected Line:", line);
+  };
+
+  return {
+    categories,
+    searchProducts,
+    filteredProducts,
+    filterCategory,
+    filteredLines,
+    filterSubCategory,
+    filteredProductsByLineAndSubCategory,
+    search,
+    setSearch,
+    handleCategory,
+    handleSubCategory,
+    handleSelectProduct,
+    handleSelectLine,
+    isActive,
+  };
+};
+
+export default useCategoriesFunctions;

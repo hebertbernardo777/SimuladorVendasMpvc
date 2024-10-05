@@ -1,0 +1,22 @@
+.infos-line{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #8d8d8d;
+    gap: 5px;
+    margin-bottom: 20px;
+  }
+  
+  .infos-line h4{
+    color: #257c3d;
+  }
+  
+  .infos-line p{
+    font-weight: 600;
+    
+  }
+  .infos-line span{
+    font-weight: 400;
+    margin-left: 10px;
+  }

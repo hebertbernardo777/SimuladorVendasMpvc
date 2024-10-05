@@ -1,15 +1,13 @@
 import { Formik, Form, Field } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import Search from "../../components/Search/Search";
-import ListClients from "../../data/clients.json";
 import "./Clients.css";
 import { api } from "../../lib/clients";
 import { AuthContext } from "../../context/AuthContext";
 
 const Clients = ({ style, onClose = () => {} }) => {
   const [searchClient, setSearchClient] = useState("");
-  const { setSelectedClient } = useContext(AuthContext);
-  const [setPosts] = useState([]);
+  const { setSelectedClient, posts, setPosts } = useContext(AuthContext);
 
   useEffect(() => {
     api
@@ -23,14 +21,11 @@ const Clients = ({ style, onClose = () => {} }) => {
       });
   }, []);
 
-  const clients = ListClients.rows;
+  const clients = posts.rows || [];
 
   const filterClients = clients.filter((client) =>
     client.RAZAOSOCIAL && client.RAZAOSOCIAL.toUpperCase().includes(searchClient.toUpperCase())
   );
-
- console.log(clients)
- console.log(filterClients)
 
   const handleSelectCliente = (client) => {
     setSelectedClient(client);
@@ -54,14 +49,13 @@ const Clients = ({ style, onClose = () => {} }) => {
                 placeholder="Procurar Clientes"
                 value={searchClient}
                 onChange={(e) => {
-                  handleChange(e); // Atualiza o valor no Formik
-                  setSearchClient(e.target.value); // Atualiza o valor no estado local para filtragem
+                  handleChange(e); 
+                  setSearchClient(e.target.value); 
                 }}
               />
             </div>
           )}
         </Formik>
-
         <div className="list-clients">
           <ul>
             {filterClients.map((client) => (
@@ -71,7 +65,7 @@ const Clients = ({ style, onClose = () => {} }) => {
                   handleSelectCliente(client);
                 }}
               >
-              <span className="client-letter">{client.RAZAOSOCIAL.charAt(0)}</span> -
+              <span className="client-letter">{client.RAZAOSOCIAL.charAt(0)}</span> 
               {client.CODPARC} - {client.RAZAOSOCIAL}
               </li>
             ))}

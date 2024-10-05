@@ -1,0 +1,41 @@
+.lists-products ul {
+  list-style: none;
+  padding: 10px 0;
+}
+
+.lists-products li {
+  width: 100%;
+  padding: 5px 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.active {
+  border-radius: 3px;
+  background-color: rgba(0, 69, 142, 0.685);
+}
+
+.lists-container {
+  display: flex;
+  gap: 5px;
+}
+
+.lists {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: #5a5a5a;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lists span {
+  background-color: #5a5a5a;
+  position: absolute;
+  font-size: 20px;
+  color: #fff;
+}

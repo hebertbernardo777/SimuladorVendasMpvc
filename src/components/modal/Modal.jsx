@@ -1,7 +1,7 @@
 import React, { Children } from "react";
 import { IoIosClose } from "react-icons/io";
 import "./Modal.css";
-import Clients from "../../pages/Clients/Clients";
+
 
 const Modal = ({ isOpen, onClose, children }) => {
   if (isOpen) {

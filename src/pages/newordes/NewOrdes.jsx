@@ -1,23 +1,33 @@
 import React, { useEffect } from "react";
 import Modal from "../../components/modal/Modal";
 import FormOrdes from "./form/FormOrders";
-import { useContext, useState } from "react";
 import Button from "../../components/Button/Button";
+import SelectField from "../../components/select/SelectField";
+import { useContext, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import "./NewOrdes.css";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
 import { api } from "../../lib/parametros";
 import { FaCheck } from "react-icons/fa";
+import "./NewOrdes.css";
 
 const NewOrdes = () => {
-  const { data, setData, loading, setLoading, selectedClient } =
-    useContext(AuthContext);
+  const {
+    data,
+    setData,
+    loading,
+    setLoading,
+    selectedClient,
+    clientNoRegister,
+  } = useContext(AuthContext);
   const [openModal, setOpenModal] = useState(false);
-  const Navigate = useNavigate();
-
   const [posts, setPosts] = useState([]);
+  const [valorFinalChecked, setValorFinalChecked] = useState(false);
+  const [freteNegociadoChecked, setFreteNegociadoChecked] = useState(false);
+  const [consultaSTChecked, setConsultaSTChecked] = useState(false);
+  const [validationError, setValidationError] = useState(false);
+  const Navigate = useNavigate();
 
   useEffect(() => {
     api
@@ -34,11 +44,24 @@ const NewOrdes = () => {
 
   if (loading) return <p>carregando</p>;
 
+  const validateClientSelection = () => {
+    if (!selectedClient && !clientNoRegister) {
+      setValidationError(true);
+      alert("Selecione um cliente");
+      return false;
+    }
+    setValidationError(false);
+    return true;
+  };
+
   const handleSubmit = (values) => {
     console.log("Form values on submit:", values);
+    if (!validateClientSelection()) {
+      return;
+    }
     setData({ ...data, ...values });
     Navigate("/category");
- };
+  };
 
   return (
     <>
@@ -50,219 +73,274 @@ const NewOrdes = () => {
           frete: Yup.string(),
           transportadora: Yup.string(),
           negociacao: Yup.string(),
-          valorFinal: Yup.boolean().oneOf([true], "marque a opção"),
-          freteNegociado: Yup.boolean().oneOf([true], "marque a opção"),
-          consultarST: Yup.boolean().oneOf([true], "marque a opção"),
+          valorFinal: Yup.boolean(),
+          freteNegociado: Yup.boolean(),
+          consultarST: Yup.boolean(),
           observacoes: Yup.string(),
           search: Yup.string(),
-          customerRegistration: Yup.boolean().oneOf([true]),
-          namePartners: Yup.string(),
-          typePartners: Yup.string(),
-          ufPartners: Yup.string(),
-          suframa: Yup.string(),
         })}
         onSubmit={handleSubmit}
       >
-        {({ setFieldValue }) => (
-          <div className="container-orders">
-            <Form className="form">
-              <h1>Novo Pedido</h1>
-              <Button
-                type="Button"
-                onClick={() => setOpenModal(true)}
-                className="btn"
-              >
-                Selecionar Parceiro
-              </Button>
-              <Modal
-                isOpen={openModal}
-                onClose={() => setOpenModal(!openModal)}
-              >
-                <FormOrdes
-                  setFieldValue={setFieldValue}
-                  onClose={() => setOpenModal(false)}
+        {({ setFieldValue }) => {
+          const handleValorFinalChange = () => {
+            setValorFinalChecked(!valorFinalChecked);
+            setFieldValue("valorFinal", !valorFinalChecked);
+
+            if (!valorFinalChecked) {
+              setFreteNegociadoChecked(false);
+              setFieldValue("freteNegociado", false);
+            }
+          };
+
+          const handleFreteNegociadoChange = () => {
+            setFreteNegociadoChecked(!freteNegociadoChecked);
+            setFieldValue("freteNegociado", !freteNegociadoChecked);
+
+            if (!freteNegociadoChecked) {
+              setValorFinalChecked(false);
+              setFieldValue("valorFinal", false);
+            }
+          };
+
+          const handleConsultaSTChange = () => {
+            setConsultaSTChecked(!consultaSTChecked);
+            setFieldValue("consultarST", !consultaSTChecked);
+          };
+
+          return (
+            <div className="container-orders">
+              <Form className="form">
+                <h1>Novo Pedido</h1>
+                <Button
+                  type="Button"
+                  onClick={() => setOpenModal(true)}
+                  className="btn"
+                  children={"Selecione Parceiro"}
                 />
-              </Modal>
-              {selectedClient ? (
-                <div className="parceiro-selected">
-                  <div className="selected">
-                    <FaCheck /> <p>Parceiro selecionado:</p>
-                  </div>
-                  <p>{selectedClient.RAZAOSOCIAL}</p>
-                </div>
-              ) : (
-                <p></p>
-              )}
-              <div>
-                <div className="form-group">
-                  <label>Tipo de venda</label>
-                  <Field as="select" name="tipoVenda" id="tipo-venda">
-                    <option value="">Selecione um tipo de venda</option>
-                    <option value="pedido">Pedido de venda</option>
-                    <option value="orcamento">Orçamento de venda</option>
-                  </Field>
-                  <ErrorMessage
-                    name="tipoVenda"
-                    component="div"
-                    className="errors"
+                <Modal
+                  isOpen={openModal}
+                  onClose={() => setOpenModal(!openModal)}
+                >
+                  <FormOrdes
+                    setFieldValue={setFieldValue}
+                    onClose={() => setOpenModal(false)}
                   />
+                </Modal>
+                <div>
+                  {selectedClient ? (
+                    <div className="parceiro-selected">
+                      <div className="selected">
+                        <FaCheck /> <p>Parceiro selecionado:</p>
+                      </div>
+                      <p>{selectedClient.RAZAOSOCIAL}</p>{" "}
+                    </div>
+                  ) : clientNoRegister ? (
+                    <div className="parceiro-selected">
+                      <div className="selected">
+                        <FaCheck /> <p>Parceiro sem cadastro selecionado:</p>
+                      </div>
+                      <p> {clientNoRegister.toUpperCase()}</p>{" "}
+                    </div>
+                  ) : null}
                 </div>
-              </div>
-
-              <div>
+                <SelectField
+                  name="tipoVenda"
+                  label="Tipo de venda"
+                  defaultOption="Selecione uma opção"
+                  options={[
+                    { value: "pedido", label: "Pedido de venda" },
+                    { value: "orcamento", label: "Orçamento de venda" },
+                  ]}
+                />
                 <div className="form-group">
-                  <label>Faturamento</label>
-                  <Field as="select" name="faturamento" id="faturamento">
-                    <option value="">Selecione um tipo de faturamento</option>
-                    {posts.length === 0 ? (
-                      <option>carregando</option>
-                    ) : (
-                      posts.tiposFaturamento.map((tiposFaturamento) => (
-                        <option key={tiposFaturamento.VALOR}>
-                          {tiposFaturamento.OPCAO}
-                        </option>
-                      ))
-                    )}
-                  </Field>
-                  <ErrorMessage
+                  <SelectField
                     name="faturamento"
-                    component="div"
-                    className="errors"
+                    label="Faturamento"
+                    defaultOption="Selecione uma opção"
+                    options={
+                      posts.length === 0
+                        ? [{ value: "", label: "carregando" }]
+                        : posts.tiposFaturamento.map((tipo) => ({
+                            value: tipo.VALOR,
+                            label: tipo.OPCAO,
+                          }))
+                    }
                   />
                 </div>
-              </div>
-
-              <div>
                 <div className="form-group">
-                  <label>Modalidade de frete</label>
-                  <Field as="select" name="frete" id="frete">
-                    <option value="">Selecione uma modalidade de frete</option>
-                    {posts.length === 0 ? (
-                      <option>carregando</option>
-                    ) : (
-                      posts.tipoFrete.map((tipoFrete) => (
-                        <option key={tipoFrete.VALOR}>{tipoFrete.OPCAO}</option>
-                      ))
-                    )}
-                  </Field>
-                  <ErrorMessage
+                  <SelectField
                     name="frete"
-                    component="div"
-                    className="errors"
+                    label="Frete"
+                    id="frete"
+                    defaultOption="Selecione uma opção"
+                    options={
+                      posts.length === 0
+                        ? [{ value: "", label: "Carregando" }]
+                        : posts.tiposFaturamento.map((tipo) => ({
+                            value: tipo.VALOR,
+                            label: tipo.OPCAO,
+                          }))
+                    }
                   />
                 </div>
-              </div>
-              <div>
                 <div className="form-group">
-                  <label>Transportadora</label>
-                  <Field as="select" name="transportadora" id="transportadora">
-                    <option value="">Selecione uma transportadora</option>
-                    {posts.length === 0 ? (
-                      <option>carregando</option>
-                    ) : (
-                      posts.transportadoras.map((transportadora) => (
-                        <option key={transportadora.VALOR}>
-                          {transportadora.OPCAO}
-                        </option>
-                      ))
-                    )}
-                  </Field>
-                  <ErrorMessage
+                  <SelectField
                     name="transportadora"
-                    component="div"
-                    className="errors"
+                    label="Transportadora"
+                    defaultOption="Selecione uma opção"
+                    options={
+                      posts.length === 0
+                        ? [{ value: "", label: "Carregando" }]
+                        : posts.transportadoras.map((tipo) => ({
+                            value: tipo.VALOR,
+                            label: tipo.OPCAO,
+                          }))
+                    }
                   />
                 </div>
-              </div>
-
-              <div>
                 <div className="form-group">
-                  <label>Tipo de negociação</label>
-                  <Field as="select" name="negociacao" id="negociacao">
-                    <option value="">Selecione um tipo de negociação</option>
-                    {posts.length === 0 ? (
-                      <option>carregando</option>
-                    ) : (
-                      posts.tiposNegociacao.map((tiposNegociacao) => (
-                        <option key={tiposNegociacao.CODTIPVENDA}>
-                          {tiposNegociacao.DESCRTIPVENDA}
-                        </option>
-                      ))
-                    )}
-                  </Field>
-                  <ErrorMessage
+                  <SelectField
                     name="negociacao"
-                    component="div"
-                    className="errors"
+                    label="Tipos de negociacão"
+                    defaultOption="Selecione uma opção"
+                    options={
+                      posts.length === 0
+                        ? [{ value: "", label: "Carregando" }]
+                        : posts.tiposNegociacao.map((tipo) => ({
+                            value: tipo.CODTIPVENDA,
+                            label: tipo.DESCRTIPVENDA,
+                          }))
+                    }
                   />
                 </div>
-              </div>
-
-              <div>
                 <div className="form-group-checkbox">
                   <div>
-                    <Field type="checkbox" name="valorFinal" id="valor-final" />
-                    <label htmlFor="valor-final">
-                      Adicionar valor final de frete R$ 'Carga fechada ou
-                      negociada'
-                    </label>
+                    <div className="checkbox-infos">
+                      <Field
+                        type="checkbox"
+                        name="valorFinal"
+                        id="valor-final"
+                        checked={valorFinalChecked}
+                        onChange={handleValorFinalChange}
+                      />
+                      <label htmlFor="valor-final">
+                        Adicionar valor final de frete R$ 'Carga fechada ou
+                        negociada'
+                      </label>
+                    </div>
                     <ErrorMessage
                       name="valorFinal"
                       component="div"
                       className="errors"
                     />
+                    {valorFinalChecked && (
+                      <div className="input-text-checked">
+                        <Field
+                          type="text"
+                          name="textValorFinal"
+                          placeholder="R$:"
+                        />
+                      </div>
+                    )}
                   </div>
-
                   <div>
-                    <Field
-                      type="checkbox"
-                      name="freteNegociado"
-                      id="frete-negociado"
-                    />
-                    <label htmlFor="frete-negociado">
-                      Somar % de frete negociado em valor de produtos
-                    </label>
+                    <div className="checkbox-infos">
+                      <Field
+                        type="checkbox"
+                        name="freteNegociado"
+                        id="frete-negociado"
+                        checked={freteNegociadoChecked}
+                        onChange={handleFreteNegociadoChange}
+                      />
+                      <label htmlFor="frete-negociado">
+                        Somar % de frete negociado em valor de produtos
+                      </label>
+                    </div>
                     <ErrorMessage
                       name="freteNegociado"
                       component="div"
                       className="errors"
                     />
                   </div>
+                  {freteNegociadoChecked && (
+                    <div className="input-text-checked">
+                      <Field
+                        type="text"
+                        name="textSomarFrete"
+                        placeholder="0"
+                      />
+                    </div>
+                  )}
                   <div>
-                    <Field
-                      type="checkbox"
-                      name="consultarST"
-                      id="consultarST"
-                    />
-                    <label htmlFor="consultarST">
-                      Consultar ST para orçamento
-                    </label>
+                    <div className="checkbox-infos">
+                      <Field
+                        type="checkbox"
+                        name="consultarST"
+                        id="consultarST"
+                        checked={consultaSTChecked}
+                        onChange={handleConsultaSTChange}
+                      />
+                      <label htmlFor="consultarST">
+                        Consultar ST para orçamento
+                      </label>
+                    </div>
                     <ErrorMessage
                       name="ConsultaST"
                       component="div"
                       className="errors"
                     />
                   </div>
+                  {consultaSTChecked && (
+                    <div className="input-checked-consulta">
+                      <label>
+                        <Field
+                          type="radio"
+                          name="selectOpcoes"
+                          value="simplesNacional"
+                        />
+                        Simples Nacional
+                      </label>
+                      <label>
+                        <Field
+                          type="radio"
+                          name="selectOpcoes"
+                          value="atacadista"
+                        />
+                        Atacadista
+                      </label>
+                      <label>
+                        <Field
+                          type="radio"
+                          name="selectOpcoes"
+                          value="demaisContibuintes"
+                        />
+                        Demais Contribuintes
+                      </label>
+                    </div>
+                  )}
                 </div>
-              </div>
-
-              <div>
-                <div className="form-group">
-                  <label>Observações:</label>
-                  <Field
-                    as="textarea"
-                    name="observacoes"
-                    id="observacoes"
-                    placeholder="Observações do pedido"
-                  ></Field>
+                <div>
+                  <div className="form-group">
+                    <label>Observações:</label>
+                    <Field
+                      as="textarea"
+                      name="observacoes"
+                      id="observacoes"
+                      placeholder="Observações do pedido"
+                    ></Field>
+                  </div>
+                  <div className="btn-steps">
+                    <Button
+                      className="btn"
+                      type="Submit"
+                      children={"Avançar"}
+                    />
+                  </div>
                 </div>
-                <div className="btn-steps">
-                  <Button className="btn" type="Submit" children={"Avançar"} />
-                </div>
-              </div>
-            </Form>
-          </div>
-        )}
+              </Form>
+            </div>
+          );
+        }}
       </Formik>
     </>
   );

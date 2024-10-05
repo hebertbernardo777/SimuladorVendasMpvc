@@ -1,3 +1,7 @@
+.input-search{
+  width: 400px;
+}
+
 .input-search input[type="search"] {
   width: 100%;
   position: relative;

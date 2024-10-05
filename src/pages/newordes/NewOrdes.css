@@ -3,7 +3,6 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 30px;
-
 }
 
 h1 {
@@ -20,54 +19,122 @@ h1 {
   gap: 5px;
 }
 
-.form .parceiro-selected{
+.form .parceiro-selected {
   margin: 20px 0;
   text-align: center;
-  border-bottom: 1px solid #257C3D;
+  border-bottom: 1px solid #257c3d;
   font-weight: 500;
-
 }
 
-.selected{
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 10px;
-color: #257C3D;
-padding-bottom: 10px;
-}
-
-.form-group {
+.selected {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-label {
-  font-size: 18px;
-  font-weight: 500;
-}
-
-select {
-  padding: 10px;
-  border-radius: 5px;
-  border: 2px solid #ccc;
-  color: rgb(17, 17, 17);
-  background-color: #fff;
-  font-size: 14px;
-  outline: none;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #257c3d;
+  padding-bottom: 10px;
 }
 
 .form-group-checkbox {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+   gap: 5px;
   margin: 20px 0;
+}
+
+.checkbox-infos{
+  display: flex;
+  align-items: center;
+}
+
+.input-checked-consulta {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  gap: 10px;
+}
+
+.input-checked-consulta label {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.form-group-checkbox input[type="checkbox"] {
+  appearance: none; 
+  -webkit-appearance: none; 
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ccc;
+  margin-right: 8px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.input-checked-consulta input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #ccc;
+  margin-right: 8px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.form-group-checkbox input[type="checkbox"]:checked,
+.input-checked-consulta input[type="radio"]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='18px' fill='%23e8eaed'%3E%3Cpath d='M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #257c3d;
+  border: #257c3d;
+}
+.form-group-checkbox input[type="checkbox"] label::before,
+.input-checked-consulta label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  background-color: #257c3d;
+  border: 2px solid #ccc;
+  transition:
+    background-color 0.3s ease,
+    border 0.3s ease;
+}
+
+.form-group-checkbox input[type="checkbox"]:checked::after,
+.input-checked-consulta input[type="radio"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: white;
+
+  transform: translate(-50%, -50%);
 }
 
 .form-group-checkbox label {
   font-size: 14px;
   margin-left: 5px;
+}
+
+.input-text-checked input {
+  padding: 10px;
+  background-color: #ccc;
+  border-radius: 5px;
+  border: none;
+  width: 100%;
+  outline: none;
 }
 
 textarea {
