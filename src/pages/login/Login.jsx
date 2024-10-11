@@ -9,8 +9,8 @@ import "./Login.css";
 const Login = () => {
   const { signIn, signed } = useContext(AuthContext);
   const navigate = useNavigate();
-  
-  if (signed) {
+
+   if (signed) {
     return <Navigate to="/" />;
   }
 
