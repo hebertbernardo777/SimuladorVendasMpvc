@@ -2,12 +2,12 @@ import { useState, useEffect, useContext } from "react";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { BiChevronRightCircle } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { DataContext } from "../../context/DataContext";
 import "./Drafts.css";
 
 const Drafts = () => {
   const { setCurrentStep, setSelectedClient, setData, setCartItems } =
-    useContext(AuthContext);
+    useContext(DataContext);
   const [savedData, setSavedData] = useState([]);
   const navigate = useNavigate();
 
@@ -47,6 +47,7 @@ const Drafts = () => {
         savedData.map((pedido) => (
           <div key={pedido.id} className="drafts">
             <div className="resume">
+              <p>Cliente: </p>
               <span>
                 {pedido.client
                   ? pedido.client.RAZAOSOCIAL || pedido.client

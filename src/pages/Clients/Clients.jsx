@@ -3,11 +3,12 @@ import React, { useContext, useEffect, useState } from "react";
 import Search from "../../components/Search/Search";
 import "./Clients.css";
 import { api } from "../../lib/clients";
-import { AuthContext } from "../../context/AuthContext";
+import { DataContext } from "../../context/DataContext";
 
 const Clients = ({ style, onClose = () => {} }) => {
   const [searchClient, setSearchClient] = useState("");
-  const { setSelectedClient, posts, setPosts } = useContext(AuthContext);
+  const [posts, setPosts] = useState([]);
+  const { setSelectedClient } = useContext(DataContext);
 
   useEffect(() => {
     api

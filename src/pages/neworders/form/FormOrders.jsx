@@ -4,7 +4,7 @@ import dataEstados from "../../../data/estados.json";
 import "./FormOrders.css";
 import Clients from "../../Clients/Clients";
 import Button from "../../../components/Button/Button";
-import { AuthContext } from "../../../context/AuthContext";
+import { DataContext } from "../../../context/DataContext";
 import * as Yup from "yup";
 import ClientNoRegister from "../../Clients/ClientsNoRegister/ClientNoRegister";
 
@@ -17,7 +17,7 @@ const FormOrders = ({ onClose }) => {
     setSelectedClient,
     setData,
     clientNoRegister,
-  } = useContext(AuthContext);
+  } = useContext(DataContext);
 
   const handleCheckboxChange = (setFieldValue, values) => {
     if (!isChecked) {

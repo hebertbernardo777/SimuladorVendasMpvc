@@ -1,26 +1,24 @@
 import React, { useContext, useState, useEffect } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { DataContext } from "../context/DataContext";
 import { api } from "../lib/products";
 
 const useCategoriesFunctions = () => {
   const {
-    posts,
-    setPosts,
-    selectedCategory,
+     selectedCategory,
     setSelectedCategory,
     selectedSubCategory,
     setSelectedSubCategory,
     selectSubLinha,
     setSelectSubLinha,
-    selectedProduct,
     setSelectedProduct,
-    setLetterInitial,
     loading,
     setLoading,
-  } = useContext(AuthContext);
-
+    product,
+  } = useContext(DataContext);
+  const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
   const [isActive, setIsActive] = useState(null);
+  const [letterInitial, setLetterInitial] = useState("");
 
   useEffect(() => {
     api
@@ -119,6 +117,7 @@ const useCategoriesFunctions = () => {
     filteredLines,
     filterSubCategory,
     filteredProductsByLineAndSubCategory,
+    letterInitial,
     search,
     setSearch,
     handleCategory,

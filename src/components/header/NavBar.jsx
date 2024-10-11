@@ -1,13 +1,16 @@
 import React, { useContext } from "react";
 import Logo from "../../assets/fotos/maispvc-logo.svg";
+import formatFirstLetter from "../../utils/FormatFirstLetter";
 import { Link } from "react-router-dom";
-import { CiLogout } from "react-icons/ci";
+import { MdOutlineLogout } from "react-icons/md";
 import { FiShoppingCart } from "react-icons/fi";
+import { DataContext } from "../../context/DataContext";
+import { AuthContext } from "../../context/AuthContex";
 import "./NavBar.css";
-import { AuthContext } from "../../context/AuthContext";
 
 const NavBar = () => {
-  const { cartItems, resetForm } = useContext(AuthContext);
+  const { cartItems, resetForm } = useContext(DataContext);
+  const { user, siginOut } = useContext(AuthContext);
 
   return (
     <header className="heading">
@@ -32,12 +35,10 @@ const NavBar = () => {
             <span className="cart-status">{cartItems.length}</span>
           </Link>
         </div>
-        <p>José Correia</p>
-
-        <div className="go-out">
-          <CiLogout className="icon" />
-          <p>Sair</p>
-        </div>
+        <p>Olá, {formatFirstLetter(user)}</p>
+        <abbr title="Sair">
+          <MdOutlineLogout className="icon" onClick={siginOut} />
+        </abbr>
       </div>
     </header>
   );

@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { DataContext } from "../../context/DataContext";
 import formatFirstLetter from "../../utils/FormatFirstLetter";
 import formatCurrency from "../../utils/formatCurrency";
 import "./ProductSummary.css";
 
 const ProductSummary = () => {
-  const { discountResults } = useContext(AuthContext);
+  const { discountResults } = useContext(DataContext);
 
   return (
-    <div>
+    <div className="container-infos-line">
       {Object.entries(discountResults).map(([line, results]) => (
         <div className="infos-line" key={line}>
           <h4>{line}</h4>
@@ -31,18 +31,20 @@ const ProductSummary = () => {
                   </p>
                   <p>
                     Percentual de {formatFirstLetter(String(category))}:{" "}
-                    <span>{categoryData.categoryPercentage}</span>
+                    <span>{categoryData.percentageCategory}</span>
+                  </p>
+                  <p>
+                    Desconto total da linha: <span>{results.discount}</span>
+                  </p>
+                  <p>
+                    Valor total da linha:
+                    <span>
+                      {formatCurrency(Number(results.ordersTotal), "BRL")}
+                    </span>
                   </p>
                 </div>
               )
             )}
-          <p>
-            Desconto total da linha: <span>{results.discount}</span>
-          </p>
-          <p>
-            Valor total da linha:
-            <span>{formatCurrency(Number(results.ordersTotal), "BRL")}</span>
-          </p>
         </div>
       ))}
     </div>

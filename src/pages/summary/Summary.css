@@ -1,10 +1,10 @@
 .container-summary {
   display: flex;
-  flex-direction: column;
+ flex-direction: column;
   justify-content: center;
    margin: 0 auto;
-  width: 450px;
-  max-height: 1000px;
+  width: 750px;
+  max-height: 800px;
   border-radius: 5px;
   background-color: #ccc;
   margin-bottom: 50px;
@@ -18,7 +18,24 @@
   font-weight: 600;
 }
 
+.oi{
+  display: flex;
+ justify-content: space-around;
+ border-bottom: 1px solid #8d8d8d;
+ 
+}
+
+.cart-infos{
+  width: 50%;
+   border-right: 1px solid #8d8d8d;
+}
+
+.cart{
+  width: 50%;
+}
+
 .items-cart {
+ height: 400px;
   overflow-y: scroll;
 }
 
@@ -30,10 +47,9 @@
 .summary-discount {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid #8d8d8d;
-  padding: 10px 20px;
-  margin-bottom: 20px;
   border-bottom: 1px solid #8d8d8d;
+  padding: 13px 20px;
+ 
 }
 
 .summary-discount span {
@@ -53,10 +69,11 @@
 
 .summary-btn .btn {
   background-color: #4f8f45;
-  width: 90%;
+  width: 50%;
   font-weight: 600;
   cursor: pointer;
   opacity: 0.8;
+  margin-top: 20px;
 }
 
 .summary-btn .btn:hover {

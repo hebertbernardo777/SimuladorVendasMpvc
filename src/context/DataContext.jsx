@@ -1,24 +1,29 @@
 import { createContext, useState, useEffect } from "react";
-import { api } from "../lib/products";
+import useCalcProducts from "../hooks/useCalcProducts";
 
-export const AuthContext = createContext();
+export const DataContext = createContext();
 
-export const AuthContextProvider = ({ children }) => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    api
-      .get("/")
-      .then((response) => {
-        setPosts(response.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err.toJSON());
-        setLoading(false);
-      });
-  }, []);
+export const DataContextProvider = ({ children }) => {
+   const [loading, setLoading] = useState(true);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedSubCategory, setSelectedSubCategory] = useState("");
+  const [selectSubLinha, setSelectSubLinha] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [search, setSearch] = useState("");
+  const [imagePath, setImagePath] = useState("");
+  const [cartItems, setCartItems] = useState([]);
+  const [productPrice, setProductPrice] = useState("");
+  const [quantity, setQuantity] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [selectedClient, setSelectedClient] = useState(null);
+  const [clientNoRegister, setClientNoRegister] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [discountApplied, setDiscountApplied] = useState(0);
+  const [orderTotal, setOrderTotal] = useState(0);
+  const [discountResults, setDiscountResults] = useState({});
+  const [isChecked, setIsChecked] = useState(false);
+  const{products}= useCalcProducts()
 
   const [data, setData] = useState({
     tipoVenda: "",
@@ -43,30 +48,9 @@ export const AuthContextProvider = ({ children }) => {
     category: "",
     product: "",
   });
-
-  const products = posts.rows || [];
-  const [currentStep, setCurrentStep] = useState(0);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedSubCategory, setSelectedSubCategory] = useState("");
-  const [selectSubLinha, setSelectSubLinha] = useState("");
-  const [selectedProduct, setSelectedProduct] = useState("");
-  const [search, setSearch] = useState("");
-  const [imagePath, setImagePath] = useState("");
-  const [letterInitial, setLetterInitial] = useState("");
-  const [cartItems, setCartItems] = useState([]);
-  const [productPrice, setProductPrice] = useState("");
-  const [quantity, setQuantity] = useState(0);
-  const [discount, setDiscount] = useState(0);
-  const [selectedClient, setSelectedClient] = useState(null);
-  const [clientNoRegister, setClientNoRegister] = useState("");
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [discountApplied, setDiscountApplied] = useState(0);
-  const [orderTotal, setOrderTotal] = useState(0);
-  const [discountResults, setDiscountResults] = useState({});
-  const [isChecked, setIsChecked] = useState(false);
-
+  
   const product = products.find((p) => p.DESCRPROD === selectedProduct);
-  const productName = data.product;
+  console.log(product)
   const suframa = data.suframa;
 
   const calculateProductPrice = () => {
@@ -154,9 +138,11 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
+  //valor total do pedido sem desconto
   const totalValueItem = productPrice * quantity;
-  console.log(totalValueItem); //antes do desconto
+  console.log(totalValueItem);
 
+  // valor do pedido com desconto
   const calculateOrderTotal = () => {
     const discountApplied = (totalValueItem * parseFloat(discount)) / 100; //valor total do pedido * o desconto valor do desconto
     const orderTotal = totalValueItem - discountApplied; //valor total com desconto
@@ -164,40 +150,45 @@ export const AuthContextProvider = ({ children }) => {
     setTotalPrice(totalValueItem);
     setDiscountApplied(discountApplied);
     setOrderTotal(orderTotal);
+    console.log(discountApplied);
   };
 
   useEffect(() => {
     calculateOrderTotal();
-  }, [discount, quantity, productPrice]);
+  }, [calculateOrderTotal]);
 
-  // valor do disconto
-
+  // disconto %
   const totalDiscountApllied = (discountApplied / totalValueItem) * 100;
   console.log("resultado", totalDiscountApllied);
 
+  // soma dos valores de todos os itens do carrinho sem o desconto
   const totalPriceOrders = cartItems.reduce(
     (acc, item) => (item.priceTotal || 0) + acc,
     0
   );
-  console.log(totalPriceOrders);  
+  console.log(totalPriceOrders);
 
+  // soma dos valores de todos os itens do carrinho com o desconto
   const totalOrders = cartItems.reduce(
     (acc, item) => (item.totalOrders || 0) + acc,
     0
   );
   console.log(totalOrders);
 
+  //soma total em reais do desconto total
   const totalValueDiscount = cartItems.reduce(
     (acc, item) => (item.discountTotal || 0) + acc,
     0
   );
   console.log(totalValueDiscount);
 
-  // Soma o total de descontos aplicados (incluindo o novo desconto)
+  // Soma o total de descontos aplicados (itens já existentes + novo item)
   const totalDiscount = totalValueDiscount + discountApplied;
+  console.log(totalDiscount);
 
-  // Soma o valor total do carrinho (itens já existentes + novo item)
+  // Soma o valor total do carrinho (itens já existentes + novo item) sem o desconto
   const totalValue = totalPriceOrders + totalValueItem;
+  console.log(totalValue);
 
   // Calcula o percentual total de desconto aplicado ao pedido
   const calcDiscountTotalOrders = (totalDiscount / totalValue) * 100;
@@ -207,21 +198,23 @@ export const AuthContextProvider = ({ children }) => {
     `Percentual total de desconto aplicado: ${calcDiscountTotalOrders.toFixed(2)}%`
   );
 
+  // desconto total apenas do carrinho
   const calcDiscountTotalOrdersResume =
     totalPriceOrders > 0 ? (totalValueDiscount / totalPriceOrders) * 100 : 0;
   console.log("Desconto calculado:", calcDiscountTotalOrdersResume);
 
   // Função para agrupar produtos por linha e somar descontos
   const discountLineProduct = (cartItems) => {
+    if (!cartItems || cartItems.length === 0) return {};
     console.log("Calculando desconto por linha e categoria para:", cartItems); // Verificando os itens no carrinho
-  
+
     // Acumula os totais por linha
     const lineTotals = cartItems.reduce((acc, item) => {
       const { line, category, totalOrders, discountTotal, priceTotal } = item;
       console.log(
         `Item: ${item.name}, Line: ${line}, Categoria: ${category}, Preço total: ${totalOrders}, discount: ${discountTotal}, priceTotal: ${priceTotal}`
       );
-  
+
       if (!acc[line]) {
         acc[line] = {
           categories: {},
@@ -230,32 +223,33 @@ export const AuthContextProvider = ({ children }) => {
           priceTotal: 0, // Adicionando o priceTotal separadamente
         };
       }
-  
+
       if (!acc[line].categories[category]) {
         acc[line].categories[category] = {
           categoryValueTotal: 0,
-          discountCategoryTotal: 0, // Corrigido nome
+          discountCategoryTotal: 0,
         };
       }
-  
+
       // Adiciona o desconto, preço total e o total do pedido à linha
       acc[line].ordersTotal += totalOrders; // Somando o total do pedido
       acc[line].discountTotal += discountTotal || 0;
       acc[line].priceTotal += priceTotal || 0; // Somando o priceTotal
-  
+
       // Acumula os valores por categoria
       acc[line].categories[category].categoryValueTotal += priceTotal;
-      acc[line].categories[category].discountCategoryTotal += discountTotal || 0;
-  
+      acc[line].categories[category].discountCategoryTotal +=
+        discountTotal || 0;
+
       return acc;
     }, {});
-  
+
     // Calcula o total geral
     const grandTotal = Object.values(lineTotals).reduce(
       (acc, { ordersTotal }) => acc + ordersTotal,
       0
     );
-  
+
     // Calcula o percentual para cada linha
     const resultWithPercentages = Object.entries(lineTotals).reduce(
       (acc, [line, { ordersTotal, discountTotal, priceTotal, categories }]) => {
@@ -263,28 +257,28 @@ export const AuthContextProvider = ({ children }) => {
           grandTotal > 0 ? (ordersTotal / grandTotal) * 100 : 0;
         const totalDiscountLine =
           priceTotal > 0 ? (discountTotal / priceTotal) * 100 : 0; // Usando priceTotal para cálculo do desconto
-  
+
         // Calcula os valores e percentuais por categoria
         const categoriesValues = Object.entries(categories).reduce(
-          (catAcc, [category, { categoryValueTotal, discountCategoryTotal }]) => {
+          (
+            catAcc,
+            [category, { categoryValueTotal, discountCategoryTotal }]
+          ) => {
             const categoryDiscount =
               categoryValueTotal > 0
                 ? (discountCategoryTotal / categoryValueTotal) * 100
                 : 0;
 
-                const categoryPercentage =
-                ordersTotal > 0 ? (categoryValueTotal /ordersTotal ) * 100 : 0;
-  
-            catAcc[category] = {
+                        catAcc[category] = {
               totalCategory: categoryValueTotal.toFixed(2),
               discountCategory: categoryDiscount.toFixed(2) + "%",
-              percentageCategory: categoryPercentage.toFixed(2) + "%",
+              percentageCategory: percentage.toFixed(2) + "%",
             };
             return catAcc;
           },
           {}
         );
-  
+
         acc[line] = {
           categories: categoriesValues,
           discount: totalDiscountLine.toFixed(2) + "%", // Percentual de desconto por linha baseado em priceTotal
@@ -296,20 +290,17 @@ export const AuthContextProvider = ({ children }) => {
       },
       {}
     );
-  
+
     return resultWithPercentages; // Retorna o resultado com percentuais
   };
-  
- 
-  useEffect(()=>{
-    const results = discountLineProduct(cartItems)
-    setDiscountResults(results)
-    console.log("Resultados com percentuais:", results);
-  },[cartItems])
 
+  useEffect(() => {
+    const results = discountLineProduct(cartItems);
+    setDiscountResults(results);
+    console.log("Resultados com percentuais:", results);
+  }, [cartItems]);
 
   console.log("Produto Selecionado no Contexto:", selectedProduct);
-  
 
   const value = {
     data,
@@ -327,11 +318,11 @@ export const AuthContextProvider = ({ children }) => {
     setSelectSubLinha,
     search,
     setSearch,
-    posts, setPosts,
+    // posts,
+    // setPosts,
+    product,
     imagePath,
     product,
-    letterInitial,
-    setLetterInitial,
     cartItems,
     setCartItems,
     productPrice,
@@ -342,7 +333,7 @@ export const AuthContextProvider = ({ children }) => {
     setQuantity,
     discount,
     setDiscount,
-    productName,
+    // productName,
     minusQuantity,
     plusQuantity,
     minusDiscount,
@@ -379,5 +370,5 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, [product]);
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 };

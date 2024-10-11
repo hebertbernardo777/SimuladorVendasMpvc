@@ -1,20 +1,21 @@
 .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  label {
-    font-size: 18px;
-    font-weight: 500;
-  }
-  
-  select {
-    padding: 10px;
-    border-radius: 5px;
-    border: 2px solid #ccc;
-    color: rgb(17, 17, 17);
-    background-color: #fff;
-    font-size: 14px;
-    outline: none;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+label {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  color: rgb(17, 17, 17);
+  background-color: #fff;
+  font-size: 14px;
+  outline: none;
+}

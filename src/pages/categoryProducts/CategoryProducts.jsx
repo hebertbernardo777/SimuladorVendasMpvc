@@ -1,7 +1,7 @@
 import { React, useContext } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { DataContext } from "../../context/DataContext";
 import Button from "../../components/Button/Button";
 import Search from "../../components/Search/Search";
 import * as Yup from "yup";
@@ -11,8 +11,8 @@ import ProductList from "../../components/ProductList/ProductList";
 import useCategoriesFunctions from "../../hooks/useCategoriesFunctions";
 
 const CategoryProducts = () => {
-  const { data, setData, selectedCategory, letterInitial, selectedProduct } =
-    useContext(AuthContext);
+  const { data, setData, selectedCategory, selectedProduct } =
+    useContext(DataContext);
 
   const navigate = useNavigate();
 
@@ -22,6 +22,7 @@ const CategoryProducts = () => {
     filterCategory,
     filteredLines,
     filterSubCategory,
+    letterInitial,
     filteredProductsByLineAndSubCategory,
     search,
     setSearch,

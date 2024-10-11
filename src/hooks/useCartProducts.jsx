@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { DataContext } from "../context/DataContext";
 
 const useCartProducts = () => {
   const {
@@ -14,7 +14,7 @@ const useCartProducts = () => {
     totalValueItem,
     orderTotal,
     discountApplied,
-  } = useContext(AuthContext);
+  } = useContext(DataContext);
 
   const navigate = useNavigate();
 

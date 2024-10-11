@@ -2,18 +2,21 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider, Router } from "react-router-dom";
-import { AuthContextProvider } from "./context/AuthContext.jsx";
+import { DataContextProvider } from "./context/DataContext.jsx";
 import Error from "../src/routes/Error.jsx";
 import Login from "./pages/login/Login.jsx";
 import Clients from "./pages/Clients/Clients.jsx";
 import FormMultistep from "./pages/FormMultstep/FormMultistep.jsx";
-import NewOrdes from "./pages/newordes/NewOrdes.jsx";
+import NewOrders from "./pages/neworders/NewOrders.jsx";
 import CategoryProducts from "./pages/categoryProducts/CategoryProducts.jsx";
 import Products from "./pages/produtcs/Products.jsx";
 import Drafts from "./pages/Draftss/Drafts.jsx";
 import Summary from "./pages/summary/Summary.jsx";
 import "./index.css";
 import ResumeDrafts from "./pages/Draftss/ResumeDrafts.jsx";
+import { AuthContextProvider } from "./context/AuthContex.jsx";
+import { OiContextProvider } from "../src/context/oiContext.jsx";
+import { PrivateRoute } from "./routes/privateRoutes.jsx";
 
 const router = createBrowserRouter([
   {
@@ -23,35 +26,67 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <FormMultistep />,
+        element: (
+          <PrivateRoute>
+            <FormMultistep />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/orders",
-        element: <NewOrdes />,
+        element: (
+          <PrivateRoute>
+            <NewOrders />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/category",
-        element: <CategoryProducts />,
+        element: (
+          <PrivateRoute>
+            <CategoryProducts />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/products",
-        element: <Products />,
+        element: (
+          <PrivateRoute>
+            <Products />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/clients",
-        element: <Clients />,
+        element: (
+          <PrivateRoute>
+            <Clients />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/drafts",
-        element: <Drafts />,
+        element: (
+          <PrivateRoute>
+            <Drafts />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/resumedrafts",
-        element: <ResumeDrafts />,
+        element: (
+          <PrivateRoute>
+            <ResumeDrafts />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/cart",
-        element: <Summary />,
+        element: (
+          <PrivateRoute>
+            <Summary />
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -64,7 +99,11 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthContextProvider>
-      <RouterProvider router={router} />
+      <DataContextProvider>
+        <OiContextProvider>
+          <RouterProvider router={router} />
+        </OiContextProvider>
+      </DataContextProvider>
     </AuthContextProvider>
   </React.StrictMode>
 );

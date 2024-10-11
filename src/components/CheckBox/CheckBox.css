@@ -1,48 +1,11 @@
-.container-orders {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 30px;
-}
-
-h1 {
-  font-size: 28px;
-  text-align: center;
-  color: rgb(0, 68, 142);
-  margin-bottom: 20px;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-}
-
-.form .parceiro-selected {
-  margin: 20px 0;
-  text-align: center;
-  border-bottom: 1px solid #257c3d;
-  font-weight: 500;
-}
-
-.selected {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  color: #257c3d;
-  padding-bottom: 10px;
-}
-
 .form-group-checkbox {
   display: flex;
   flex-direction: column;
-   gap: 5px;
+  gap: 5px;
   margin: 20px 0;
 }
 
-.checkbox-infos{
+.checkbox-infos {
   display: flex;
   align-items: center;
 }
@@ -64,8 +27,8 @@ h1 {
 }
 
 .form-group-checkbox input[type="checkbox"] {
-  appearance: none; 
-  -webkit-appearance: none; 
+  appearance: none;
+  -webkit-appearance: none;
   -moz-appearance: none;
   width: 16px;
   height: 16px;
@@ -135,10 +98,4 @@ h1 {
   border: none;
   width: 100%;
   outline: none;
-}
-
-textarea {
-  height: 100px;
-  padding: 10px;
-  border-radius: 5px;
 }

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { DataContext } from "../../context/DataContext";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Summary from "../summary/Summary";
@@ -8,6 +8,8 @@ import formatCurrency from "../../utils/formatCurrency";
 import useCartProducts from "../../hooks/useCartProducts";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 import "./Products.css";
+import useCalcProducts from "../../hooks/useCalcProducts";
+import { OiContext } from "../../context/oiContext";
 
 const Products = () => {
   const {
@@ -24,14 +26,16 @@ const Products = () => {
     totalValueItem,
     orderTotal,
     calcDiscountTotalOrders,
-  } = useContext(AuthContext);
+  } = useContext(DataContext);
 
   const { handleFocus, handleAddCart} = useCartProducts();
-
+ 
   return (
     <>
+
+   
       <div className="container-main">
-        <InfosCard />
+            <InfosCard />
         <div className="container-total">
           <div className="container-product">
             <section className="section-products">

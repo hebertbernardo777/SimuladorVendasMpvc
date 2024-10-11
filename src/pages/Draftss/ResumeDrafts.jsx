@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { DataContext } from "../../context/DataContext";
 import formatCurrency from "../../utils/formatCurrency";
 import "./ResumeDrafts.css";
 
 const ResumeDrafts = () => {
-  const { selectedClient, data, cartItems } = useContext(AuthContext);
+  const { selectedClient, data, cartItems } = useContext(DataContext);
 
   return (
     <div className="container-resume-drafts">

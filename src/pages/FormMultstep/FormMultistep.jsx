@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import NewOrdes from "../newordes/NewOrdes";
+import { DataContext } from "../../context/DataContext";
+import NewOrders from "../neworders/NewOrders";
 import Products from "../produtcs/Products";
 import CategoryProducts from "../categoryProducts/CategoryProducts";
 
 const FormMultistep = () => {
-  const { currentStep,  selectedClient, data, cartItems } = useContext(AuthContext);
-  const formComponents = [<NewOrdes client={selectedClient} data={data}/>, <CategoryProducts data={data} />, <Products  cart={cartItems}/>];
+  const { currentStep,  selectedClient, data, cartItems } = useContext(DataContext);
+  const formComponents = [<NewOrders client={selectedClient} data={data}/>, <CategoryProducts data={data} />, <Products  cart={cartItems}/>];
 
   return (
     <>

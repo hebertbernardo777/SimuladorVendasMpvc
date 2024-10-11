@@ -2,14 +2,14 @@ import React, { useContext } from "react";
 import { FaRegTrashCan } from "react-icons/fa6";
 import formatCurrency from "../../utils/formatCurrency";
 import "./CartItems.css";
-import { AuthContext } from "../../context/AuthContext";
+import { DataContext } from "../../context/DataContext";
 
 const CartItems = ({ newItem }) => {
   if (!newItem) {
     return null;
   }
   const { productId, name, quantity, image, totalOrders} = newItem;
-  const { cartItems, setCartItems } = useContext(AuthContext);
+  const { cartItems, setCartItems } = useContext(DataContext);
 
   const handleRemoveItem = () => {
     const updatesItems = cartItems.filter(
