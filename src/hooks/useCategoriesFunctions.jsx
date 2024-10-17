@@ -4,19 +4,20 @@ import { api } from "../lib/products";
 
 const useCategoriesFunctions = () => {
   const {
-     selectedCategory,
+    posts,
+    setPosts,
+    loading,
+    setLoading,
+    selectedCategory,
     setSelectedCategory,
     selectedSubCategory,
     setSelectedSubCategory,
     selectSubLinha,
     setSelectSubLinha,
     setSelectedProduct,
-    loading,
-    setLoading,
-    product,
+    search,
+    setSearch,
   } = useContext(DataContext);
-  const [posts, setPosts] = useState([]);
-  const [search, setSearch] = useState("");
   const [isActive, setIsActive] = useState(null);
   const [letterInitial, setLetterInitial] = useState("");
 

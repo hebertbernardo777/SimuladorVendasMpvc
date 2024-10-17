@@ -15,8 +15,12 @@ import Summary from "./pages/summary/Summary.jsx";
 import "./index.css";
 import ResumeDrafts from "./pages/Draftss/ResumeDrafts.jsx";
 import { AuthContextProvider } from "./context/AuthContex.jsx";
-import { OiContextProvider } from "../src/context/oiContext.jsx";
+import { ProductContextProvider } from "../src/context/ProductContext.jsx";
 import { PrivateRoute } from "./routes/privateRoutes.jsx";
+import { ResumeContextProvider } from "./context/ResumeContext.jsx";
+import axios from "axios";
+
+axios.defaults.baseURL = "http://appmpvc.com.br:3333/"
 
 const router = createBrowserRouter([
   {
@@ -100,9 +104,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthContextProvider>
       <DataContextProvider>
-        <OiContextProvider>
-          <RouterProvider router={router} />
-        </OiContextProvider>
+        <ProductContextProvider>
+          <ResumeContextProvider>
+            <RouterProvider router={router} />
+          </ResumeContextProvider>
+        </ProductContextProvider>
       </DataContextProvider>
     </AuthContextProvider>
   </React.StrictMode>

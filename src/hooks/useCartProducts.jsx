@@ -1,31 +1,34 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "../context/DataContext";
+import { ProductContext } from "../context/ProductContext";
 
 const useCartProducts = () => {
+  const { selectedProduct, cartItems, setCartItems } = useContext(DataContext);
+
   const {
-    selectedProduct,
-    product,
-    imagePath,
-    cartItems,
-    setCartItems,
-    productPrice,
     quantity,
-    totalValueItem,
+    imagePath,
     orderTotal,
+    productPrice,
     discountApplied,
-  } = useContext(DataContext);
+    totalPrice,
+    selectedProductData,
+  } = useContext(ProductContext);
+  console.log(selectedProductData);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!selectedProduct || !product) {
+    if (!selectedProduct || !selectedProductData) {
       navigate("/category");
     }
-  }, [selectedProduct, product, navigate]);
+  }, [selectedProduct, selectedProductData, navigate]);
 
-  const productId = product ? product.CODPROD : null;
-  const categoryProduct = product ? product.AD_SUBGRUPO : null;
+  const productId = selectedProductData ? selectedProductData.CODPROD : null;
+  const categoryProduct = selectedProductData
+    ? selectedProductData.AD_SUBGRUPO
+    : null;
 
   const newItem = {
     productId: productId,
@@ -35,10 +38,12 @@ const useCartProducts = () => {
     quantity: quantity,
     discountTotal: discountApplied,
     image: imagePath,
-    priceTotal: totalValueItem,
-    totalOrders: orderTotal,
-    line: product ? product.AD_LINHAPRODUTOS : null,
+    priceTotal: totalPrice, //sem desconto
+    totalOrders: orderTotal, //com desconto
+    line: selectedProductData ? selectedProductData.AD_LINHAPRODUTOS : null,
   };
+
+  console.log(newItem);
 
   const handleFocus = (e) => {
     e.target.value = "";
@@ -47,7 +52,7 @@ const useCartProducts = () => {
   const handleAddCart = () => {
     // Verifica se o item já está no carrinho
     const itemsExists = cartItems.some(
-      (item) => item.productId === product.CODPROD
+      (item) => item.productId === selectedProductData.CODPROD
     );
     // Adiciona o novo item ao carrinho temporariamente
     if (!itemsExists) {

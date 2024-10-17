@@ -6,8 +6,8 @@
   position: relative; 
 }
 
-.products-summary #image-cart{
-  width: 40%;
+.products-summary #image-cart img{
+  width: 70%;
 }
 
 .products-summary #infos-cart{

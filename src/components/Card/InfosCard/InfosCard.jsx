@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
 import Card from "../Card";
-import { DataContext } from "../../../context/DataContext";
+import { ResumeContext } from "../../../context/ResumeContext";
 
 const InfosCard = () => {
-
-  const { discountResults } = useContext(DataContext);
+  const { discountResults } = useContext(ResumeContext);
 
   const infoCards = [
     { nome: "Linha Forro", image: "forro.jpeg", line: "LINHA DE FORRO PVC" },

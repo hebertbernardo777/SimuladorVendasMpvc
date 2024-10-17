@@ -1,4 +1,4 @@
-import { React, useContext } from "react";
+import { React, useContext, useEffect } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
@@ -15,6 +15,14 @@ const CategoryProducts = () => {
     useContext(DataContext);
 
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   const savedData = localStorage.getItem("formCategory");
+  //   if (savedData) {
+  //     const parsedData = JSON.parse(savedData);
+  //     setData(parsedData.updates);
+  //   }
+  // }, [setData]);
 
   const {
     categories,
@@ -36,7 +44,9 @@ const CategoryProducts = () => {
   const handleSubmit = (values) => {
     console.log("Form values on submit:", values);
     console.log("Produto Selecionado para Submissão:", selectedProduct);
-    setData({ ...data, ...values });
+    const updates = { ...data, ...values };
+    setData(updates);
+    localStorage.setItem("formCategory", JSON.stringify(updates));
     navigate("/products");
   };
 
@@ -103,7 +113,7 @@ const CategoryProducts = () => {
                 <ProductList
                   products={filteredProductsByLineAndSubCategory || []}
                   handleSelectProduct={handleSelectProduct}
-                  isActive={isActive} 
+                  isActive={isActive}
                   letterInitial={letterInitial}
                 />
               ) : selectedCategory && filterCategory.length > 0 ? (

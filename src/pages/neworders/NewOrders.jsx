@@ -25,6 +25,7 @@ const NewOrders = () => {
     <>
       <Formik
         initialValues={data}
+        enableReinitialize={true} 
         validationSchema={Yup.object({
           tipoVenda: Yup.string(),
           faturamento: Yup.string(),

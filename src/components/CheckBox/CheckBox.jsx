@@ -22,7 +22,7 @@ const CheckBox = ({ setFieldValue, values }) => {
             type="checkbox"
             name="valorFinal"
             id="valor-final"
-            checked={values.valorFinal}
+            checked={values.valorFinal || false}
             onChange={() => handleCheckboxChange("valorFinal")}
           />
           <label htmlFor="valor-final">
@@ -42,7 +42,7 @@ const CheckBox = ({ setFieldValue, values }) => {
             type="checkbox"
             name="freteNegociado"
             id="frete-negociado"
-            checked={values.freteNegociado}
+            checked={values.freteNegociado || false}
             onChange={() => handleCheckboxChange("freteNegociado")}
           />
           <label htmlFor="frete-negociado">
@@ -66,7 +66,7 @@ const CheckBox = ({ setFieldValue, values }) => {
             type="checkbox"
             name="consultarST"
             id="consultarST"
-            checked={values.consultarST}
+            checked={values.consultarST || false}
             onChange={() => handleCheckboxChange("consultarST")}
           />
           <label htmlFor="consultarST">Consultar ST para orçamento</label>

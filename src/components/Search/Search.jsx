@@ -12,7 +12,7 @@ const Search = ({ id, name, label, placeholder, type, value, onChange}) => {
         name={name} 
         placeholder={placeholder} 
         type={type}
-        value={value}
+        value={value || ""}
         onChange={onChange}        
       />
         <IoMdSearch className="icon" />

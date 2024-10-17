@@ -1,6 +1,7 @@
 // AuthContex.jsx
 import { createContext, useEffect, useState } from "react";
-import { api } from "../lib/login";
+// import { api } from "../lib/login";
+import axios from "axios";
 
 export const AuthContext = createContext();
 
@@ -21,7 +22,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const signIn = async (username, password) => {
     try {
-      const response = await api.post("/", { user: username, password });
+      const response = await axios.post("/login", { user: username, password });
       console.log("Resposta da API:", response.data);
       if (response.data.rows && response.data.rows.length > 0) {
         const { NOMEUSU, CODUSU } = response.data.rows[0];

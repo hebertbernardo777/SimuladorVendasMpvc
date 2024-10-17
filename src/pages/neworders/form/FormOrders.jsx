@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { ErrorMessage, Field, Formik } from "formik";
-import dataEstados from "../../../data/estados.json";
+import { Field, Formik } from "formik";
 import "./FormOrders.css";
 import Clients from "../../Clients/Clients";
 import Button from "../../../components/Button/Button";
@@ -29,7 +28,6 @@ const FormOrders = ({ onClose }) => {
 
   useEffect(() => {
     if (isChecked) {
-      console.log("Checkbox marcado, cliente sem cadastro ativo.");
       setSelectedClient(null);
     }
   }, [isChecked, setSelectedClient]);
@@ -37,6 +35,7 @@ const FormOrders = ({ onClose }) => {
   return (
     <Formik
       initialValues={data}
+      enableReinitialize={true} 
       validationSchema={Yup.object({
         customerRegistration: Yup.boolean(),
         namePartners: Yup.string().required("Campo obrigatório"),

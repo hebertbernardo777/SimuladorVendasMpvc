@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import SelectField from "../../components/select/SelectField";
-import { DataContext } from "../../context/DataContext";
+import useOrders from "../../hooks/useOrders";
 
 const SelectParametros = () => {
-  const { posts } = useContext(DataContext);
+  const { posts } = useOrders();
 
   return (
     <div>

@@ -9,33 +9,30 @@ import useCartProducts from "../../hooks/useCartProducts";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 import "./Products.css";
 import useCalcProducts from "../../hooks/useCalcProducts";
-import { OiContext } from "../../context/oiContext";
+import { ProductContext } from "../../context/ProductContext";
+import useSummary from "../../hooks/useSummary";
 
 const Products = () => {
+  const { selectedProduct } = useContext(DataContext);
+  const { imagePath, discount, setDiscount } = useContext(ProductContext);
+  const { calcDiscountTotalOrders } = useSummary();
   const {
-    selectedProduct,
-    imagePath,
-    productPrice,
     quantity,
-    discount,
-    setDiscount,
     minusQuantity,
+    productPrice,
     plusQuantity,
     minusDiscount,
     plusDiscount,
     totalValueItem,
     orderTotal,
-    calcDiscountTotalOrders,
-  } = useContext(DataContext);
+  } = useCalcProducts();
 
-  const { handleFocus, handleAddCart} = useCartProducts();
- 
+  const { handleFocus, handleAddCart } = useCartProducts();
+
   return (
     <>
-
-   
       <div className="container-main">
-            <InfosCard />
+        <InfosCard />
         <div className="container-total">
           <div className="container-product">
             <section className="section-products">
@@ -57,7 +54,7 @@ const Products = () => {
                 <button type="button">
                   <FiMinusCircle className="icon-minus" />
                 </button>
-                <span className="results">{productPrice}</span>
+                <span className="results"> {typeof productPrice === "number" ? productPrice.toFixed(2) : "0.00"}</span>
                 <button>
                   <FiPlusCircle className="icon-plus" />
                 </button>

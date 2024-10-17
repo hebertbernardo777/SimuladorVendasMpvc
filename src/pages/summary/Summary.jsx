@@ -6,6 +6,7 @@ import CartItems from "../../components/Cart/CartItems";
 import ProductSummary from "../../components/Summary/ProductSummary";
 import formatCurrency from "../../utils/formatCurrency";
 import "./Summary.css";
+import useSummary from "../../hooks/useSummary";
 
 const Summary = () => {
   const {
@@ -15,9 +16,9 @@ const Summary = () => {
     setCartItems,
     selectedClient,
     clientNoRegister,
-    totalOrders,
-    calcDiscountTotalOrdersResume,
   } = useContext(DataContext);
+  const { totalOrders, calcDiscountTotalOrdersResume } = useSummary();
+
   const navigate = useNavigate();
 
   const handleSaveToLocalStorage = () => {
@@ -45,32 +46,31 @@ const Summary = () => {
   return (
     <div className="container-summary">
       <h3>Resumo da compra</h3>
-      <div className="oi">
-        <div className="cart-infos" >
+      <div className="cart-summary">
+        <div className="cart-infos">
           <div className="items-cart">
             {cartItems.map((cartItem) => (
               <CartItems key={cartItem.productId} newItem={cartItem} />
             ))}
           </div>
-          
         </div>
         <div className="cart">
           <ProductSummary />
         </div>
       </div>
       <div className="summary-discount">
-            <div className="infos-summary">
-              <p>Frete</p> <span>5</span>
-            </div>
-            <div className="infos-summary">
-              <p>Desconto realizado no pedido</p>
-              <span> {calcDiscountTotalOrdersResume.toFixed(2)}%</span>
-            </div>
-            <div className="infos-summary">
-              <p>Total</p>
-              <span> {formatCurrency(totalOrders, "BRL")}</span>
-            </div>
-          </div>
+        <div className="infos-summary">
+          <p>Frete</p> <span>5</span>
+        </div>
+        <div className="infos-summary">
+          <p>Desconto realizado no pedido</p>
+          <span> {calcDiscountTotalOrdersResume.toFixed(2)}%</span>
+        </div>
+        <div className="infos-summary">
+          <p>Total</p>
+          <span> {formatCurrency(totalOrders, "BRL")}</span>
+        </div>
+      </div>
       <div className="summary-btn">
         <Button className="btn" children={"Finalizar Compra"} />
       </div>
