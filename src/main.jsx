@@ -20,7 +20,7 @@ import { PrivateRoute } from "./routes/privateRoutes.jsx";
 import { ResumeContextProvider } from "./context/ResumeContext.jsx";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://appmpvc.com.br:3333/"
+axios.defaults.baseURL = "https://appmpvc.com.br:3333/"
 
 const router = createBrowserRouter([
   {
