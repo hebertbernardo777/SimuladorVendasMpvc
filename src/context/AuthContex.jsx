@@ -1,7 +1,7 @@
 // AuthContex.jsx
 import { createContext, useEffect, useState } from "react";
-// import { api } from "../lib/login";
-import axios from "axios-https-proxy-fix";
+import { api } from "../lib/login";
+// import axios from "axios-https-proxy-fix";
 
 export const AuthContext = createContext();
 
@@ -22,12 +22,12 @@ export const AuthContextProvider = ({ children }) => {
 
   const signIn = async (username, password) => {
     try {
-      const response = await axios.post("/login", { user: username, password });
+      const response = await api.post("/login", { user: username, password });
       console.log("Resposta da API:", response.data);
       if (response.data.rows && response.data.rows.length > 0) {
         const { NOMEUSU, CODUSU } = response.data.rows[0];
         setUser(NOMEUSU);
-        axios.defaults.headers.common["Authorization"] =
+        api.defaults.headers.common["Authorization"] =
           `Bearer ${(NOMEUSU, CODUSU)}`;
         localStorage.setItem("NOMEUSU", NOMEUSU);
         localStorage.setItem("CODUSU", CODUSU);

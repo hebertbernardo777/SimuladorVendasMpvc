@@ -19,15 +19,15 @@ import { ProductContextProvider } from "../src/context/ProductContext.jsx";
 import { PrivateRoute } from "./routes/privateRoutes.jsx";
 import { ResumeContextProvider } from "./context/ResumeContext.jsx";
 // import axios from "axios";
-import axios from "axios-https-proxy-fix";
+// import axios from "axios-https-proxy-fix";
 
-// const httpsAgent = new httpsProxyAgent({ rejectUnauthorized: false });
-// axios.create({ httpsAgent });
+// // const httpsAgent = new httpsProxyAgent({ rejectUnauthorized: false });
+// // axios.create({ httpsAgent });
 
 
-axios.defaults.baseURL = "http://appmpvc.com.br:3333/";
+// axios.defaults.baseURL = "http://appmpvc.com.br:3333/";
 
-// axios.defaults.proxy.protocol = "http";
+// // axios.defaults.proxy.protocol = "http";
 
 const router = createBrowserRouter([
   {

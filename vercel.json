@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+      {
+        "source": "/api/(.*)",
+        "destination": "http://appmpvc.com.br:3333/$1"
+      }
+    ]
+  }
