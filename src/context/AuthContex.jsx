@@ -1,7 +1,7 @@
-// AuthContex.jsx
 import { createContext, useEffect, useState } from "react";
 import { api } from "../lib/login";
-// import axios from "axios-https-proxy-fix";
+import { Link } from "react-router-dom";
+
 
 export const AuthContext = createContext();
 
@@ -45,7 +45,7 @@ export const AuthContextProvider = ({ children }) => {
   const siginOut = () => {
     localStorage.removeItem("NOMEUSU");
     setUser(null);
-    return <Navigate to="/login" />;
+    return <Link to="/login" />;
   };
 
   return (

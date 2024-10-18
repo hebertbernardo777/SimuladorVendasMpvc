@@ -5,11 +5,10 @@
       "destination": "http://appmpvc.com.br:3333/$1"
     }
   ],
-  "redirects": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html",
-      "statusCode": 200
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
