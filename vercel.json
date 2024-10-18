@@ -3,12 +3,10 @@
     {
       "source": "/api/(.*)",
       "destination": "http://appmpvc.com.br:3333/$1"
-    }
-  ],
-  "routes": [
+    },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
