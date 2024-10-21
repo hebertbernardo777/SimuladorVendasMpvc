@@ -199,7 +199,7 @@ const useCalcProducts = () => {
 
   useEffect(() => {
     if (product && product.AD_IMGAPP) {
-      const path = `/src/assets/ImageProducts/${product.AD_IMGAPP}.png`;
+      const path = `./ImageProducts/${product.AD_IMGAPP}.png`;
       setImagePath(path);
     }
   }, [product]);
