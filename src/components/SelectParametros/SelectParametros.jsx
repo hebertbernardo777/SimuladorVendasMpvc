@@ -3,7 +3,7 @@ import SelectField from "../../components/select/SelectField";
 import useOrders from "../../hooks/useOrders";
 
 const SelectParametros = () => {
-  const { posts, handleChangeNegociacao } = useOrders();
+  const { posts, loading, handleChangeNegociacao } = useOrders();
 
   return (
     <div>

@@ -8,9 +8,8 @@ import Loading from "../../components/Loading/Loading";
 
 const Clients = ({ style, onClose = () => {} }) => {
   const [searchClient, setSearchClient] = useState("");
-  // const [] = useState([]);
-  const { posts, setPosts, loading, setLoading, setSelectedClient } =
-    useContext(DataContext);
+  const { posts, setPosts, setSelectedClient } = useContext(DataContext);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);

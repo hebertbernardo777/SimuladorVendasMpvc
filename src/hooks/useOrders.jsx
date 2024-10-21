@@ -48,18 +48,19 @@ const useOrders = () => {
   }, []);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     api
       .get("/")
       .then((response) => {
         setPosts(response.data);
+        console.log(response.data);
         setLoading(false);
       })
       .catch((err) => {
         console.log(err.toJSON());
         setLoading(false);
       });
-  }, []);
+  }, [selectedClient]);
 
   if (loading) return <p>carregando</p>;
 
