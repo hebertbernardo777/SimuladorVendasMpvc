@@ -28,17 +28,11 @@ const CheckBox = ({ setFieldValue, values }) => {
     let unidade = ""; // Para armazenar o tipo de unidade (R$ ou %)
 
     if (values.valorFinal) {
-      valueFretecalc =
-        parseFloat(
-          values.textValorFinal
-            .replace("R$ ", "")
-            .replace(".", "")
-            .replace(",", ".")
-        ) || 0;
-      unidade = "R$";
+      valueFretecalc = parseFloat(values.textValorFinal.replace('R$ ', '').replace('.', '').replace(',', '.')) || 0;
+      unidade = "R$"; 
     } else if (values.freteNegociado) {
       valueFretecalc = parseFloat(values.textSomarFrete) || 0;
-      unidade = "%";
+      unidade = "%"; 
     }
 
     // Formatação
@@ -54,12 +48,7 @@ const CheckBox = ({ setFieldValue, values }) => {
 
   useEffect(() => {
     calcularFrete(values);
-  }, [
-    values.valorFinal,
-    values.freteNegociado,
-    values.textValorFinal,
-    values.textSomarFrete,
-  ]);
+  }, []);
 
   return (
     <div className="form-group-checkbox">
