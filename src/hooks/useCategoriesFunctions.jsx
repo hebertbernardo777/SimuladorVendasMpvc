@@ -22,6 +22,7 @@ const useCategoriesFunctions = () => {
   const [letterInitial, setLetterInitial] = useState("");
 
   useEffect(() => {
+    setLoading(true)
     api
       .get("/")
       .then((response) => {

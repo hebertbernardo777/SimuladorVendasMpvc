@@ -9,9 +9,10 @@ import "./CategoryProducts.css";
 import SelectField from "../../components/select/SelectField";
 import ProductList from "../../components/ProductList/ProductList";
 import useCategoriesFunctions from "../../hooks/useCategoriesFunctions";
+import Loading from "../../components/Loading/Loading";
 
 const CategoryProducts = () => {
-  const { data, setData, selectedCategory, selectedProduct } =
+  const {loading, data, setData, selectedCategory, selectedProduct } =
     useContext(DataContext);
 
   const navigate = useNavigate();
@@ -107,30 +108,34 @@ const CategoryProducts = () => {
               }))}
               onChange={(e) => handleSubCategory(setFieldValue, e.target.value)}
             />
+           
             <div className="lists-products">
-              <h3 id="title-list-products">Lista Produtos</h3>
-              {selectedCategory === "CONEXOES" && filterCategory.length > 0 ? (
-                <ProductList
-                  products={filteredProductsByLineAndSubCategory || []}
-                  handleSelectProduct={handleSelectProduct}
-                  isActive={isActive}
-                  letterInitial={letterInitial}
-                />
-              ) : selectedCategory && filterCategory.length > 0 ? (
-                <ProductList
-                  products={filterSubCategory}
-                  handleSelectProduct={handleSelectProduct}
-                  isActive={isActive}
-                  letterInitial={letterInitial}
-                />
-              ) : (
-                <ProductList
-                  products={searchProducts}
-                  handleSelectProduct={handleSelectProduct}
-                  isActive={isActive}
-                  letterInitial={letterInitial}
-                />
-              )}
+               {loading ? <Loading/> :    <div>
+                <h3 id="title-list-products">Lista Produtos</h3>
+                {selectedCategory === "CONEXOES" && filterCategory.length > 0 ? (
+                  <ProductList
+                    products={filteredProductsByLineAndSubCategory || []}
+                    handleSelectProduct={handleSelectProduct}
+                    isActive={isActive}
+                    letterInitial={letterInitial}
+                  />
+                ) : selectedCategory && filterCategory.length > 0 ? (
+                  <ProductList
+                    products={filterSubCategory}
+                    handleSelectProduct={handleSelectProduct}
+                    isActive={isActive}
+                    letterInitial={letterInitial}
+                  />
+                ) : (
+                  <ProductList
+                    products={searchProducts}
+                    handleSelectProduct={handleSelectProduct}
+                    isActive={isActive}
+                    letterInitial={letterInitial}
+                  />
+                )}
+              </div>}
+            
             </div>
             <div className="btn-steps">
               <Link to="/orders">

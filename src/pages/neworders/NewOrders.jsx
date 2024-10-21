@@ -15,13 +15,9 @@ import "./NewOrders.css";
 const NewOrders = () => {
   const { data, selectedClient, clientNoRegister } = useContext(DataContext);
   const [openModal, setOpenModal] = useState(false);
-  const { loading, handleSubmit } = useOrders();
-  const [error, setError] = useState(null);
+  const { handleSubmit } = useOrders();
 
-  if (loading) return <p>Carregando...</p>;
-  if (error) return <p>Erro ao carregar dados.</p>;
-
-  return (
+   return (
     <>
       <Formik
         initialValues={data}

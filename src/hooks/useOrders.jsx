@@ -9,8 +9,6 @@ const useOrders = () => {
     setPosts,
     data,
     setData,
-    loading,
-    setLoading,
     selectedClient,
     setSelectedClient,
     clientNoRegister,
@@ -21,6 +19,7 @@ const useOrders = () => {
     setSelectedNegociacao,
   } = useContext(DataContext);
   const [validationError, setValidationError] = useState(false);
+  const [loading, setLoading] = useState(true);
   const Navigate = useNavigate();
 
   useEffect(() => {
@@ -49,6 +48,7 @@ const useOrders = () => {
   }, []);
 
   useEffect(() => {
+    setLoading(true)
     api
       .get("/")
       .then((response) => {
@@ -116,7 +116,6 @@ const useOrders = () => {
     }
     handleParamsMargem();
     const updates = { ...data, ...values };
-    
     setData(updates);
 
     const formClientData = {
