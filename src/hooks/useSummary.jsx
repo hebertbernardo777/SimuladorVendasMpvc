@@ -53,15 +53,15 @@ const useSummary = () => {
   // Função para agrupar produtos por linha e somar descontos
   const discountLineProduct = (cartItems) => {
     if (!cartItems || cartItems.length === 0) return {};
-    console.log("Calculando desconto por linha e categoria para:", cartItems); // Verificando os itens no carrinho
-
+    console.log("Calculando desconto por linha e categoria para:", cartItems);
+  
     // Acumula os totais por linha
     const lineTotals = cartItems.reduce((acc, item) => {
       const { line, category, totalOrders, discountTotal, priceTotal } = item;
       console.log(
         `Item: ${item.name}, Line: ${line}, Categoria: ${category}, Preço total: ${totalOrders}, discount: ${discountTotal}, priceTotal: ${priceTotal}`
       );
-
+       
       if (!acc[line]) {
         acc[line] = {
           categories: {},
@@ -70,33 +70,34 @@ const useSummary = () => {
           priceTotal: 0, // Adicionando o priceTotal separadamente
         };
       }
-
+  
       if (!acc[line].categories[category]) {
         acc[line].categories[category] = {
-          categoryValueTotal: 0,
+          ordersCategoryTotal: 0, // Usando ordersTotal por categoria
+          categoryValueTotal: 0, // Mantendo o categoryValueTotal para o cálculo que já existia
           discountCategoryTotal: 0,
         };
       }
-
-      // Adiciona o desconto, preço total e o total do pedido à linha
+  
+      // Acumula o total de pedidos e o valor total por categoria
       acc[line].ordersTotal += totalOrders; // Somando o total do pedido
       acc[line].discountTotal += discountTotal || 0;
       acc[line].priceTotal += priceTotal || 0; // Somando o priceTotal
-
+  
       // Acumula os valores por categoria
-      acc[line].categories[category].categoryValueTotal += priceTotal;
-      acc[line].categories[category].discountCategoryTotal +=
-        discountTotal || 0;
-
+      acc[line].categories[category].ordersCategoryTotal += totalOrders; // Somando totalOrders por categoria
+      acc[line].categories[category].categoryValueTotal += priceTotal; // Mantendo o categoryValueTotal
+      acc[line].categories[category].discountCategoryTotal += discountTotal || 0;
+ 
       return acc;
     }, {});
-
+  
     // Calcula o total geral
     const grandTotal = Object.values(lineTotals).reduce(
       (acc, { ordersTotal }) => acc + ordersTotal,
       0
     );
-
+  
     // Calcula o percentual para cada linha
     const resultWithPercentages = Object.entries(lineTotals).reduce(
       (acc, [line, { ordersTotal, discountTotal, priceTotal, categories }]) => {
@@ -104,31 +105,37 @@ const useSummary = () => {
           grandTotal > 0 ? (ordersTotal / grandTotal) * 100 : 0;
         const totalDiscountLine =
           priceTotal > 0 ? (discountTotal / priceTotal) * 100 : 0; // Usando priceTotal para cálculo do desconto
-
+  
         // Calcula os valores e percentuais por categoria
         const categoriesValues = Object.entries(categories).reduce(
           (
             catAcc,
-            [category, { categoryValueTotal, discountCategoryTotal }]
+            [category, { ordersCategoryTotal, categoryValueTotal, discountCategoryTotal }]
           ) => {
             const categoryDiscount =
               categoryValueTotal > 0
                 ? (discountCategoryTotal / categoryValueTotal) * 100
                 : 0;
-
-            // const categoryPercentage =
-            //   ordersTotal > 0 ? (categoryValueTotal / ordersTotal) * 100 : 0;
-
+  
+            const categoryOrdersDiscount =
+              ordersCategoryTotal > 0
+                ? (discountCategoryTotal / ordersCategoryTotal) * 100
+                : 0;
+  
             catAcc[category] = {
-              totalCategory: categoryValueTotal.toFixed(2),
-              discountCategory: categoryDiscount.toFixed(2) + "%",
-              percentageCategory: percentage.toFixed(2) + "%",
+              totalCategory: categoryValueTotal.toFixed(2), // Baseado no priceTotal
+              discountCategory: categoryDiscount.toFixed(2) + "%", // Desconto baseado no priceTotal
+              percentageCategory: percentage.toFixed(2) + "%", // Percentual do total da linha
+  
+              // Novos cálculos baseados em ordersTotal
+              totalOrdersCategory: ordersCategoryTotal.toFixed(2), // Agora usando ordersTotal por categoria
+              discountOrdersCategory: categoryOrdersDiscount.toFixed(2) + "%", // Percentual de desconto baseado no ordersTotal
             };
             return catAcc;
           },
           {}
         );
-
+  
         acc[line] = {
           categories: categoriesValues,
           discount: totalDiscountLine.toFixed(2) + "%", // Percentual de desconto por linha baseado em priceTotal
@@ -140,11 +147,14 @@ const useSummary = () => {
       },
       {}
     );
-
+  
+    console.log("Resultados finais:", resultWithPercentages);
     return resultWithPercentages; // Retorna o resultado com percentuais
   };
+  
 
   useEffect(() => {
+    
     const results = discountLineProduct(cartItems);
     setDiscountResults(results);
     console.log("Resultados com percentuais:", results);

@@ -17,8 +17,8 @@ export const DataContextProvider = ({ children }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [discountAPR, setDiscountAPR] = useState("");
   const [discountREP, setDiscountREP] = useState("");
-
-
+  const [selectedNegociacao, setSelectedNegociacao] = useState(null);
+  const [frete, setFrete] = useState(0);
 
   const [data, setData] = useState({
     tipoVenda: "",
@@ -28,8 +28,8 @@ export const DataContextProvider = ({ children }) => {
     negociacao: "",
     valorFinal: "",
     freteNegociado: false,
-    textValorFinal: false,
-    textSomarFrete: false,
+    textValorFinal: "",
+    textSomarFrete: "",
     consultarST: false,
     selectOpcoes: "demaisContibuintes",
     observacoes: "",
@@ -44,9 +44,12 @@ export const DataContextProvider = ({ children }) => {
     product: "",
   });
 
+
+
   // resetar form
   const resetForm = () => {
-    localStorage.removeItem("dataNewOrders")
+    localStorage.removeItem("dataNewOrders");
+    localStorage.removeItem("formCategory");
     setSelectedClient(null);
     setClientNoRegister(null);
     setData({
@@ -97,6 +100,10 @@ export const DataContextProvider = ({ children }) => {
     setDiscountAPR,
     discountREP,
     setDiscountREP,
+    selectedNegociacao,
+    setSelectedNegociacao,
+    frete,
+    setFrete,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

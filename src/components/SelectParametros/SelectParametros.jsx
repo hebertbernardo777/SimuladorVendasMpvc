@@ -3,7 +3,7 @@ import SelectField from "../../components/select/SelectField";
 import useOrders from "../../hooks/useOrders";
 
 const SelectParametros = () => {
-  const { posts } = useOrders();
+  const { posts, handleChangeNegociacao } = useOrders();
 
   return (
     <div>
@@ -60,6 +60,7 @@ const SelectParametros = () => {
         name="negociacao"
         label="Tipos de negociação"
         defaultOption="Selecione uma opção"
+        onChange={handleChangeNegociacao}
         options={
           posts && posts.tiposNegociacao && posts.tiposNegociacao.length > 0
             ? posts.tiposNegociacao.map((tipo) => ({

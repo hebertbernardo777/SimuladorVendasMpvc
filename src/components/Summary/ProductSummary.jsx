@@ -20,7 +20,7 @@ const ProductSummary = () => {
                     Valor {formatFirstLetter(String(category))}:{" "}
                     <span>
                       {formatCurrency(
-                        Number(categoryData.totalCategory),
+                        Number(categoryData.totalOrdersCategory),
                         "BRL"
                       )}
                     </span>

@@ -21,6 +21,7 @@ const useCalcProducts = () => {
     setOrderTotal,
     setImagePath,
   } = useContext(ProductContext);
+
   const {
     data,
     loading,
@@ -29,6 +30,7 @@ const useCalcProducts = () => {
     selectedClient,
     discountAPR,
     discountREP,
+    selectedNegociacao,
   } = useContext(DataContext);
 
   useEffect(() => {
@@ -94,12 +96,12 @@ const useCalcProducts = () => {
     }
   };
 
+
   useEffect(() => {
     if (product) {
       const calculatedPrice = calculateProductPrice();
-      setProductPrice(calculatedPrice);
+      console.log("Preço calculado sem descontos:", calculatedPrice);
 
-      // Verifica o faturamento e aplica o desconto
       let discount = 0;
       if (data.faturamento === "2") {
         discount = calculatedPrice * (discountREP / 100);
@@ -107,8 +109,25 @@ const useCalcProducts = () => {
         discount = calculatedPrice * (discountAPR / 100);
       }
 
-      // Calcula o preço final
-      setProductPrice(calculatedPrice - discount);
+      console.log("Desconto baseado no faturamento:", discount);
+
+      const percentMKT = selectedNegociacao
+        ? selectedNegociacao.AD_PERCPMKTAB
+        : 0;
+        console.log(selectedNegociacao)
+      console.log("Percentual de desconto da negociação:", percentMKT);
+
+      const additionalDiscountNegociacao = calculatedPrice * (percentMKT / 100);
+      console.log(
+        "Desconto adicional baseado na negociação:",
+        additionalDiscountNegociacao
+      );
+
+      const finalPrice =
+        calculatedPrice - discount - additionalDiscountNegociacao;
+      console.log("Preço final com descontos aplicados:", finalPrice);
+
+      setProductPrice(finalPrice);
     } else {
       setProductPrice(0);
     }
@@ -119,6 +138,7 @@ const useCalcProducts = () => {
     data.faturamento,
     discountAPR,
     discountREP,
+    selectedNegociacao,
   ]);
 
   console.log(productPrice);
@@ -198,7 +218,7 @@ const useCalcProducts = () => {
     totalValueItem,
     discountApplied,
     orderTotal,
-    totalDiscountApllied, // Retornando o produto encontrado
+    totalDiscountApllied,
   };
 };
 

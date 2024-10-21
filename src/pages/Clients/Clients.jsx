@@ -7,7 +7,7 @@ import { DataContext } from "../../context/DataContext";
 
 const Clients = ({ style, onClose = () => {} }) => {
   const [searchClient, setSearchClient] = useState("");
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts, loading, setLoading] = useState([]);
   const { setSelectedClient } = useContext(DataContext);
 
   useEffect(() => {
@@ -16,11 +16,16 @@ const Clients = ({ style, onClose = () => {} }) => {
       .then((response) => {
         setPosts(response.data);
         console.log(response.data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
-      });
+        setLoading(false);
+      })
+      
   }, []);
+
+  if (loading) return <p>carregando</p>;
 
   const clients = posts.rows || [];
 

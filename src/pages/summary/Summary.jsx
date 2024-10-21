@@ -7,6 +7,7 @@ import ProductSummary from "../../components/Summary/ProductSummary";
 import formatCurrency from "../../utils/formatCurrency";
 import "./Summary.css";
 import useSummary from "../../hooks/useSummary";
+import useRotas from "../../hooks/useRotas";
 
 const Summary = () => {
   const {
@@ -16,8 +17,10 @@ const Summary = () => {
     setCartItems,
     selectedClient,
     clientNoRegister,
+    frete,
   } = useContext(DataContext);
   const { totalOrders, calcDiscountTotalOrdersResume } = useSummary();
+  const { handleFrete } = useRotas;
 
   const navigate = useNavigate();
 
@@ -60,7 +63,7 @@ const Summary = () => {
       </div>
       <div className="summary-discount">
         <div className="infos-summary">
-          <p>Frete</p> <span>5</span>
+          <p>Frete</p> <span>{frete} </span>
         </div>
         <div className="infos-summary">
           <p>Desconto realizado no pedido</p>
