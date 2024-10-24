@@ -11,11 +11,13 @@ import useOrders from "../../hooks/useOrders";
 import { FaCheck } from "react-icons/fa";
 import * as Yup from "yup";
 import "./NewOrders.css";
+import useRotas from "../../hooks/useRotas";
 
 const NewOrders = () => {
   const { data, selectedClient, clientNoRegister } = useContext(DataContext);
   const [openModal, setOpenModal] = useState(false);
   const { handleSubmit } = useOrders();
+  const {  } = useRotas();
 
    return (
     <>
@@ -73,7 +75,7 @@ const NewOrders = () => {
                     </div>
                   ) : null}
                 </div>
-                <SelectParametros />
+                <SelectParametros setFieldValue={setFieldValue} />
                 <CheckBox setFieldValue={setFieldValue} values={values} />
                 <div>
                   <div className="form-group">

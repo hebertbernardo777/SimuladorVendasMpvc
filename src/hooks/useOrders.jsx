@@ -15,7 +15,6 @@ const useOrders = () => {
     setClientNoRegister,
     setDiscountAPR,
     setDiscountREP,
-    selectedNegociacao,
     setSelectedNegociacao,
   } = useContext(DataContext);
   const [validationError, setValidationError] = useState(false);
@@ -86,17 +85,16 @@ const useOrders = () => {
     }
   };
 
-  const handleChangeNegociacao = (e) => {
+  const handleChangeNegociacao = (e, setFieldValue) => {
     const codTipoVenda = e.target.value;
     console.log("Valor selecionado:", codTipoVenda); // Verifique o valor selecionado
     console.log(posts.tiposNegociacao); // Verifique se há dados aqui
 
     const negociacaoSelecionada = posts.tiposNegociacao.find(
-      (tipo) => tipo.CODTIPVENDA === Number(codTipoVenda) // Certifique-se que está comparando os tipos corretos
+      (tipo) => tipo.CODTIPVENDA === Number(codTipoVenda)
     );
 
-    console.log("Negociação selecionada:", negociacaoSelecionada); // Verifique se encontrou o item correto
-
+    setFieldValue("negociacaoLabel", negociacaoSelecionada.DESCRTIPVENDA); // Verifique se encontrou o item correto
     setSelectedNegociacao(negociacaoSelecionada); // Salva o objeto completo no estado
   };
 
@@ -115,7 +113,9 @@ const useOrders = () => {
     if (!validateClientSelection()) {
       return;
     }
+
     handleParamsMargem();
+
     const updates = { ...data, ...values };
     setData(updates);
 

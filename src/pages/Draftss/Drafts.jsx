@@ -6,7 +6,7 @@ import { DataContext } from "../../context/DataContext";
 import "./Drafts.css";
 
 const Drafts = () => {
-  const { setCurrentStep, setSelectedClient, setData, setCartItems } =
+  const { setCurrentStep, setSelectedClient, setClientNoRegister, setData, setCartItems } =
     useContext(DataContext);
   const [savedData, setSavedData] = useState([]);
   const navigate = useNavigate();
@@ -25,6 +25,7 @@ const Drafts = () => {
 
   const handleLoadDraft = (pedido, redirectToForm = true) => {
     setSelectedClient(pedido.client );
+    setClientNoRegister(pedido.client)
     setData(pedido.form);
     setCartItems(pedido.cart);
     setCurrentStep(pedido.currentStep || 0);
@@ -35,7 +36,7 @@ const Drafts = () => {
       }, 100);
     } else {
       setTimeout(() => {
-        navigate("/resumedrafts");
+        navigate(`/resumedrafts/${pedido.id}`);
       }, 100);
     }
   };

@@ -60,6 +60,7 @@ const useCalcProducts = () => {
     if (selectedClient) {
       const suframaListado = selectedClient.GRUPOICMS;
       const ufSuframa = selectedClient.UF;
+
       const estadosAmazonia = ["AM", "AC", "AP", "RR", "RO"];
 
       if (ufSuframa === "GO") {
@@ -96,11 +97,27 @@ const useCalcProducts = () => {
     }
   };
 
-
   useEffect(() => {
     if (product) {
-      const calculatedPrice = calculateProductPrice();
-      console.log("Preço calculado sem descontos:", calculatedPrice);
+      let calculatedPrice = calculateProductPrice(); // Calcula o preço inicial
+  
+      // Verifica se o produto pertence ao grupo 40200
+      if (product.CODGRUPOPROD === 40200) {
+        const largura = product.LARGURA;
+        const altura = product.ALTURA;
+  
+        // Verifica se largura e altura estão definidas
+        if (largura && altura) {
+          const area = altura * largura; // Calcula a área
+          const priceForro = calculatedPrice / area; // Calcula o preço por metro quadrado
+          console.log("Preço por metro quadrado (forro):", priceForro);
+  
+          // Atribui o valor de priceForro ao calculatedPrice
+          calculatedPrice = priceForro;
+        } else {
+          console.log("Largura ou altura não disponíveis para o cálculo.");
+        }
+      }
 
       let discount = 0;
       if (data.faturamento === "2") {
@@ -114,7 +131,7 @@ const useCalcProducts = () => {
       const percentMKT = selectedNegociacao
         ? selectedNegociacao.AD_PERCPMKTAB
         : 0;
-        console.log(selectedNegociacao)
+      console.log(selectedNegociacao);
       console.log("Percentual de desconto da negociação:", percentMKT);
 
       const additionalDiscountNegociacao = calculatedPrice * (percentMKT / 100);

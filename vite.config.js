@@ -26,9 +26,9 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/carteiraclientes/, ""), // Remove o prefixo /api do caminho
       },
       "/rotas": {
-        target: "http://appmpvc.com.br:3333", // URL da sua API sem HTTPS
-        changeOrigin: true, // Ajusta o cabeçalho Host na requisição para corresponder ao target
-        rewrite: (path) => path.replace(/^\/rotas/, ""), // Remove o prefixo /api do caminho
+        target: "http://appmpvc.com.br:3333",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/rotas/, ""), // Certifique-se que remove corretamente o prefixo /rotas
       },
     },
   },

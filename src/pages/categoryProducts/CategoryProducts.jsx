@@ -12,18 +12,10 @@ import useCategoriesFunctions from "../../hooks/useCategoriesFunctions";
 import Loading from "../../components/Loading/Loading";
 
 const CategoryProducts = () => {
-  const {loading, data, setData, selectedCategory, selectedProduct } =
+  const { loading, data, setData, selectedCategory, selectedProduct } =
     useContext(DataContext);
 
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   const savedData = localStorage.getItem("formCategory");
-  //   if (savedData) {
-  //     const parsedData = JSON.parse(savedData);
-  //     setData(parsedData.updates);
-  //   }
-  // }, [setData]);
 
   const {
     categories,
@@ -45,6 +37,10 @@ const CategoryProducts = () => {
   const handleSubmit = (values) => {
     console.log("Form values on submit:", values);
     console.log("Produto Selecionado para Submissão:", selectedProduct);
+    if (!selectedProduct) {
+      alert("Por favor, selecione um produto.");
+      return;
+    }
     const updates = { ...data, ...values };
     setData(updates);
     localStorage.setItem("formCategory", JSON.stringify(updates));
@@ -108,34 +104,38 @@ const CategoryProducts = () => {
               }))}
               onChange={(e) => handleSubCategory(setFieldValue, e.target.value)}
             />
-           
+
             <div className="lists-products">
-               {loading ? <Loading/> :    <div>
-                <h3 id="title-list-products">Lista Produtos</h3>
-                {selectedCategory === "CONEXOES" && filterCategory.length > 0 ? (
-                  <ProductList
-                    products={filteredProductsByLineAndSubCategory || []}
-                    handleSelectProduct={handleSelectProduct}
-                    isActive={isActive}
-                    letterInitial={letterInitial}
-                  />
-                ) : selectedCategory && filterCategory.length > 0 ? (
-                  <ProductList
-                    products={filterSubCategory}
-                    handleSelectProduct={handleSelectProduct}
-                    isActive={isActive}
-                    letterInitial={letterInitial}
-                  />
-                ) : (
-                  <ProductList
-                    products={searchProducts}
-                    handleSelectProduct={handleSelectProduct}
-                    isActive={isActive}
-                    letterInitial={letterInitial}
-                  />
-                )}
-              </div>}
-            
+              {loading ? (
+                <Loading />
+              ) : (
+                <div>
+                  <h3 id="title-list-products">Lista Produtos</h3>
+                  {selectedCategory === "CONEXOES" &&
+                  filterCategory.length > 0 ? (
+                    <ProductList
+                      products={filteredProductsByLineAndSubCategory || []}
+                      handleSelectProduct={handleSelectProduct}
+                      isActive={isActive}
+                      letterInitial={letterInitial}
+                    />
+                  ) : selectedCategory && filterCategory.length > 0 ? (
+                    <ProductList
+                      products={filterSubCategory}
+                      handleSelectProduct={handleSelectProduct}
+                      isActive={isActive}
+                      letterInitial={letterInitial}
+                    />
+                  ) : (
+                    <ProductList
+                      products={searchProducts}
+                      handleSelectProduct={handleSelectProduct}
+                      isActive={isActive}
+                      letterInitial={letterInitial}
+                    />
+                  )}
+                </div>
+              )}
             </div>
             <div className="btn-steps">
               <Link to="/orders">

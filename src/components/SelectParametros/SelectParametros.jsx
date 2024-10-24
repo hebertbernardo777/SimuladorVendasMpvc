@@ -1,13 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SelectField from "../../components/select/SelectField";
 import useOrders from "../../hooks/useOrders";
 
-const SelectParametros = () => {
-  const { posts, loading, handleChangeNegociacao } = useOrders();
+const SelectParametros = ({ setFieldValue }) => {
+  const { posts, handleChangeNegociacao } = useOrders();
 
   return (
     <div>
-      {" "}
       <SelectField
         name="tipoVenda"
         label="Tipo de venda"
@@ -21,6 +20,14 @@ const SelectParametros = () => {
         name="faturamento"
         label="Faturamento"
         defaultOption="Selecione uma opção"
+        onChange={(e) => {
+          const selectedValue = e.target.value;
+          const selectedTipo = posts.tiposFaturamento.find(
+            (tipo) => tipo.VALOR === selectedValue
+          );
+          const opcao = selectedTipo.OPCAO;
+          setFieldValue("faturamentoLabel", opcao);
+        }}
         options={
           posts && posts.tiposFaturamento && posts.tiposFaturamento.length > 0
             ? posts.tiposFaturamento.map((tipo) => ({
@@ -34,6 +41,14 @@ const SelectParametros = () => {
         name="frete"
         label="Frete"
         defaultOption="Selecione uma opção"
+        onChange={(e) => {
+          const selectedValue = e.target.value;
+          const selectedTipo = posts.tipoFrete.find(
+            (tipo) => tipo.VALOR === selectedValue
+          );
+          const opcao = selectedTipo.OPCAO;
+          setFieldValue("freteLabel", opcao);
+        }}
         options={
           posts && Array.isArray(posts.tipoFrete) && posts.tipoFrete.length > 0
             ? posts.tipoFrete.map((tipo) => ({
@@ -47,6 +62,14 @@ const SelectParametros = () => {
         name="transportadora"
         label="Transportadora"
         defaultOption="Selecione uma opção"
+        onChange={(e) => {
+          const selectedValue = e.target.value;
+          const selectedTipo = posts.transportadoras.find(
+            (tipo) => tipo.VALOR === selectedValue
+          );
+          const opcao = selectedTipo.OPCAO;
+          setFieldValue("transportadoraLabel", opcao);
+        }}
         options={
           posts && posts.transportadoras && posts.transportadoras.length > 0
             ? posts.transportadoras.map((tipo) => ({
@@ -60,7 +83,7 @@ const SelectParametros = () => {
         name="negociacao"
         label="Tipos de negociação"
         defaultOption="Selecione uma opção"
-        onChange={handleChangeNegociacao}
+        onChange={(e) => handleChangeNegociacao(e, setFieldValue)} // Corrigido aqui
         options={
           posts && posts.tiposNegociacao && posts.tiposNegociacao.length > 0
             ? posts.tiposNegociacao.map((tipo) => ({

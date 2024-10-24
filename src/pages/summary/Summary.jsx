@@ -17,6 +17,7 @@ const Summary = () => {
     setCartItems,
     selectedClient,
     clientNoRegister,
+    resetForm,
     frete,
   } = useContext(DataContext);
   const { totalOrders, calcDiscountTotalOrdersResume } = useSummary();
@@ -44,6 +45,7 @@ const Summary = () => {
     localStorage.setItem("pedido", JSON.stringify(updatedData));
     setCartItems([]);
     navigate("/");
+    resetForm()
   };
 
   return (

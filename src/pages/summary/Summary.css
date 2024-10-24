@@ -10,6 +10,12 @@
   margin-bottom: 50px;
 }
 
+@media screen and (max-width: 1360px) {
+  .container-summary {
+    width: 600px;
+  }
+}
+
 .container-summary h3 {
   text-align: center;
   border-bottom: 1px solid #8d8d8d;

@@ -54,7 +54,12 @@ const Products = () => {
                 <button type="button">
                   <FiMinusCircle className="icon-minus" />
                 </button>
-                <span className="results"> {typeof productPrice === "number" ? productPrice.toFixed(2) : "0.00"}</span>
+                <span className="results">
+                  {" "}
+                  {typeof productPrice === "number"
+                    ? productPrice.toFixed(2)
+                    : "0.00"}
+                </span>
                 <button>
                   <FiPlusCircle className="icon-plus" />
                 </button>
@@ -93,7 +98,7 @@ const Products = () => {
                   <span>{formatCurrency(orderTotal, "BRL")}</span>
                 </div>
                 <div className="infos-products">
-                  <p>Desconto aplicado: </p>
+                  <p>Desconto total do pedido: </p>
                   <span>{calcDiscountTotalOrders.toFixed(2)}%</span>
                 </div>
               </div>

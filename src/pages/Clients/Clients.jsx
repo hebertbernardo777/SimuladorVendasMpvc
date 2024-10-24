@@ -8,7 +8,8 @@ import Loading from "../../components/Loading/Loading";
 
 const Clients = ({ style, onClose = () => {} }) => {
   const [searchClient, setSearchClient] = useState("");
-  const { posts, setPosts, setSelectedClient } = useContext(DataContext);
+  const { posts, setPosts, selectedClient, setSelectedClient } =
+    useContext(DataContext);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -37,6 +38,7 @@ const Clients = ({ style, onClose = () => {} }) => {
   const handleSelectCliente = (client) => {
     setSelectedClient(client);
     console.log(client);
+    console.log(selectedClient);
     onClose();
   };
 

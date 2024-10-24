@@ -75,7 +75,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/resumedrafts",
+        path: "/resumedrafts/:id",
         element: (
           <PrivateRoute>
             <ResumeDrafts />
