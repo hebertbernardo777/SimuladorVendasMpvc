@@ -100,18 +100,19 @@ const useCalcProducts = () => {
   useEffect(() => {
     if (product) {
       let calculatedPrice = calculateProductPrice(); // Calcula o preço inicial
-  
+      console.log(calculatedPrice);
+
       // Verifica se o produto pertence ao grupo 40200
       if (product.CODGRUPOPROD === 40200) {
         const largura = product.LARGURA;
         const altura = product.ALTURA;
-  
+
         // Verifica se largura e altura estão definidas
         if (largura && altura) {
           const area = altura * largura; // Calcula a área
           const priceForro = calculatedPrice / area; // Calcula o preço por metro quadrado
           console.log("Preço por metro quadrado (forro):", priceForro);
-  
+
           // Atribui o valor de priceForro ao calculatedPrice
           calculatedPrice = priceForro;
         } else {
@@ -164,7 +165,19 @@ const useCalcProducts = () => {
   const quantidadeMininia = product?.AD_QTDPC || 0;
   useEffect(() => {
     if (product) {
-      setQuantity(quantidadeMininia); // Inicializa a quantidade com a quantidade mínima do produto
+      if (product.CODGRUPOPROD === 40200) {
+        const largura = product.LARGURA;
+        const altura = product.ALTURA;
+        console.log(largura, altura);
+
+        if (largura && altura) {
+          const area = altura * largura;
+          const quantityForro = quantidadeMininia * area;
+          setQuantity(quantityForro);
+        }
+      } else {
+        setQuantity(quantidadeMininia); // Inicializa a quantidade com a quantidade mínima do produto
+      }
     }
   }, [product, quantidadeMininia, setQuantity]);
 
@@ -193,9 +206,10 @@ const useCalcProducts = () => {
       setDiscount(adjustDecimal(numericDiscount - 1));
     }
   };
-
+  console.log(productPrice);
   //valor total do pedido sem desconto
   const totalValueItem = productPrice * quantity;
+  console.log(totalValueItem);
 
   // valor do pedido com desconto
   const calculateOrderTotalDiscount = () => {

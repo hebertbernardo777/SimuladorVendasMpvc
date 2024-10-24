@@ -3,6 +3,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import formatCurrency from "../../utils/formatCurrency";
 import "./CartItems.css";
 import { DataContext } from "../../context/DataContext";
+import Button from '../Button/Button'
 
 const CartItems = ({ newItem }) => {
   if (!newItem) {
@@ -34,7 +35,7 @@ const CartItems = ({ newItem }) => {
         </div>
         <FaRegTrashCan className="delete-product" onClick={handleRemoveItem} />
       </div>
-    </div>
+       </div>
   );
 };
 
