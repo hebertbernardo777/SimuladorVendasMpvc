@@ -83,7 +83,7 @@ const Summary = () => {
       <div className="summary-discount">
         <div className="infos-summary">
         
-          <p>Frete</p> <span>{freteSelected} - {freteTotal} </span>
+          <p>Frete</p> <span>{ freteSelected || freteTotal}</span>
         </div>
         <div className="infos-summary">
           <p>Desconto realizado no pedido</p>

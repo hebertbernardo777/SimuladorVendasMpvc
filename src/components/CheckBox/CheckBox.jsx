@@ -20,7 +20,7 @@ const CheckBox = ({ setFieldValue, values }) => {
       setFieldValue("textSomarFrete", "");
       setFieldValue("frete", "");
       setFieldValue("transportadora", "");
-      setFreteTotal("");
+      setFreteTotal(0);
     } else if (name === "freteNegociado" && newValue) {
       setFieldValue("valorFinal", false);
       setFieldValue("textValorFinal", "");
