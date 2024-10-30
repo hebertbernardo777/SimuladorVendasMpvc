@@ -129,15 +129,7 @@ const useRotas = () => {
   };
 
   useEffect(() => {
-    // if (freteTotal === null) {
-    //   setIsFreteTotal(false);
-    //   return; // Não recalcula se estiver nulo
-    // }
-
-    // ele foi selecionado
-    setIsFreteTotal(true);
-
-    const calcFrete = percenteFrete();
+     const calcFrete = percenteFrete();
     setFretePercente(calcFrete);
     console.log("Frete Percentual:", fretePercente);
 
@@ -158,32 +150,31 @@ const useRotas = () => {
     console.log("Frete Total", freteTotal);
   }, [freteTotal]);
 
-  const atualizarFreteAtual = () => {
-    // Verifique se o `freteSelected` está ativo
-    debugger;
-    if (isFreteTotal) {
-      setFreteAtual(freteTotal);
-    }
-    // Se o `freteSelected` não estiver ativo, use `freteTotal`
-    else {
-      setFreteAtual(freteSelected);
-    }
-    // Se nenhum dos dois estiver ativo, defina como vazio ou zero
-    // else {
-    //   setFreteAtual(0);
-    // }
+  // const atualizarFreteAtual = () => {
+  //   // Verifique se o `freteSelected` está ativo
 
-    console.log("Frete Selected:", freteSelected);
-    console.log("Frete Total:", freteTotal);
-    console.log("Frete Atual:", freteAtual); // Verificação final do valor exibido
-  };
+  //   if (isFreteTotal) {
+  //     setFreteAtual(freteTotal);
+  //   }
+  //   // Se o `freteSelected` não estiver ativo, use `freteTotal`
+  //   else {
+  //     setFreteAtual(freteSelected);
+  //   }
+  //   // Se nenhum dos dois estiver ativo, defina como vazio ou zero
+  //   // else {
+  //   //   setFreteAtual(0);
+  //   // }
+
+  //   console.log("Frete Selected:", freteSelected);
+  //   console.log("Frete Total:", freteTotal);
+  //   console.log("Frete Atual:", freteAtual); // Verificação final do valor exibido
+  // };
 
   // Chama a função sempre que freteSelected ou freteTotal mudar
-  useEffect(() => {
-    debugger
-    atualizarFreteAtual();
-  }, [freteSelected, freteTotal]);
-  const oi = atualizarFreteAtual();
+  // useEffect(() => {
+  //   atualizarFreteAtual();
+  // }, [freteSelected, freteTotal]);
+  // const oi = atualizarFreteAtual();
 
   return {
     percenteFrete,

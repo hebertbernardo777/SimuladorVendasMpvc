@@ -7,7 +7,7 @@ import useRotas from "../../hooks/useRotas";
 const SelectParametros = ({ setFieldValue }) => {
   const { posts, handleChangeNegociacao } = useOrders();
 
-  const { setFreteSelected, isSelectDisabled, setIsSelectDisabled, setIsCheckedFrete } =
+  const { setFreteSelected, setIsSelectDisabled, setIsCheckedFrete } =
     useContext(DataContext);
 
   return (
@@ -46,7 +46,6 @@ const SelectParametros = ({ setFieldValue }) => {
         name="frete"
         label="Frete"
         defaultOption="Selecione uma opção"
-        disabled={isSelectDisabled}
         onChange={(e) => {
           const selectedValue = e.target.value;
           const selectedTipo = posts.tipoFrete.find(
@@ -56,16 +55,12 @@ const SelectParametros = ({ setFieldValue }) => {
 
           setFieldValue("freteLabel", opcao);
 
-          // Ao selecionar no Select, desativamos os Checkboxes
-          setIsSelectDisabled(false);
-          setIsCheckedFrete(false); // Nenhum checkbox está ativo
-
           // Limpa valores dos Checkboxes para evitar conflitos
           setFieldValue("valorFinal", false);
           setFieldValue("textValorFinal", "");
           setFieldValue("freteNegociado", false);
           setFieldValue("textSomarFrete", "");
-          
+          setFreteSelected("")
         }}
         options={
           posts && Array.isArray(posts.tipoFrete) && posts.tipoFrete.length > 0

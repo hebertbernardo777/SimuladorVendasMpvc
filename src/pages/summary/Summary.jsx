@@ -29,6 +29,7 @@ const Summary = () => {
   const {calcConsultaST} = useConsultaST()
   const { freteAtual } = useContext(DataContext);
 
+  console.log(freteSelected)
   useEffect(()=>{
     const oi = calcConsultaST()
   })
@@ -81,8 +82,8 @@ const Summary = () => {
       </div>
       <div className="summary-discount">
         <div className="infos-summary">
-        <p>Frete Atual: {freteAtual ? freteAtual : "Selecionar uma opção"}</p>
-          {/* <p>Frete</p> <span>{freteSelected ? freteSelected : freteTotal} </span> */}
+        
+          <p>Frete</p> <span>{freteSelected} - {freteTotal} </span>
         </div>
         <div className="infos-summary">
           <p>Desconto realizado no pedido</p>

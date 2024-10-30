@@ -4,31 +4,15 @@ import formatCurrency from "../../utils/formatCurrency";
 import "./CheckBox.css";
 import CurrencyInput from "react-currency-input-field";
 import { DataContext } from "../../context/DataContext";
-import useRotas from "../../hooks/useRotas";
 
 const CheckBox = ({ setFieldValue, values }) => {
-  const {
-    freteSelected,
-    setFreteSelected,
-    setIsSelectDisabled,
-    setFreteTotal,
-    isCheckedFrete,
-    setIsFreteTotal,
-  } = useContext(DataContext); //setFreteSelected do contexto
+  const { freteSelected, setFreteSelected, setFreteTotal, setIsFreteTotal } =
+    useContext(DataContext); //setFreteSelected do contexto
 
   // Função para manipular mudanças nos Checkboxes
   const handleCheckboxChange = (name) => {
     const newValue = !values[name];
     setFieldValue(name, newValue);
-
-    // Se o checkbox está sendo ativado
-    if (newValue) {
-      setIsSelectDisabled(true); // Desativa o Select se o checkbox atual for marcado
-      // setIsFreteTotal(false);// Limpa o frete total ao ativar um checkbox
-    } else if (!values.valorFinal && !values.freteNegociado) {
-      // Se ambos os checkboxes estão desmarcados, ativa o Select novamente
-      setIsSelectDisabled(false);
-    }
 
     // Alterna entre os checkboxes, desativando o outro se necessário
     if (name === "valorFinal" && newValue) {
@@ -36,14 +20,12 @@ const CheckBox = ({ setFieldValue, values }) => {
       setFieldValue("textSomarFrete", "");
       setFieldValue("frete", "");
       setFieldValue("transportadora", "");
-      setIsFreteTotal(false);
-      // setFreteTotal(null);
+      setFreteTotal("");
     } else if (name === "freteNegociado" && newValue) {
       setFieldValue("valorFinal", false);
       setFieldValue("textValorFinal", "");
       setFieldValue("frete", "");
       setFieldValue("transportadora", "");
-      setFreteSelected(null);
     }
 
     // Chama a função para calcular o frete
@@ -74,12 +56,14 @@ const CheckBox = ({ setFieldValue, values }) => {
     } else {
       valueFretecalc = `${valueFretecalc} ${unidade}`;
     }
-
     setFreteSelected(valueFretecalc); // Salva o valor formatado no estado global
-    setIsFreteTotal(false);
-    console.log(valueFretecalc); // Exibe o valor formatado no console
     console.log(freteSelected);
   };
+  
+  debugger
+  useEffect(() => {
+    console.log("Frete checkBox", freteSelected);
+  }, [freteSelected]);
 
   useEffect(() => {
     calcFreteSelected(values);
@@ -94,7 +78,6 @@ const CheckBox = ({ setFieldValue, values }) => {
             name="valorFinal"
             id="valor-final"
             checked={values.valorFinal || false}
-            disabled={isCheckedFrete}
             onChange={() => handleCheckboxChange("valorFinal")}
           />
           <label htmlFor="valor-final">
@@ -129,7 +112,6 @@ const CheckBox = ({ setFieldValue, values }) => {
             name="freteNegociado"
             id="frete-negociado"
             checked={values.freteNegociado || false}
-            disabled={isCheckedFrete}
             onChange={() => handleCheckboxChange("freteNegociado")}
           />
           <label htmlFor="frete-negociado">
