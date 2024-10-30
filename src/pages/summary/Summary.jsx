@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 import Button from "../../components/Button/Button";
@@ -8,6 +8,8 @@ import formatCurrency from "../../utils/formatCurrency";
 import "./Summary.css";
 import useSummary from "../../hooks/useSummary";
 import useRotas from "../../hooks/useRotas";
+import { ProductContext } from "../../context/ProductContext";
+import useConsultaST from "../../hooks/useConsultaST";
 
 const Summary = () => {
   const {
@@ -17,11 +19,25 @@ const Summary = () => {
     setCartItems,
     selectedClient,
     clientNoRegister,
+    freteSelected,
     resetForm,
-    frete,
   } = useContext(DataContext);
+  const { frete } = useContext(ProductContext);
   const { totalOrders, calcDiscountTotalOrdersResume } = useSummary();
-  const { handleFrete } = useRotas;
+
+  const { percenteFrete, freteTotal } = useRotas();
+  const {calcConsultaST} = useConsultaST()
+  const { freteAtual } = useContext(DataContext);
+
+  useEffect(()=>{
+    const oi = calcConsultaST()
+  })
+
+  useEffect(() => {
+    // Chama a função para verificar as etapas de cálculo
+    const freteCalculado = percenteFrete();
+    console.log("Frete calculado na verificação:", freteCalculado);
+  }, [percenteFrete]);
 
   const navigate = useNavigate();
 
@@ -45,7 +61,7 @@ const Summary = () => {
     localStorage.setItem("pedido", JSON.stringify(updatedData));
     setCartItems([]);
     navigate("/");
-    resetForm()
+    resetForm();
   };
 
   return (
@@ -65,7 +81,8 @@ const Summary = () => {
       </div>
       <div className="summary-discount">
         <div className="infos-summary">
-          <p>Frete</p> <span>{frete} </span>
+        <p>Frete Atual: {freteAtual ? freteAtual : "Selecionar uma opção"}</p>
+          {/* <p>Frete</p> <span>{freteSelected ? freteSelected : freteTotal} </span> */}
         </div>
         <div className="infos-summary">
           <p>Desconto realizado no pedido</p>
@@ -84,9 +101,7 @@ const Summary = () => {
           <p>Salvar Rascunho</p>
         </a>
       </div>
-   
     </div>
-    
   );
 };
 

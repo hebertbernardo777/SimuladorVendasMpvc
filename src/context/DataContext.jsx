@@ -18,7 +18,14 @@ export const DataContextProvider = ({ children }) => {
   const [discountAPR, setDiscountAPR] = useState("");
   const [discountREP, setDiscountREP] = useState("");
   const [selectedNegociacao, setSelectedNegociacao] = useState(null);
-  const [frete, setFrete] = useState(0);
+  const [freteSelected, setFreteSelected] = useState(0);
+  const [fretePercente, setFretePercente] = useState(0);
+  const [freteTotal, setFreteTotal] = useState(0);
+  const [freteAtual, setFreteAtual] = useState("select");
+  const [isFreteTotal, setIsFreteTotal] = useState(false);
+
+  const [isSelectDisabled, setIsSelectDisabled] = useState(false);
+  const [isCheckedFrete, setIsCheckedFrete] = useState(false);
 
   const [data, setData] = useState({
     tipoVenda: "",
@@ -103,8 +110,20 @@ export const DataContextProvider = ({ children }) => {
     setDiscountREP,
     selectedNegociacao,
     setSelectedNegociacao,
-    frete,
-    setFrete,
+    freteSelected,
+    setFreteSelected,
+    fretePercente,
+    setFretePercente,
+    freteTotal,
+    setFreteTotal,
+    freteAtual,
+    setFreteAtual,
+    isSelectDisabled,
+    setIsSelectDisabled,
+    isCheckedFrete,
+    setIsCheckedFrete,
+    isFreteTotal,
+    setIsFreteTotal,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

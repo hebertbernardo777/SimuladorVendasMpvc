@@ -2,9 +2,12 @@ import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "../context/DataContext";
 import { ProductContext } from "../context/ProductContext";
+import useRotas from "./useRotas";
+import CartItems from "../components/Cart/CartItems";
 
 const useCartProducts = () => {
-  const { selectedProduct, cartItems, setCartItems } = useContext(DataContext);
+  const { selectedProduct, cartItems, setCartItems, fretePercente } =
+    useContext(DataContext);
 
   const {
     quantity,
@@ -41,9 +44,11 @@ const useCartProducts = () => {
     priceTotal: totalPrice, //sem desconto
     totalOrders: orderTotal, //com desconto
     line: selectedProductData ? selectedProductData.AD_LINHAPRODUTOS : null,
+    freteProduct: fretePercente,
   };
 
   console.log(newItem);
+  console.log(cartItems);
 
   const handleFocus = (e) => {
     e.target.value = "";
