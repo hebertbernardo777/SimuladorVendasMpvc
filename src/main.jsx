@@ -19,7 +19,6 @@ import { ProductContextProvider } from "../src/context/ProductContext.jsx";
 import { PrivateRoute } from "./routes/privateRoutes.jsx";
 import { ResumeContextProvider } from "./context/ResumeContext.jsx";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,65 +28,65 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: (
-          <PrivateRoute>
-            <FormMultistep />
-          </PrivateRoute>
+          // <PrivateRoute>
+          <FormMultistep />
+          // </PrivateRoute>
         ),
       },
       {
         path: "/orders",
         element: (
-          <PrivateRoute>
-            <NewOrders />
-          </PrivateRoute>
+          // <PrivateRoute>
+          <NewOrders />
+          // </PrivateRoute>
         ),
       },
       {
         path: "/category",
         element: (
-          <PrivateRoute>
-            <CategoryProducts />
-          </PrivateRoute>
+          //  <PrivateRoute>
+          <CategoryProducts />
+          //  </PrivateRoute>
         ),
       },
       {
         path: "/products",
         element: (
-          <PrivateRoute>
-            <Products />
-          </PrivateRoute>
+          // <PrivateRoute>
+          <Products />
+          //  </PrivateRoute>
         ),
       },
       {
         path: "/clients",
         element: (
-          <PrivateRoute>
-            <Clients />
-          </PrivateRoute>
+          //  <PrivateRoute>
+          <Clients />
+          //  </PrivateRoute>
         ),
       },
       {
         path: "/drafts",
         element: (
-          <PrivateRoute>
-            <Drafts />
-          </PrivateRoute>
+          //    <PrivateRoute>
+          <Drafts />
+          //  </PrivateRoute>
         ),
       },
       {
         path: "/resumedrafts/:id",
         element: (
-          <PrivateRoute>
-            <ResumeDrafts />
-          </PrivateRoute>
+          // <PrivateRoute>
+          <ResumeDrafts />
+          //  </PrivateRoute>
         ),
       },
       {
         path: "/cart",
         element: (
-          <PrivateRoute>
-            <Summary />
-          </PrivateRoute>
+          //  <PrivateRoute>
+          <Summary />
+          //   </PrivateRoute>
         ),
       },
     ],
