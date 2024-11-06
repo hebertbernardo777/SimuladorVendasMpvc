@@ -6,15 +6,12 @@ import CurrencyInput from "react-currency-input-field";
 import { DataContext } from "../../context/DataContext";
 
 const CheckBox = ({ setFieldValue, values }) => {
-  const { freteSelected, setFreteSelected, setFreteTotal, setIsFreteTotal } =
-    useContext(DataContext); //setFreteSelected do contexto
+  const { freteSelected, setFreteSelected, setFreteTotal } = useContext(DataContext);
 
-  // Função para manipular mudanças nos Checkboxes
   const handleCheckboxChange = (name) => {
     const newValue = !values[name];
     setFieldValue(name, newValue);
 
-    // Alterna entre os checkboxes, desativando o outro se necessário
     if (name === "valorFinal" && newValue) {
       setFieldValue("freteNegociado", false);
       setFieldValue("textSomarFrete", "");
@@ -28,21 +25,17 @@ const CheckBox = ({ setFieldValue, values }) => {
       setFieldValue("transportadora", "");
     }
 
-    // Chama a função para calcular o frete
     calcFreteSelected({ ...values, [name]: newValue });
   };
 
   const calcFreteSelected = (values) => {
     let valueFretecalc = 0;
-    let unidade = ""; // Para armazenar o tipo de unidade (R$ ou %)
+    let unidade = "";
 
     if (values.valorFinal) {
       valueFretecalc =
         parseFloat(
-          values.textValorFinal
-            .replace("R$ ", "")
-            .replace(".", "")
-            .replace(",", ".")
+          values.textValorFinal.replace("R$ ", "").replace(".", "").replace(",", ".")
         ) || 0;
       unidade = "R$";
     } else if (values.freteNegociado) {
@@ -50,20 +43,13 @@ const CheckBox = ({ setFieldValue, values }) => {
       unidade = "%";
     }
 
-    // Formatação
     if (unidade === "R$") {
       valueFretecalc = formatCurrency(valueFretecalc, "BRL");
     } else {
       valueFretecalc = `${valueFretecalc} ${unidade}`;
     }
-    setFreteSelected(valueFretecalc); // Salva o valor formatado no estado global
-    console.log(freteSelected);
+    setFreteSelected(valueFretecalc);
   };
-  
-  debugger
-  useEffect(() => {
-    console.log("Frete checkBox", freteSelected);
-  }, [freteSelected]);
 
   useEffect(() => {
     calcFreteSelected(values);
@@ -99,7 +85,7 @@ const CheckBox = ({ setFieldValue, values }) => {
               value={values.textValorFinal}
               onValueChange={(value) => {
                 setFieldValue("textValorFinal", value);
-                calcFreteSelected(values); // Atualiza o cálculo ao mudar o valor
+                calcFreteSelected({ ...values, textValorFinal: value });
               }}
             />
           </div>
@@ -118,17 +104,13 @@ const CheckBox = ({ setFieldValue, values }) => {
             Somar % de frete negociado em valor de produtos
           </label>
         </div>
-        <ErrorMessage
-          name="freteNegociado"
-          component="div"
-          className="errors"
-        />
+        <ErrorMessage name="freteNegociado" component="div" className="errors" />
       </div>
       {values.freteNegociado && (
         <div className="input-text-checked">
           <CurrencyInput
             name="textSomarFrete"
-            placeholder="R$ "
+            placeholder="% "
             decimalsLimit={2}
             decimalScale={2}
             allowNegativeValue={false}
@@ -138,7 +120,7 @@ const CheckBox = ({ setFieldValue, values }) => {
             value={values.textSomarFrete}
             onValueChange={(value) => {
               setFieldValue("textSomarFrete", value);
-              calcFreteSelected(values); // Atualiza o cálculo ao mudar o valor
+              calcFreteSelected({ ...values, textSomarFrete: value });
             }}
           />
         </div>
@@ -159,19 +141,15 @@ const CheckBox = ({ setFieldValue, values }) => {
       {values.consultarST && (
         <div className="input-checked-consulta">
           <label>
-            <Field type="radio" name="selectOpcoes" value="simplesNacional" />
+            <Field type="radio" name="selectOpcoes" value="S" />
             Simples Nacional
           </label>
           <label>
-            <Field type="radio" name="selectOpcoes" value="atacadista" />
+            <Field type="radio" name="selectOpcoes" value="A" />
             Atacadista
           </label>
           <label>
-            <Field
-              type="radio"
-              name="selectOpcoes"
-              value="demaisContibuintes"
-            />
+            <Field type="radio" name="selectOpcoes" value="D" />
             Demais Contribuintes
           </label>
         </div>

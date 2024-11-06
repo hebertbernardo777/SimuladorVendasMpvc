@@ -22,6 +22,12 @@ const useSummary = () => {
   );
   console.log(totalOrders);
 
+  const totalValueST = cartItems.reduce(
+    (acc, item) => (item.consultarST || 0) + acc,
+    0
+  );
+  console.log("total st", totalValueST)
+
   //soma total em reais do desconto total
   const totalValueDiscount = cartItems.reduce(
     (acc, item) => (item.discountTotal || 0) + acc,
@@ -165,6 +171,7 @@ const useSummary = () => {
     totalValueDiscount,
     calcDiscountTotalOrders,
     calcDiscountTotalOrdersResume,
+    totalValueST
   };
 };
 

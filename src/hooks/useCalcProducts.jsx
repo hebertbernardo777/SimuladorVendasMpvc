@@ -100,7 +100,6 @@ const useCalcProducts = () => {
   useEffect(() => {
     if (product) {
       let calculatedPrice = calculateProductPrice(); // Calcula o preço inicial
-      console.log(calculatedPrice);
 
       // Verifica se o produto pertence ao grupo 40200
       if (product.CODGRUPOPROD === 40200) {
@@ -111,7 +110,6 @@ const useCalcProducts = () => {
         if (largura && altura) {
           const area = altura * largura; // Calcula a área
           const priceForro = calculatedPrice / area; // Calcula o preço por metro quadrado
-          console.log("Preço por metro quadrado (forro):", priceForro);
 
           // Atribui o valor de priceForro ao calculatedPrice
           calculatedPrice = priceForro;
@@ -127,23 +125,12 @@ const useCalcProducts = () => {
         discount = calculatedPrice * (discountAPR / 100);
       }
 
-      console.log("Desconto baseado no faturamento:", discount);
-
       const percentMKT = selectedNegociacao
         ? selectedNegociacao.AD_PERCPMKTAB
         : 0;
-      console.log(selectedNegociacao);
-      console.log("Percentual de desconto da negociação:", percentMKT);
-
       const additionalDiscountNegociacao = calculatedPrice * (percentMKT / 100);
-      console.log(
-        "Desconto adicional baseado na negociação:",
-        additionalDiscountNegociacao
-      );
-
       const finalPrice =
         calculatedPrice - discount - additionalDiscountNegociacao;
-      console.log("Preço final com descontos aplicados:", finalPrice);
 
       setProductPrice(finalPrice);
     } else {
@@ -159,8 +146,6 @@ const useCalcProducts = () => {
     selectedNegociacao,
   ]);
 
-  console.log(productPrice);
-
   // cálculo de quantidade
   const quantidadeMininia = product?.AD_QTDPC || 0;
   useEffect(() => {
@@ -168,7 +153,6 @@ const useCalcProducts = () => {
       if (product.CODGRUPOPROD === 40200) {
         const largura = product.LARGURA;
         const altura = product.ALTURA;
-        console.log(largura, altura);
 
         if (largura && altura) {
           const area = altura * largura;
@@ -206,10 +190,9 @@ const useCalcProducts = () => {
       setDiscount(adjustDecimal(numericDiscount - 1));
     }
   };
-  console.log(productPrice);
+
   //valor total do pedido sem desconto
   const totalValueItem = productPrice * quantity;
-  console.log(totalValueItem);
 
   // valor do pedido com desconto
   const calculateOrderTotalDiscount = () => {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 import Button from "../../components/Button/Button";
@@ -22,17 +22,17 @@ const Summary = () => {
     freteSelected,
     resetForm,
   } = useContext(DataContext);
-  const { frete } = useContext(ProductContext);
-  const { totalOrders, calcDiscountTotalOrdersResume } = useSummary();
-
+  const { totalOrders, calcDiscountTotalOrdersResume, totalValueST } =
+    useSummary();
   const { percenteFrete, freteTotal } = useRotas();
-  const {calcConsultaST} = useConsultaST()
-  const { freteAtual } = useContext(DataContext);
+  const { calcConsultaST } = useConsultaST();
 
-  console.log(freteSelected)
-  useEffect(()=>{
-    const oi = calcConsultaST()
-  })
+  console.log(freteTotal);
+  console.log(freteSelected);
+
+  useEffect(() => {
+    calcConsultaST();
+  }, []);
 
   useEffect(() => {
     // Chama a função para verificar as etapas de cálculo
@@ -82,8 +82,16 @@ const Summary = () => {
       </div>
       <div className="summary-discount">
         <div className="infos-summary">
-        
-          <p>Frete</p> <span>{ freteSelected || freteTotal}</span>
+          <p>Total Frete</p>{" "}
+          <span>
+            {freteSelected !== "" && freteSelected !== undefined
+              ? freteSelected
+              : formatCurrency(freteTotal, "BRL")}
+          </span>
+        </div>
+        <div className="infos-summary">
+          <p>Valor total ST:</p>
+          <span>{formatCurrency(totalValueST, "BRL")}</span>
         </div>
         <div className="infos-summary">
           <p>Desconto realizado no pedido</p>
@@ -91,6 +99,10 @@ const Summary = () => {
         </div>
         <div className="infos-summary">
           <p>Total</p>
+          <span> {formatCurrency(totalOrders, "BRL")}</span>
+        </div>
+        <div className="infos-summary">
+          <p>Total + Frete</p>
           <span> {formatCurrency(totalOrders, "BRL")}</span>
         </div>
       </div>

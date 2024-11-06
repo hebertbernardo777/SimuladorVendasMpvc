@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { DataContext } from "../context/DataContext";
 import useOrders from "./useOrders";
 import useCalcProducts from "./useCalcProducts";
@@ -6,52 +6,82 @@ import { ProductContext } from "../context/ProductContext";
 
 const useConsultaST = () => {
   const { selectedProductData } = useContext(ProductContext);
-  const { data, selectedClient } = useContext(DataContext);
-  const { posts } = useOrders();
+  const { data, selectedClient, setValueST } = useContext(DataContext);
+  const { productPrice } = useCalcProducts();
+  const { posts, loading } = useOrders();
 
   const calcConsultaST = () => {
-    console.log(posts);
-    console.log(selectedProductData);
-    console.log(selectedClient);
+    let totalCMS = 0;
 
-    const productNCM = selectedProductData.NCM;
-    const UFClient = selectedClient.UF;
-    const faturamento = data.faturamento;
-    const tabelaST = posts?.tabelaST || [];
-    
-    const getItemsByNCM = tabelaST.filter((item)=> item.NCM === productNCM)
-    console.log(getItemsByNCM)
-    
-    const itemsWithUF = getItemsByNCM.filter((item)=> item.UF === UFClient)
-    console.log(UFClient , itemsWithUF)
-    
-    // Verifica se existe algum item no array antes de acessar
-if (itemsWithUF.length > 0) {
-    const tipoClient = itemsWithUF[0].TIPOCLIENTE;
-    console.log("TIPOCLIENTE:", tipoClient);
-    console.log("UF:", itemsWithUF[0].UF);
-} else {
-    console.log("Nenhum item encontrado com o UF e NCM especificados.");
-}
-
-    // console.log(NCM, UFClient, faturamento, tabelaST);
-    // if (!NCM || !UFClient ||  ) {
-    //   return 0;
-    // }
-
-    
-
-    if (
-      data.fatutamento === "3" ||
-      data.fatutamento === "4" ||
-      UFClient === "GO"
-    )
+    if (data.consultarST !== true) {
+      setValueST(0);
       return 0;
+    }
+
+    if (data.consultarST === true) {
+      if (data.consultaST === true) return;
+      const productNCM = selectedProductData.NCM;
+      const UFClient = selectedClient.UF || "";
+      const tabelaST = posts?.tabelaST || [];
+
+      const getItemsByNCM = tabelaST.filter((item) => item.NCM === productNCM);
+      const itemsWithUF = getItemsByNCM.filter((item) => item.UF === UFClient);
+      const tiposCliente = [
+        ...new Set(itemsWithUF.map((item) => item.TIPOCLIENTE)),
+      ];
+
+      if (!productNCM || !UFClient || ["3", "4"].includes(data.fatutamento)) {
+        return 0;
+      }
+
+      if (itemsWithUF.length === 1) {
+        for (const item of itemsWithUF) {
+          const vlrCMSInterno = (item.ALIQINT / 100) * productPrice;
+          const baseAliqExterna = productPrice * (1 + item.MVA / 100);
+          const vrlCMSDestino = (item.ALIQDEST / 100) * baseAliqExterna;
+          const calTotalCMS = vrlCMSDestino - vlrCMSInterno;
+          totalCMS = calTotalCMS;
+
+          setValueST(parseFloat(totalCMS.toFixed(2)));
+        }
+      } else if (itemsWithUF.length > 1) {
+        const tipoOpcoes = data.selectOpcoes;
+
+        // Verifica se deve usar o tipo "D"
+        const deveUsarD =
+          tipoOpcoes === "D" ||
+          !itemsWithUF.some(
+            (item) => item.TIPOCLIENTE === "A" || item.TIPOCLIENTE === "S"
+          );
+
+        // Define o tipo a ser usado no cálculo
+        const tipoParaCalculo = deveUsarD ? "D" : tipoOpcoes;
+
+        // Filtra os itens pelo tipo selecionado para o cálculo
+        const itensFiltrados = itemsWithUF.filter(
+          (item) => item.TIPOCLIENTE === tipoParaCalculo
+        );
+
+        for (const item of itensFiltrados) {
+          const vlrCMSInterno = (item.ALIQINT / 100) * productPrice;
+          const baseAliqExterna = productPrice * (1 + item.MVA / 100);
+          const vrlCMSDestino = (item.ALIQDEST / 100) * baseAliqExterna;
+          const calTotalCMS = vrlCMSDestino - vlrCMSInterno;
+          totalCMS = calTotalCMS;
+        }
+        setValueST(parseFloat(totalCMS.toFixed(2)));
+        return totalCMS;
+      }
+    }
   };
 
-//   if(getItemsByNCM && itemsWithUF){
-
-//   }
+  useEffect(() => {
+    if (!loading && posts) {
+      calcConsultaST();
+    } else {
+      console.log("erro");
+    }
+  }, [posts, loading, selectedClient, selectedProductData]);
 
   return {
     calcConsultaST,

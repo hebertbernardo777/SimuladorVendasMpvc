@@ -6,7 +6,7 @@ import useRotas from "./useRotas";
 import CartItems from "../components/Cart/CartItems";
 
 const useCartProducts = () => {
-  const { selectedProduct, cartItems, setCartItems, fretePercente } =
+  const { selectedProduct, cartItems, setCartItems, fretePercente, valueST } =
     useContext(DataContext);
 
   const {
@@ -18,7 +18,6 @@ const useCartProducts = () => {
     totalPrice,
     selectedProductData,
   } = useContext(ProductContext);
-  console.log(selectedProductData);
 
   const navigate = useNavigate();
 
@@ -45,6 +44,7 @@ const useCartProducts = () => {
     totalOrders: orderTotal, //com desconto
     line: selectedProductData ? selectedProductData.AD_LINHAPRODUTOS : null,
     freteProduct: fretePercente,
+    consultarST: valueST,
   };
 
   console.log(newItem);

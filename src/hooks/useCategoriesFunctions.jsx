@@ -103,7 +103,7 @@ const useCategoriesFunctions = () => {
     console.log("Selected Product CODPROD:", product.CODPROD); // Verifique se está definido
     setSelectedProduct(product.DESCRPROD);
     setIsActive(product.CODPROD);
-  };
+    };
 
   const handleSelectLine = (setFieldValue, line) => {
     setSelectSubLinha(line);

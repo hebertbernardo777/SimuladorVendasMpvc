@@ -21,9 +21,7 @@ export const DataContextProvider = ({ children }) => {
   const [freteSelected, setFreteSelected] = useState("");
   const [fretePercente, setFretePercente] = useState("");
   const [freteTotal, setFreteTotal] = useState(0);
-  const [freteAtual, setFreteAtual] = useState("select");
-  const [isFreteTotal, setIsFreteTotal] = useState(false);
-  
+  const [valueST, setValueST] = useState(0);
 
   const [data, setData] = useState({
     tipoVenda: "",
@@ -40,7 +38,7 @@ export const DataContextProvider = ({ children }) => {
     textValorFinal: "",
     textSomarFrete: "",
     consultarST: false,
-    selectOpcoes: "demaisContibuintes",
+    selectOpcoes: "D",
     observacoes: "",
     searchClients: "",
     customerRegistration: "",
@@ -114,10 +112,8 @@ export const DataContextProvider = ({ children }) => {
     setFretePercente,
     freteTotal,
     setFreteTotal,
-    freteAtual,
-    setFreteAtual,
-    isFreteTotal,
-    setIsFreteTotal,
+    valueST,
+    setValueST,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

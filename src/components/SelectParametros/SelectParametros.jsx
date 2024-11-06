@@ -6,9 +6,7 @@ import useRotas from "../../hooks/useRotas";
 
 const SelectParametros = ({ setFieldValue }) => {
   const { posts, handleChangeNegociacao } = useOrders();
-
-  const { setFreteSelected, setIsSelectDisabled, setIsCheckedFrete } =
-    useContext(DataContext);
+  const { setFreteSelected } = useContext(DataContext);
 
   return (
     <div>
@@ -60,7 +58,7 @@ const SelectParametros = ({ setFieldValue }) => {
           setFieldValue("textValorFinal", "");
           setFieldValue("freteNegociado", false);
           setFieldValue("textSomarFrete", "");
-          setFreteSelected("")
+          setFreteSelected("");
         }}
         options={
           posts && Array.isArray(posts.tipoFrete) && posts.tipoFrete.length > 0

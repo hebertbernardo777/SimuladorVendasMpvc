@@ -14,6 +14,7 @@
 .active {
   border-radius: 3px;
   background-color: rgba(0, 69, 142, 0.685);
+  color: #fff;
 }
 
 .lists-container {
