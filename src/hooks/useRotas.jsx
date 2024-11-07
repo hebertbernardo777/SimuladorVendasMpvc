@@ -2,8 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { DataContext } from "../context/DataContext";
 import { api } from "../lib/rotas";
 import { ProductContext } from "../context/ProductContext";
+import formatCurrency from "../utils/formatCurrency";
 
 const useRotas = () => {
+  const [posts, setPosts] = useState([]);
+  const { selectedProductData } = useContext(ProductContext);
   const {
     data,
     loading,
@@ -12,11 +15,10 @@ const useRotas = () => {
     cartItems,
     fretePercente,
     setFretePercente,
-    freteTotal,
     setFreteTotal,
+    freteSelected,
+    freteTotal,
   } = useContext(DataContext);
-  const { selectedProductData } = useContext(ProductContext);
-  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     api
@@ -36,7 +38,6 @@ const useRotas = () => {
   const percenteFrete = () => {
     const rotas = posts.rows || [];
     const rotaClient = selectedClient.CODROTA;
-    console.log(rotaClient);
     const codProduct = selectedProductData.CODPROD;
     const transportadoraFrete = data.transportadora;
 
@@ -50,7 +51,6 @@ const useRotas = () => {
       !rotaParceiro ||
       ["N", "R", "O"].includes(transportadoraFrete)
     ) {
-      console.log("sem frete");
       return 0;
     }
 
@@ -92,7 +92,6 @@ const useRotas = () => {
     if (item?.CODGRUPOPROD === 41900) {
       return rotaParceiro.AD_PERC_FRETE_CAIXA_TANQUE || 0;
     } else {
-      console.log("caiu aqui");
       return rotaParceiro.AD_PERC_FRETE || 0;
     }
   };
@@ -100,26 +99,26 @@ const useRotas = () => {
   useEffect(() => {
     const calcFrete = percenteFrete();
     setFretePercente(calcFrete);
-
-    if (cartItems.length) { // Recalcula o frete quando `cartItems` é alterado
-      const total = cartItems.reduce(
-        (acc, item) => acc + (item.totalOrders * item.freteProduct) / 100,
-        0
-      );
-      setFreteTotal(total);
-    } else {
-      setFreteTotal(0); // Zera o frete quando o carrinho está vazio
-    }
   }, [selectedClient, selectedProductData, posts, cartItems]);
 
-  // Verifica o valor atualizado de freteTotal
   useEffect(() => {
-    console.log("Frete Total", freteTotal);
-  }, [freteTotal]);
+    // Calcula o frete total baseado nos itens do carrinho
+    const totalFrete = cartItems.reduce(
+      (acc, item) => acc + (item.totalOrders * item.freteProduct) / 100,
+      0
+    );
+    // Atualiza o valor do frete final com base nas condições
+    if (!freteSelected) {
+      setFreteTotal(formatCurrency(totalFrete, "BRL"));
+    } else {
+      setFreteTotal(freteSelected);
+    }
+  }, [cartItems, freteSelected, fretePercente]);
+
+  console.log("deu", freteTotal);
 
   return {
     percenteFrete,
-    freteTotal,
   };
 };
 

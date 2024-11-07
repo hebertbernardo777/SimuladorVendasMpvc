@@ -5,7 +5,6 @@ export const ResumeContext = createContext();
 
 export const ResumeContextProvider = ({ children }) => {
   const [discountResults, setDiscountResults] = useState({});
-
   const { totalValueItem } = useCalcProducts();
 
   const value = {

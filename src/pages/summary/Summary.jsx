@@ -1,70 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 import Button from "../../components/Button/Button";
 import CartItems from "../../components/Cart/CartItems";
 import ProductSummary from "../../components/Summary/ProductSummary";
 import formatCurrency from "../../utils/formatCurrency";
-import "./Summary.css";
 import useSummary from "../../hooks/useSummary";
-import useRotas from "../../hooks/useRotas";
-import { ProductContext } from "../../context/ProductContext";
-import useConsultaST from "../../hooks/useConsultaST";
+import useDraftsManagement from "../../hooks/useDraftsManagement";
+import "./Summary.css";
+import useCalLine from "../../hooks/useCalLine";
 
 const Summary = () => {
-  const {
-    data,
-    currentStep,
-    cartItems,
-    setCartItems,
-    selectedClient,
-    clientNoRegister,
-    freteSelected,
-    resetForm,
-  } = useContext(DataContext);
-  const { totalOrders, calcDiscountTotalOrdersResume, totalValueST } =
-    useSummary();
-  const { percenteFrete, freteTotal } = useRotas();
-  const { calcConsultaST } = useConsultaST();
-
-  console.log(freteTotal);
-  console.log(freteSelected);
-
-  useEffect(() => {
-    calcConsultaST();
-  }, []);
-
-  useEffect(() => {
-    // Chama a função para verificar as etapas de cálculo
-    const freteCalculado = percenteFrete();
-    console.log("Frete calculado na verificação:", freteCalculado);
-  }, [percenteFrete]);
-
-  const navigate = useNavigate();
-
-  const handleSaveToLocalStorage = () => {
-    const currentDate = new Date().toLocaleDateString();
-    const uniqueId = Date.now(); // Gerando um ID único baseado no timestamp
-
-    const combinedData = {
-      id: uniqueId, // Usando um identificador único
-      client: selectedClient || clientNoRegister,
-      form: data,
-      cart: cartItems,
-      dateSaved: currentDate,
-      currentStep,
-    };
-
-    const savedData = JSON.parse(localStorage.getItem("pedido")) || [];
-    // Adiciona o novo pedido ao array
-    const updatedData = [...savedData, combinedData];
-    // Salva o array atualizado no localStorage
-    localStorage.setItem("pedido", JSON.stringify(updatedData));
-    setCartItems([]);
-    navigate("/");
-    resetForm();
-  };
-
+  const { cartItems, freteTotal } = useContext(DataContext);
+  const { totalOrders, calcDiscountTotalOrdersResume, totalValueST } = useSummary();
+  const { handleSaveToLocalStorage } = useDraftsManagement();
+  useCalLine(); 
+  
   return (
     <div className="container-summary">
       <h3>Resumo da compra</h3>
@@ -82,12 +32,7 @@ const Summary = () => {
       </div>
       <div className="summary-discount">
         <div className="infos-summary">
-          <p>Total Frete</p>{" "}
-          <span>
-            {freteSelected !== "" && freteSelected !== undefined
-              ? freteSelected
-              : formatCurrency(freteTotal, "BRL")}
-          </span>
+          <p>Total Frete</p> <span>{freteTotal}</span>
         </div>
         <div className="infos-summary">
           <p>Valor total ST:</p>
