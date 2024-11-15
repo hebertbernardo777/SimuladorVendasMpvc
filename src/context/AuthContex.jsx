@@ -7,6 +7,7 @@ export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [codVend, setCodVend] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,12 +26,13 @@ export const AuthContextProvider = ({ children }) => {
       const response = await api.post("/login", { user: username, password });
       console.log("Resposta da API:", response.data);
       if (response.data.rows && response.data.rows.length > 0) {
-        const { NOMEUSU, CODUSU } = response.data.rows[0];
+        const { NOMEUSU, CODVEND } = response.data.rows[0];
         setUser(NOMEUSU);
+        setCodVend(CODVEND)
         api.defaults.headers.common["Authorization"] =
-          `Bearer ${(NOMEUSU, CODUSU)}`;
+          `Bearer ${(NOMEUSU, CODVEND)}`;
         localStorage.setItem("NOMEUSU", NOMEUSU);
-        localStorage.setItem("CODUSU", CODUSU);
+        localStorage.setItem("CODVEND", CODVEND);
         return true;
       } else {
         alert("Usuário ou senha inválidos");
@@ -49,7 +51,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, signed: !!user, signIn, siginOut }}>
+    <AuthContext.Provider value={{ user, codVend, signed: !!user, signIn, siginOut }}>
       {loading ? <div>Carregando...</div> : children}
     </AuthContext.Provider>
   );

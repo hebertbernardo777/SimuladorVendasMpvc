@@ -2,21 +2,22 @@ import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "../context/DataContext";
 import { ProductContext } from "../context/ProductContext";
-import useRotas from "./useRotas";
-import CartItems from "../components/Cart/CartItems";
+import useCalcProducts from "./useCalcProducts";
 
 const useCartProducts = () => {
   const { selectedProduct, cartItems, setCartItems, fretePercente, valueST } =
     useContext(DataContext);
+    const{ setDiscount}=useContext(ProductContext);
+  const { totalValueItem } = useCalcProducts();
 
   const {
     quantity,
     imagePath,
-    orderTotal,
     productPrice,
     discountApplied,
     totalPrice,
     selectedProductData,
+    priceInitial
   } = useContext(ProductContext);
 
   const navigate = useNavigate();
@@ -34,14 +35,17 @@ const useCartProducts = () => {
 
   const newItem = {
     productId: productId,
+    product: selectedProductData,
+    productCod: productId,
     category: categoryProduct,
     name: selectedProduct,
     price: productPrice,
+    priceTable: priceInitial,
     quantity: quantity,
     discountTotal: discountApplied,
     image: imagePath,
     priceTotal: totalPrice, //sem desconto
-    totalOrders: orderTotal, //com desconto
+    totalOrders: totalValueItem, //com desconto
     line: selectedProductData ? selectedProductData.AD_LINHAPRODUTOS : null,
     freteProduct: fretePercente,
     consultarST: valueST,
@@ -70,9 +74,11 @@ const useCartProducts = () => {
       setCartItems((prevItems) => {
         // Filtra itens existentes para garantir que não haja duplicatas
         const existingItems = prevItems.filter(
-          (item) => item.productId !== updatedNewItem.productId
+          (item) => item.productId !== updatedNewItem.productI
         );
+        setDiscount(0)
         return [...existingItems, updatedNewItem];
+
       });
     } else {
       // Alerta caso o item já esteja no carrinho

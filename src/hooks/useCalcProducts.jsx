@@ -7,6 +7,7 @@ const useCalcProducts = () => {
   const {
     posts,
     setPosts,
+    selectedProductData,
     setSelectedProductData,
     productPrice,
     setProductPrice,
@@ -17,9 +18,9 @@ const useCalcProducts = () => {
     discountApplied,
     setDiscountApplied,
     setTotalPrice,
-    orderTotal,
-    setOrderTotal,
     setImagePath,
+    priceInitial,
+    setPriceInitial,
   } = useContext(ProductContext);
 
   const {
@@ -31,6 +32,7 @@ const useCalcProducts = () => {
     discountAPR,
     discountREP,
     selectedNegociacao,
+    valueST,
   } = useContext(DataContext);
 
   useEffect(() => {
@@ -49,6 +51,7 @@ const useCalcProducts = () => {
   const suframa = data.suframa;
   const products = posts.rows || [];
   const product = products.find((p) => p.DESCRPROD === selectedProduct);
+  console.log(selectedProductData);
 
   useEffect(() => {
     if (product) {
@@ -133,6 +136,7 @@ const useCalcProducts = () => {
         calculatedPrice - discount - additionalDiscountNegociacao;
 
       setProductPrice(finalPrice);
+      setPriceInitial(finalPrice);
     } else {
       setProductPrice(0);
     }
@@ -174,34 +178,81 @@ const useCalcProducts = () => {
     setQuantity(product["AD_QTDPC"] + quantity);
   };
 
-  // cálculo desconto
   const adjustDecimal = (value) => {
-    return Math.round(value * 10) / 10;
+    return Math.round(value * 100) / 100;
+  };
+
+  const handleDiscountChange = (e) => {
+    let value = parseFloat(e.target.value) || 0;
+    value = value > 100 ? 100 : value < 0 ? 0 : value; // Limita entre 0 e 100
+    setDiscount(adjustDecimal(value));
+    updatePriceWithDiscount(value);
   };
 
   const plusDiscount = () => {
-    const numericDiscount = parseFloat(discount);
-    setDiscount(adjustDecimal(numericDiscount + 1));
+    setDiscount((prevDiscount) => {
+      const newDiscount = adjustDecimal(prevDiscount + 1);
+      updatePriceWithDiscount(newDiscount);
+      return newDiscount;
+    });
   };
+
   const minusDiscount = () => {
-    const numericDiscount = parseFloat(discount);
-
-    if (numericDiscount > 0) {
-      setDiscount(adjustDecimal(numericDiscount - 1));
-    }
+    setDiscount((prevDiscount) => {
+      const newDiscount = adjustDecimal(
+        prevDiscount > 0 ? prevDiscount - 1 : prevDiscount
+      );
+      updatePriceWithDiscount(newDiscount);
+      return newDiscount; // Adicionei o return aqui
+    });
   };
 
+  const plusPrice = () => {
+    setProductPrice((prevPrice) => {
+      const newPrice = adjustDecimal(prevPrice + 1);
+      calculateDiscountedPrice(newPrice);
+      return newPrice;
+    });
+  };
+
+  const minusPrice = () => {
+    setProductPrice((prevPrice) => {
+      const newPrice = adjustDecimal(prevPrice > 1 ? prevPrice - 1 : prevPrice);
+      calculateDiscountedPrice(newPrice);
+      return newPrice;
+    });
+  };
+
+  const calculateDiscountedPrice = (updatedPrice) => {
+    const newDiscount = ((priceInitial - updatedPrice) / priceInitial) * 100;
+    setDiscount(adjustDecimal(newDiscount));
+  };
+
+  const updatePriceWithDiscount = (newDiscount) => {
+    const discountedPrice = priceInitial * (1 - newDiscount / 100);
+    setProductPrice(adjustDecimal(discountedPrice));
+  };
   //valor total do pedido sem desconto
-  const totalValueItem = productPrice * quantity;
+  let totalValueItem;
+
+  console.log("value no cal", productPrice);
+
+  if (data.consultarST === true) {
+    totalValueItem = (productPrice + valueST) * quantity;
+  } else {
+    totalValueItem = productPrice * quantity;
+  }
+  console.log(discount);
 
   // valor do pedido com desconto
   const calculateOrderTotalDiscount = () => {
-    const discountApplied = (totalValueItem * parseFloat(discount)) / 100; //valor total do pedido * o desconto valor do desconto
-    const orderTotal = totalValueItem - discountApplied; //valor total com desconto
+    const totalPriceWithoutDiscount = priceInitial * quantity;
+    const discountApplied =
+      (totalPriceWithoutDiscount * parseFloat(discount)) / 100; //valor total do pedido * o desconto valor do desconto
+    console.log(discountApplied);
 
-    setTotalPrice(totalValueItem);
+    setTotalPrice(totalPriceWithoutDiscount);
     setDiscountApplied(discountApplied);
-    setOrderTotal(orderTotal);
   };
 
   useEffect(() => {
@@ -210,7 +261,7 @@ const useCalcProducts = () => {
 
   // armazena desconto % por produto
   const totalDiscountApllied = (discountApplied / totalValueItem) * 100;
-
+  console.log(totalDiscountApllied);
   useEffect(() => {
     if (product && product.AD_IMGAPP) {
       const path = `./ImageProducts/${product.AD_IMGAPP}.png`;
@@ -229,11 +280,13 @@ const useCalcProducts = () => {
     minusDiscount,
     plusQuantity,
     plusDiscount,
+    minusPrice,
+    plusPrice,
     totalValueItem,
     discountApplied,
-    orderTotal,
     totalDiscountApllied,
   };
 };
 
 export default useCalcProducts;
+

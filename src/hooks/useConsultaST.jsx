@@ -5,10 +5,13 @@ import useCalcProducts from "./useCalcProducts";
 import { ProductContext } from "../context/ProductContext";
 
 const useConsultaST = () => {
-  const { selectedProductData } = useContext(ProductContext);
-  const { data, selectedClient, setValueST } = useContext(DataContext);
-  const { productPrice } = useCalcProducts();
+  const { selectedProductData, productPrice } = useContext(ProductContext);
+  const { data, cartItems, selectedClient, valueST, setValueST } =
+    useContext(DataContext);
+  // const { productPrice } = useCalcProducts();
   const { posts, loading } = useOrders();
+
+  console.log(productPrice);
 
   const calcConsultaST = () => {
     let totalCMS = 0;
@@ -30,7 +33,12 @@ const useConsultaST = () => {
         ...new Set(itemsWithUF.map((item) => item.TIPOCLIENTE)),
       ];
 
-      if (!productNCM || !UFClient || ["3", "4"].includes(data.fatutamento)) {
+      if (
+        !productNCM ||
+        !UFClient ||
+        ["3", "4"].includes(data.fatutamento) ||
+        UFClient === "GO"
+      ) {
         return 0;
       }
 
@@ -63,11 +71,13 @@ const useConsultaST = () => {
         );
 
         for (const item of itensFiltrados) {
+          console.log("value", productPrice);
           const vlrCMSInterno = (item.ALIQINT / 100) * productPrice;
           const baseAliqExterna = productPrice * (1 + item.MVA / 100);
           const vrlCMSDestino = (item.ALIQDEST / 100) * baseAliqExterna;
           const calTotalCMS = vrlCMSDestino - vlrCMSInterno;
           totalCMS = calTotalCMS;
+          console.log(totalCMS);
         }
         setValueST(parseFloat(totalCMS.toFixed(2)));
         return totalCMS;
@@ -75,16 +85,26 @@ const useConsultaST = () => {
     }
   };
 
+  console.log(valueST);
+
   useEffect(() => {
     if (!loading && posts) {
       calcConsultaST();
     } else {
       console.log("erro");
     }
-  }, [posts, loading, selectedClient, selectedProductData]);
+  }, [posts, loading, selectedClient, selectedProductData, productPrice]);
+
+  const totalValueST = cartItems.reduce(
+    (acc, item) => (item.consultarST * item.quantity || 0) + acc,
+    0
+  );
+
+  console.log(totalValueST);
 
   return {
     calcConsultaST,
+    totalValueST,
   };
 };
 

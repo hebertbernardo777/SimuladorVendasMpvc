@@ -53,12 +53,7 @@ const SelectParametros = ({ setFieldValue }) => {
 
           setFieldValue("freteLabel", opcao);
 
-          // Limpa valores dos Checkboxes para evitar conflitos
-          setFieldValue("valorFinal", false);
-          setFieldValue("textValorFinal", "");
-          setFieldValue("freteNegociado", false);
-          setFieldValue("textSomarFrete", "");
-          setFreteSelected("");
+       
         }}
         options={
           posts && Array.isArray(posts.tipoFrete) && posts.tipoFrete.length > 0
@@ -81,6 +76,12 @@ const SelectParametros = ({ setFieldValue }) => {
           );
           const opcao = selectedTipo.OPCAO;
           setFieldValue("transportadoraLabel", opcao);
+             // Limpa valores dos Checkboxes para evitar conflitos
+             setFieldValue("valorFinal", false);
+             setFieldValue("textValorFinal", "");
+             setFieldValue("freteNegociado", false);
+             setFieldValue("textSomarFrete", "");
+             setFreteSelected("");
         }}
         options={
           posts && posts.transportadoras && posts.transportadoras.length > 0

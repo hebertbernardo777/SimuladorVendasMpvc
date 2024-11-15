@@ -6,7 +6,8 @@ import CurrencyInput from "react-currency-input-field";
 import { DataContext } from "../../context/DataContext";
 
 const CheckBox = ({ setFieldValue, values }) => {
-  const { freteSelected, setFreteSelected, setFreteTotal } = useContext(DataContext);
+  const { freteSelected, setFreteSelected, } =
+    useContext(DataContext);
 
   const handleCheckboxChange = (name) => {
     const newValue = !values[name];
@@ -15,14 +16,13 @@ const CheckBox = ({ setFieldValue, values }) => {
     if (name === "valorFinal" && newValue) {
       setFieldValue("freteNegociado", false);
       setFieldValue("textSomarFrete", "");
-      setFieldValue("frete", "");
       setFieldValue("transportadora", "");
-      setFreteTotal(0);
+      
     } else if (name === "freteNegociado" && newValue) {
       setFieldValue("valorFinal", false);
       setFieldValue("textValorFinal", "");
-      setFieldValue("frete", "");
       setFieldValue("transportadora", "");
+      
     }
 
     calcFreteSelected({ ...values, [name]: newValue });
@@ -31,25 +31,37 @@ const CheckBox = ({ setFieldValue, values }) => {
   const calcFreteSelected = (values) => {
     let valueFretecalc = 0;
     let unidade = "";
-
-    if (values.valorFinal) {
-      valueFretecalc =
-        parseFloat(
-          values.textValorFinal.replace("R$ ", "").replace(".", "").replace(",", ".")
-        ) || 0;
-      unidade = "R$";
-    } else if (values.freteNegociado) {
-      valueFretecalc = parseFloat(values.textSomarFrete) || 0;
-      unidade = "%";
-    }
-
-    if (unidade === "R$") {
-      valueFretecalc = formatCurrency(valueFretecalc, "BRL");
+  
+    // Só calcula o frete se alguma das opções estiver selecionada
+    if (values.valorFinal || values.freteNegociado) {
+      if (values.valorFinal) {
+        valueFretecalc =
+          parseFloat(
+            values.textValorFinal
+              .replace("R$ ", "")
+              .replace(".", "")
+              .replace(",", ".")
+          ) || 0;
+        unidade = "R$";
+      } else if (values.freteNegociado) {
+        valueFretecalc = parseFloat(values.textSomarFrete) || 0;
+        unidade = "%";
+      }
+  
+      if (unidade === "R$") {
+        valueFretecalc = formatCurrency(valueFretecalc, "BRL");
+      } else {
+        valueFretecalc = `${valueFretecalc} ${unidade}`;
+      }
+      
+      // Define o valor de frete apenas se ele foi calculado
+      setFreteSelected(valueFretecalc);
     } else {
-      valueFretecalc = `${valueFretecalc} ${unidade}`;
+      // Se nenhuma opção foi selecionada, define freteSelected como null
+      setFreteSelected(null);
     }
-    setFreteSelected(valueFretecalc);
   };
+  
 
   useEffect(() => {
     calcFreteSelected(values);
@@ -104,7 +116,11 @@ const CheckBox = ({ setFieldValue, values }) => {
             Somar % de frete negociado em valor de produtos
           </label>
         </div>
-        <ErrorMessage name="freteNegociado" component="div" className="errors" />
+        <ErrorMessage
+          name="freteNegociado"
+          component="div"
+          className="errors"
+        />
       </div>
       {values.freteNegociado && (
         <div className="input-text-checked">

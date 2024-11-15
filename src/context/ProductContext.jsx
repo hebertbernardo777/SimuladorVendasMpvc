@@ -10,8 +10,9 @@ export const ProductContextProvider = ({ children }) => {
   const [discount, setDiscount] = useState(0);
   const [discountApplied, setDiscountApplied] = useState(0);
   const [productPrice, setProductPrice] = useState("");
-  const [orderTotal, setOrderTotal] = useState(0);
+
   const [totalPrice, setTotalPrice] = useState(0);
+  const [priceInitial, setPriceInitial] = useState("");
 
   const value = {
     posts,
@@ -28,10 +29,10 @@ export const ProductContextProvider = ({ children }) => {
     setDiscountApplied,
     totalPrice,
     setTotalPrice,
-    orderTotal,
-    setOrderTotal,
     imagePath,
     setImagePath,
+    priceInitial,
+    setPriceInitial,
   };
 
   return (

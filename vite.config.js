@@ -29,6 +29,11 @@ export default defineConfig({
         target: "http://appmpvc.com.br:3333",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/rotas/, ""), // Certifique-se que remove corretamente o prefixo /rotas
+      },  
+       "/inserirpedido": {
+        target: "http://appmpvc.com.br:3333",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/inserirpedido/, ""), // Certifique-se que remove corretamente o prefixo /rotas
       },
     },
   },

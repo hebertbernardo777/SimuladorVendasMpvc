@@ -11,10 +11,11 @@ import "./Products.css";
 import useCalcProducts from "../../hooks/useCalcProducts";
 import { ProductContext } from "../../context/ProductContext";
 import useSummary from "../../hooks/useSummary";
+import useConsultaST from "../../hooks/useConsultaST";
 
 const Products = () => {
-  const { selectedProduct } = useContext(DataContext);
-  const { imagePath, discount, setDiscount } = useContext(ProductContext);
+  const { data, selectedProduct, valueST } = useContext(DataContext);
+  const { imagePath, discount, priceInitial } = useContext(ProductContext);
   const { calcDiscountTotalOrders } = useSummary();
   const {
     quantity,
@@ -24,10 +25,13 @@ const Products = () => {
     minusDiscount,
     plusDiscount,
     totalValueItem,
-    orderTotal,
+    minusPrice,
+    plusPrice,
   } = useCalcProducts();
+  useConsultaST();
 
-  const { handleFocus, handleAddCart } = useCartProducts();
+  const { handleFocus, handleAddCart, handleDiscountChange } =
+    useCartProducts();
 
   return (
     <>
@@ -51,7 +55,7 @@ const Products = () => {
               </div>
               <div className="btn-product">
                 <p>Vlr Unit:</p>
-                <button type="button">
+                <button type="button" onClick={minusPrice}>
                   <FiMinusCircle className="icon-minus" />
                 </button>
                 <span className="results">
@@ -61,10 +65,29 @@ const Products = () => {
                     : "0.00"}
                 </span>
                 <button>
-                  <FiPlusCircle className="icon-plus" />
+                  <FiPlusCircle className="icon-plus" onClick={plusPrice} />
                 </button>
                 <p>R$</p>
               </div>
+
+              {data.consultarST && (
+                <div className="btn-product">
+                  <p>Vlr unit + ST:</p>
+                  {/* <button type="button">
+                    <FiMinusCircle className="icon-minus" />
+                  </button> */}
+                  <span className="results">
+                    {" "}
+                    {typeof productPrice === "number"
+                      ? (productPrice + valueST).toFixed(2)
+                      : "0.00"}
+                  </span>
+                  {/* <button>
+                    <FiPlusCircle className="icon-plus" />
+                  </button> */}
+                  <p>R$</p>
+                </div>
+              )}
               <div className="btn-product">
                 <p>Desc: </p>
                 <button onClick={minusDiscount}>
@@ -76,7 +99,7 @@ const Products = () => {
                   className="results"
                   value={discount}
                   onFocus={handleFocus}
-                  onChange={(e) => setDiscount(parseFloat(e.target.value) || 0)}
+                  onChange={handleDiscountChange}
                 />
                 <button onClick={plusDiscount}>
                   <FiPlusCircle className="icon-plus" />
@@ -87,7 +110,7 @@ const Products = () => {
                 <h3>Total</h3>
                 <div className="infos-products">
                   <p>Vlr Tabela: </p>{" "}
-                  <span>{formatCurrency(productPrice, "BRL")}</span>
+                  <span>{formatCurrency(priceInitial, "BRL")}</span>
                 </div>
                 <div className="infos-products">
                   <p>Vlr total item: </p>{" "}
@@ -95,7 +118,7 @@ const Products = () => {
                 </div>
                 <div className="infos-products">
                   <p>Vlr Total pedido com desconto: </p>{" "}
-                  <span>{formatCurrency(orderTotal, "BRL")}</span>
+                  <span>{formatCurrency(totalValueItem, "BRL")}</span>
                 </div>
                 <div className="infos-products">
                   <p>Desconto total do pedido: </p>

@@ -3,13 +3,14 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import formatCurrency from "../../utils/formatCurrency";
 import "./CartItems.css";
 import { DataContext } from "../../context/DataContext";
-import Button from '../Button/Button'
+import Button from "../Button/Button";
+import useCalcProducts from "../../hooks/useCalcProducts";
 
 const CartItems = ({ newItem }) => {
   if (!newItem) {
     return null;
   }
-  const { productId, name, quantity, image, totalOrders} = newItem;
+  const { productId, name, quantity, image, totalOrders } = newItem;
   const { cartItems, setCartItems } = useContext(DataContext);
 
   const handleRemoveItem = () => {
@@ -20,22 +21,28 @@ const CartItems = ({ newItem }) => {
   };
 
   return (
-    <div className="products-summary">
-      <div id="image-cart">
-        <img src={image} alt="imagem do produto" />
-      </div>
-      <div id="infos-cart">
-        <h4>{name}</h4>
-        <div className="summary-buy">
-          <p>Quantidade:</p> <span>{quantity}</span>
+    <>
+      <div className="products-summary">
+        <div id="image-cart">
+          <img src={image} alt="imagem do produto" />
         </div>
-        <div className="summary-buy">
-          <p>Preço:</p>
-          <span>{formatCurrency(totalOrders, "BRL")}</span>
+        <div id="infos-cart">
+          <h4>{name}</h4>
+          <div className="summary-buy">
+            <p>Quantidade:</p> <span>{quantity}</span>
+          </div>
+          <div className="summary-buy">
+            <p>Preço:</p>
+            <span>{formatCurrency(totalOrders, "BRL")}</span>
+          </div>
+          <FaRegTrashCan
+            className="delete-product"
+            onClick={handleRemoveItem}
+          />
         </div>
-        <FaRegTrashCan className="delete-product" onClick={handleRemoveItem} />
       </div>
-       </div>
+        
+    </>
   );
 };
 

@@ -7,8 +7,10 @@ import useConsultaST from "./useConsultaST";
 const useSummary = () => {
   const { cartItems } = useContext(DataContext);
   const { discountApplied, totalPrice } = useContext(ProductContext);
-  const { percenteFrete } = useRotas();
-  const { calcConsultaST } = useConsultaST();
+  useConsultaST();
+  useRotas();
+
+  console.log(discountApplied)
 
   // soma dos valores de todos os itens do carrinho sem o desconto
   const totalPriceOrders = cartItems.reduce(
@@ -41,15 +43,10 @@ const useSummary = () => {
   const calcDiscountTotalOrdersResume =
     totalPriceOrders > 0 ? (totalValueDiscount / totalPriceOrders) * 100 : 0;
 
-  // consulta ST
-  useEffect(() => {
-    calcConsultaST();
-  }, []);
-
-  const totalValueST = cartItems.reduce(
-    (acc, item) => (item.consultarST || 0) + acc,
-    0
-  );
+  // // consulta ST
+  // useEffect(() => {
+  //   calcConsultaST();
+  // }, []);
 
   return {
     totalPriceOrders,
@@ -57,7 +54,6 @@ const useSummary = () => {
     totalValueDiscount,
     calcDiscountTotalOrders,
     calcDiscountTotalOrdersResume,
-    totalValueST,
   };
 };
 
