@@ -62,6 +62,7 @@ const useSummary = () => {
 
   // soma do frete + valor final
   const calcularTotalComFrete = () => {
+    console.log(totalOrders, freteTotal)
     let valorFrete;
     if (typeof freteTotal === "string" && freteTotal.includes("%")) {
       const percentualFrete = parseFloat(freteTotal.replace("%", "")) || 0;
@@ -76,12 +77,13 @@ const useSummary = () => {
 
     const total = totalOrders + valorFrete;
     setTotalComFrete(total);
+    console.log(total)
     return total;
   };
 
   useEffect(() => {
     calcularTotalComFrete();
-  }, []);
+  }, [freteTotal, totalOrders]);
 
   return {
     totalPriceOrders,

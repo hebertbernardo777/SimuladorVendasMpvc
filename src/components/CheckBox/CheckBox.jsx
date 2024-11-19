@@ -65,7 +65,7 @@ const CheckBox = ({ setFieldValue, values }) => {
 
   useEffect(() => {
     calcFreteSelected(values);
-  }, []);
+  },  [values.valorFinal, values.freteNegociado, values.textValorFinal, values.textSomarFrete]);
 
   return (
     <div className="form-group-checkbox">

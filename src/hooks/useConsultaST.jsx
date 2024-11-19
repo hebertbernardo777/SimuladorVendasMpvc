@@ -8,10 +8,7 @@ const useConsultaST = () => {
   const { selectedProductData, productPrice } = useContext(ProductContext);
   const { data, cartItems, selectedClient, valueST, setValueST } =
     useContext(DataContext);
-  // const { productPrice } = useCalcProducts();
   const { posts, loading } = useOrders();
-
-  console.log(productPrice);
 
   const calcConsultaST = () => {
     let totalCMS = 0;
@@ -71,7 +68,6 @@ const useConsultaST = () => {
         );
 
         for (const item of itensFiltrados) {
-          console.log("value", productPrice);
           const vlrCMSInterno = (item.ALIQINT / 100) * productPrice;
           const baseAliqExterna = productPrice * (1 + item.MVA / 100);
           const vrlCMSDestino = (item.ALIQDEST / 100) * baseAliqExterna;
@@ -84,8 +80,6 @@ const useConsultaST = () => {
       }
     }
   };
-
-  console.log(valueST);
 
   useEffect(() => {
     if (!loading && posts) {
