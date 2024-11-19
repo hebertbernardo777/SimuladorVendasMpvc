@@ -1,16 +1,17 @@
 import React, { useContext, useEffect } from "react";
 import { DataContext } from "../context/DataContext";
 import { ProductContext } from "../context/ProductContext";
+import { ResumeContext } from "../context/ResumeContext";
+import { useReactToPrint } from "react-to-print";
 import useRotas from "./useRotas";
 import useConsultaST from "./useConsultaST";
 
 const useSummary = () => {
-  const { cartItems } = useContext(DataContext);
+  const { cartItems, freteTotal } = useContext(DataContext);
+  const { setTotalComFrete } = useContext(ResumeContext);
   const { discountApplied, totalPrice } = useContext(ProductContext);
   useConsultaST();
   useRotas();
-
-  console.log(discountApplied)
 
   // soma dos valores de todos os itens do carrinho sem o desconto
   const totalPriceOrders = cartItems.reduce(
@@ -43,10 +44,44 @@ const useSummary = () => {
   const calcDiscountTotalOrdersResume =
     totalPriceOrders > 0 ? (totalValueDiscount / totalPriceOrders) * 100 : 0;
 
-  // // consulta ST
-  // useEffect(() => {
-  //   calcConsultaST();
-  // }, []);
+  // print
+  const componentRef = React.useRef(null);
+
+  const handleAfterPrint = React.useCallback(() => {}, []);
+
+  const handleBeforePrint = React.useCallback(() => {
+    return Promise.resolve();
+  }, []);
+
+  const handlePrint = useReactToPrint({
+    contentRef: componentRef,
+    documentTitle: "AwesomeFileName",
+    onAfterPrint: handleAfterPrint,
+    onBeforePrint: handleBeforePrint,
+  });
+
+  // soma do frete + valor final
+  const calcularTotalComFrete = () => {
+    let valorFrete;
+    if (typeof freteTotal === "string" && freteTotal.includes("%")) {
+      const percentualFrete = parseFloat(freteTotal.replace("%", "")) || 0;
+      valorFrete = (percentualFrete / 100) * totalOrders;
+    } else if (typeof freteTotal === "string" && freteTotal.includes("R$")) {
+      const valorFreteString = freteTotal
+        .replace("R$", "")
+        .replace(".", "")
+        .replace(",", ".");
+      valorFrete = parseFloat(valorFreteString) || 0;
+    }
+
+    const total = totalOrders + valorFrete;
+    setTotalComFrete(total);
+    return total;
+  };
+
+  useEffect(() => {
+    calcularTotalComFrete();
+  }, []);
 
   return {
     totalPriceOrders,
@@ -54,6 +89,8 @@ const useSummary = () => {
     totalValueDiscount,
     calcDiscountTotalOrders,
     calcDiscountTotalOrdersResume,
+    componentRef,
+    handlePrint,
   };
 };
 

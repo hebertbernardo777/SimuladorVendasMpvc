@@ -90,6 +90,22 @@ button {
   font-size: 16px;
 }
 
+.btn-product-st {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn-product-st p, .btn-product-st span {
+  color: rgba(49, 45, 45, 0.8);
+}
+
+.btn-product-st p:nth-last-child(-n +1){
+  width: 50px;
+  font-size: 14px;
+}
+
 .infos {
   display: flex;
   flex-direction: column;

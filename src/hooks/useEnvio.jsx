@@ -8,10 +8,7 @@ import useCalcProducts from "./useCalcProducts";
 const useEnvio = () => {
   const [nunota, setNunota] = useState(null); // Define nunota como estado
   const { data, selectedClient, cartItems } = useContext(DataContext);
-  const { product } = useCalcProducts();
-
   const codVend = parseInt(localStorage.getItem("CODVEND"), 10);
-  console.log(codVend);
 
   const faturamento = data.faturamento;
   const freteFBO = data.frete;
@@ -19,7 +16,6 @@ const useEnvio = () => {
   const codParceiro = selectedClient.CODPARC;
   const observacao = data.observacoes;
   const negociacao = data.negociacao;
-  // let nunota = 0;
 
   const type = () => {
     if (data.tipoVenda === "orcamento") {
@@ -27,10 +23,8 @@ const useEnvio = () => {
       return 1000;
     }
     if (["493", "950"].includes(negociacao)) {
-      console.log("aqui");
       return 1051;
     } else {
-      console.log("oi");
       return 1001;
     }
   };
@@ -48,94 +42,74 @@ const useEnvio = () => {
     AD_VLRDESCONTO: 100, // Enviar um número em vez de uma string
   };
 
-  useEffect(() => {
+  const handleEnvio = () => {
+    console.log("Iniciando envio de pedido...");
     api
-      .post("/", dataSend) // Envia o payload na requisição
+      .post("/", dataSend)
       .then((response) => {
-        const nunotaResponse = response.data.outBinds?.nunota[0];
+        const nunotaResponse = response.data.outBinds?.nunota?.[0];
         if (nunotaResponse) {
-          setNunota(nunotaResponse); // Atualiza o estado nunota
-          console.log("NUNOTA recebido da API:", nunotaResponse);
-        } else {
-          console.log("Nunota não encontrado");
+          setNunota(nunotaResponse);
+          console.log("NUNOTA recebido:", nunotaResponse);
+          sendItems(nunotaResponse); // Envia os itens após obter o NUNOTA
         }
-      })
-      .catch((error) => {
-        console.error("Erro ao enviar pedido:", error);
-      });
-    console.log("Payload a ser enviado:", dataSend);
-  }, []);
-
-  useEffect(() => {
-    if (cartItems && cartItems.length > 0 && nunota) {
-      // Verifica se os itens do carrinho e nunota estão disponíveis
-      console.log("Carrinho carregado:", cartItems);
-      console.log("NUNOTA antes de enviar itens:", nunota);
-      sendItems(nunota); // Envia os itens depois que cartItems e nunota estão disponíveis
-    } else {
-      console.log("Ainda não temos carrinho ou NUNOTA para enviar.");
-    }
-  }, [cartItems, nunota]); // Executa quando cartItems ou nunota mudar
-
-  const sendItems = (nunota) => {
-    const itemsOrders = cartItems.map((item, index) => {
-      // Verifique se 'product' existe e contém os dados necessários
-      const product = item.product;
-      if (!product) {
-        console.warn("Produto não definido para o item:", item);
-        return null; // Pula este item caso 'product' esteja indefinido
-      }
-
-      // Cálculo de m2 e outras variáveis baseadas em 'product'
-      const m2 = product.LARGURA * product.ALTURA;
-      const QTDPADRAO =
-        product.CODGRUPOPROD === 40200 ? item.quantity * m2 : item.quantity;
-      const VLRPADRAO =
-        product.CODGRUPOPROD === 40200 ? item.price * m2 : item.price;
-        console.log("VLRPADRAO",VLRPADRAO)
-      const VLRTABELAPADRAO =
-        product.CODGRUPOPROD === 40200 ? item.priceTable * m2 : item.priceTable;
-        console.log("VLRTABELAPADRAO", VLRTABELAPADRAO)
-      const DESCONTOPADRAO = (VLRPADRAO / VLRTABELAPADRAO) * 100;
-      const AD_VLRDESCONTO =
-        VLRTABELAPADRAO * QTDPADRAO * (DESCONTOPADRAO / 100);
-      // debugger
-      return {
-        CODPROD: product.CODPROD, // Acessando a propriedade CODPROD
-        CODTAB: product.CODTAB,
-        NUNOTA: nunota,
-        QTDNEG: QTDPADRAO, // Quantidade do produto ajustada
-        SEQUENCIA: index + 1,
-        VLRTOT: item.price * QTDPADRAO, // Valor total calculado
-        VLRUNIT: VLRPADRAO, // Valor unitário ajustado
-        CODVEND: codVend, // Código do vendedor
-        CODVOL: product.CODVOL,
-        AD_VLRTABELAAPP: VLRTABELAPADRAO, // Valor da tabela
-        PRECOBASE: VLRTABELAPADRAO,
-        AD_DESCONTO: DESCONTOPADRAO, // Percentual de desconto
-        AD_VLRDESCONTO: AD_VLRDESCONTO, // Valor de desconto aplicado
-      };
-    });
-
-    // Remova itens nulos antes de enviar para a API
-    // const validItemsOrders = itemsOrders.filter(Boolean);
-
-    console.log("Itens a serem enviados:", itemsOrders);
-
-    // Envia os dados para a API
-    api
-      .post("/", { items: itemsOrders })
-      .then((response) => {
-        console.log("Resposta da API:", response.data);
       })
       .catch((error) => {
         console.error("Erro ao enviar pedido:", error);
       });
   };
 
-  // sendItems();
+  const sendItems = (nunota) => {
+    const itemsOrders = cartItems
+      .map((item, index) => {
+        const product = item.product;
+        if (!product) return null;
 
-  return <div>useEnvio</div>;
+        const m2 = product.LARGURA * product.ALTURA;
+        const QTDPADRAO =
+          product.CODGRUPOPROD === 40200 ? item.quantity * m2 : item.quantity;
+        const VLRPADRAO =
+          product.CODGRUPOPROD === 40200 ? item.price * m2 : item.price;
+        const VLRTABELAPADRAO =
+          product.CODGRUPOPROD === 40200
+            ? item.priceTable * m2
+            : item.priceTable;
+
+        const DESCONTOPADRAO = (VLRPADRAO / VLRTABELAPADRAO) * 100;
+        const AD_VLRDESCONTO =
+          VLRTABELAPADRAO * QTDPADRAO * (DESCONTOPADRAO / 100);
+
+        return {
+          CODPROD: product.CODPROD,
+          CODTAB: product.CODTAB,
+          NUNOTA: nunota,
+          QTDNEG: QTDPADRAO,
+          SEQUENCIA: index + 1,
+          VLRTOT: item.price * QTDPADRAO,
+          VLRUNIT: VLRPADRAO,
+          CODVEND: codVend,
+          CODVOL: product.CODVOL,
+          AD_VLRTABELAAPP: VLRTABELAPADRAO,
+          PRECOBASE: VLRTABELAPADRAO,
+          AD_DESCONTO: DESCONTOPADRAO,
+          AD_VLRDESCONTO: AD_VLRDESCONTO,
+        };
+      })
+      .filter(Boolean);
+
+    console.log("Itens enviados:", itemsOrders);
+
+    api
+      .post("/", { items: itemsOrders })
+      .then((response) => {
+        console.log("Resposta da API:", response.data);
+      })
+      .catch((error) => {
+        console.error("Erro ao enviar itens:", error);
+      });
+  };
+
+  return { nunota, handleEnvio };
 };
 
 export default useEnvio;
@@ -224,7 +198,7 @@ export default useEnvio;
 //     })
 
 //     await api.post('/inserirpedido',dataSend).then( (response) => {
-//         NUNOTA = response.data.outBinds?.nunota[0]
+//         NUNOTA = response.data.outBinds?.nunota[0]CODPROD:
 
 //         const itens:SendItensProps[] = []
 

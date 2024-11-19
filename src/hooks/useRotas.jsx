@@ -13,9 +13,7 @@ const useRotas = () => {
     setLoading,
     selectedClient,
     cartItems,
-    fretePercente,
     setFretePercente,
-    freteTotal,
     setFreteTotal,
     freteSelected,
   } = useContext(DataContext);
@@ -90,7 +88,6 @@ const useRotas = () => {
   // Calcula o percentual de frete quando as dependências mudam
   useEffect(() => {
     const calcFrete = percenteFrete();
-    console.log("Percentual de Frete calculado:", calcFrete);
     setFretePercente(calcFrete);
   }, [selectedClient, selectedProductData, posts, cartItems]);
 

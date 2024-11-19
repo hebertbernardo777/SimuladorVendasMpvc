@@ -71,20 +71,14 @@ const Products = () => {
               </div>
 
               {data.consultarST && (
-                <div className="btn-product">
+                <div className="btn-product-st">
                   <p>Vlr unit + ST:</p>
-                  {/* <button type="button">
-                    <FiMinusCircle className="icon-minus" />
-                  </button> */}
                   <span className="results">
                     {" "}
                     {typeof productPrice === "number"
                       ? (productPrice + valueST).toFixed(2)
                       : "0.00"}
                   </span>
-                  {/* <button>
-                    <FiPlusCircle className="icon-plus" />
-                  </button> */}
                   <p>R$</p>
                 </div>
               )}

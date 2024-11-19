@@ -1,9 +1,9 @@
 import { ErrorMessage, Field } from "formik";
 import React, { useContext, useEffect } from "react";
-import formatCurrency from "../../utils/formatCurrency";
-import "./CheckBox.css";
-import CurrencyInput from "react-currency-input-field";
 import { DataContext } from "../../context/DataContext";
+import formatCurrency from "../../utils/formatCurrency";
+import CurrencyInput from "react-currency-input-field";
+import "./CheckBox.css";
 
 const CheckBox = ({ setFieldValue, values }) => {
   const { freteSelected, setFreteSelected, } =

@@ -1,23 +1,33 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
+import { ResumeContext } from "../../context/ResumeContext";
 import Button from "../../components/Button/Button";
 import CartItems from "../../components/Cart/CartItems";
 import ProductSummary from "../../components/Summary/ProductSummary";
 import formatCurrency from "../../utils/formatCurrency";
 import useSummary from "../../hooks/useSummary";
 import useDraftsManagement from "../../hooks/useDraftsManagement";
-import useCalLine from "../../hooks/useCalLine";
-import "./Summary.css";
 import useConsultaST from "../../hooks/useConsultaST";
+import useCalLine from "../../hooks/useCalLine";
 import useEnvio from "../../hooks/useEnvio";
+import Print from "../../components/Print/Print";
+import { LuPrinter } from "react-icons/lu";
+import { FaRegBookmark } from "react-icons/fa6";
+import "./Summary.css";
 
 const Summary = () => {
   const { cartItems, freteTotal } = useContext(DataContext);
-  const { totalOrders, calcDiscountTotalOrdersResume } = useSummary();
+  const { totalComFrete } = useContext(ResumeContext);
   const { handleSaveToLocalStorage } = useDraftsManagement();
   const { totalValueST } = useConsultaST();
+  const { handleEnvio } = useEnvio();
   useCalLine();
-  useEnvio();
+  const {
+    totalOrders,
+    calcDiscountTotalOrdersResume,
+    componentRef,
+    handlePrint,
+  } = useSummary();
 
   return (
     <>
@@ -53,16 +63,26 @@ const Summary = () => {
           </div>
           <div className="infos-summary">
             <p>Total + Frete</p>
-            <span> {}</span>
+            <span> {formatCurrency(totalComFrete, "BRL")}</span>
           </div>
         </div>
         <div className="summary-btn">
-          <Button className="btn" children={"Finalizar Compra"} />
+          <Button
+            className="btn"
+            children={"Finalizar Compra"}
+            onClick={handleEnvio}
+          />
         </div>
         <div className="drafts-link">
           <a onClick={handleSaveToLocalStorage}>
-            <p>Salvar Rascunho</p>
+            <FaRegBookmark /> <span>Salvar Rascunho</span>
           </a>
+          <div className="drafts-print" onClick={handlePrint}>
+            <LuPrinter className="icon-print" /> <span>imprimir</span>
+          </div>
+          <div style={{ display: "none" }}>
+            <Print ref={componentRef} />
+          </div>
         </div>
       </div>
     </>
