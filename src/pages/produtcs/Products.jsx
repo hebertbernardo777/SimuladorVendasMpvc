@@ -27,10 +27,11 @@ const Products = () => {
     totalValueItem,
     minusPrice,
     plusPrice,
+    handleDiscountChange
   } = useCalcProducts();
   useConsultaST();
 
-  const { handleFocus, handleAddCart, handleDiscountChange } =
+  const { handleFocus, handleAddCart } =
     useCartProducts();
 
   return (

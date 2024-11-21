@@ -184,54 +184,57 @@ const useCalcProducts = () => {
 
   const handleDiscountChange = (e) => {
     let value = parseFloat(e.target.value) || 0;
-    value = value > 100 ? 100 : value < 0 ? 0 : value; // Limita entre 0 e 100
-    setDiscount(adjustDecimal(value));
+    value = Math.max(0, Math.min(100, adjustDecimal(value))); // Garante valores entre 0 e 100
+    setDiscount(value);
     updatePriceWithDiscount(value);
   };
-
+  
   const plusDiscount = () => {
     setDiscount((prevDiscount) => {
-      const newDiscount = adjustDecimal(prevDiscount + 1);
+      const newDiscount = Math.min(100, adjustDecimal(prevDiscount + 1)); // Incrementa até no máximo 100
       updatePriceWithDiscount(newDiscount);
       return newDiscount;
     });
   };
-
+  
   const minusDiscount = () => {
     setDiscount((prevDiscount) => {
-      const newDiscount = adjustDecimal(
-        prevDiscount > 0 ? prevDiscount - 1 : prevDiscount
-      );
+      const newDiscount = Math.max(0, adjustDecimal(prevDiscount - 1)); // Não permite valores negativos
       updatePriceWithDiscount(newDiscount);
-      return newDiscount; // Adicionei o return aqui
+      return newDiscount;
     });
   };
-
+  
   const plusPrice = () => {
     setProductPrice((prevPrice) => {
-      const newPrice = adjustDecimal(prevPrice + 1);
+      const newPrice = adjustDecimal(prevPrice + 1); // Incrementa em 1 unidade
       calculateDiscountedPrice(newPrice);
       return newPrice;
     });
   };
-
+  
   const minusPrice = () => {
     setProductPrice((prevPrice) => {
-      const newPrice = adjustDecimal(prevPrice > 1 ? prevPrice - 1 : prevPrice);
+      const newPrice = adjustDecimal(Math.max(1, prevPrice - 1)); // Evita preços menores que 1
       calculateDiscountedPrice(newPrice);
       return newPrice;
     });
   };
-
+  
   const calculateDiscountedPrice = (updatedPrice) => {
-    const newDiscount = ((priceInitial - updatedPrice) / priceInitial) * 100;
-    setDiscount(adjustDecimal(newDiscount));
+    if (priceInitial > 0) {
+      const calculatedDiscount = ((priceInitial - updatedPrice) / priceInitial) * 100;
+      const newDiscount = adjustDecimal(Math.max(0, Math.min(100, calculatedDiscount))); // Garante valores válidos
+      setDiscount(newDiscount);
+    }
   };
-
+  
   const updatePriceWithDiscount = (newDiscount) => {
     const discountedPrice = priceInitial * (1 - newDiscount / 100);
-    setProductPrice(adjustDecimal(discountedPrice));
+    const newPrice = adjustDecimal(Math.max(0, discountedPrice)); // Garante que o preço não fique negativo
+    setProductPrice(newPrice);
   };
+  
   //valor total do pedido sem desconto
   let totalValueItem;
 
@@ -285,8 +288,8 @@ const useCalcProducts = () => {
     totalValueItem,
     discountApplied,
     totalDiscountApllied,
+    handleDiscountChange,
   };
 };
 
 export default useCalcProducts;
-
