@@ -4,21 +4,23 @@ import { DataContext } from "../context/DataContext";
 import { AuthContext } from "../context/AuthContex";
 import { ProductContext } from "../context/ProductContext";
 import useCalcProducts from "./useCalcProducts";
+import useSummary from "./useSummary";
 
 const useEnvio = () => {
   const [nunota, setNunota] = useState(null); // Define nunota como estado
   const { data, selectedClient, cartItems } = useContext(DataContext);
   const codVend = parseInt(localStorage.getItem("CODVEND"), 10);
+  const { calcDiscountTotalOrdersResume, totalValueDiscount } = useSummary();
 
   const faturamento = data.faturamento;
   const freteFBO = data.frete;
   const transportadora = data.transportadora;
-  const codParceiro = selectedClient.CODPARC;
+  const codParceiro = selectedClient?.CODPARC || [];
   const observacao = data.observacoes;
   const negociacao = data.negociacao;
 
   const type = () => {
-    if (data.tipoVenda === "orcamento") {
+    if (data.tipoVenda === "1000 - Orcamento") {
       console.log("esse");
       return 1000;
     }
@@ -38,8 +40,8 @@ const useEnvio = () => {
     CODVEND: codVend,
     AD_OBSTMK: observacao,
     CODTIPVENDA: parseInt(negociacao, 10),
-    AD_PERCDESCONTO: 10, // Enviar um número em vez de uma string
-    AD_VLRDESCONTO: 100, // Enviar um número em vez de uma string
+    AD_PERCDESCONTO: calcDiscountTotalOrdersResume, // Enviar um número em vez de uma string
+    AD_VLRDESCONTO: totalValueDiscount, // Enviar um número em vez de uma string
   };
 
   const handleEnvio = () => {
@@ -100,7 +102,7 @@ const useEnvio = () => {
     console.log("Itens enviados:", itemsOrders);
 
     api
-      .post("/", { items: itemsOrders })
+      .post("/", itemsOrders)
       .then((response) => {
         console.log("Resposta da API:", response.data);
       })

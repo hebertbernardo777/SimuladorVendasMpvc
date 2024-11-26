@@ -7,7 +7,7 @@ import useCalcProducts from "./useCalcProducts";
 const useCartProducts = () => {
   const { selectedProduct, cartItems, setCartItems, fretePercente, valueST } =
     useContext(DataContext);
-    const{ setDiscount}=useContext(ProductContext);
+  const { setDiscount } = useContext(ProductContext);
   const { totalValueItem } = useCalcProducts();
 
   const {
@@ -17,7 +17,7 @@ const useCartProducts = () => {
     discountApplied,
     totalPrice,
     selectedProductData,
-    priceInitial
+    priceInitial,
   } = useContext(ProductContext);
 
   const navigate = useNavigate();
@@ -74,11 +74,10 @@ const useCartProducts = () => {
       setCartItems((prevItems) => {
         // Filtra itens existentes para garantir que não haja duplicatas
         const existingItems = prevItems.filter(
-          (item) => item.productId !== updatedNewItem.productI
+          (item) => item.productId !== updatedNewItem.productId
         );
-        setDiscount(0)
+        setDiscount(0);
         return [...existingItems, updatedNewItem];
-
       });
     } else {
       // Alerta caso o item já esteja no carrinho

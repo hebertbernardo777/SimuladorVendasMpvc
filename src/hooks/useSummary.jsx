@@ -7,7 +7,8 @@ import useRotas from "./useRotas";
 import useConsultaST from "./useConsultaST";
 
 const useSummary = () => {
-  const { cartItems, freteTotal } = useContext(DataContext);
+  const { cartItems, freteTotal, printDate, setPrintDate } =
+    useContext(DataContext);
   const { setTotalComFrete } = useContext(ResumeContext);
   const { discountApplied, totalPrice } = useContext(ProductContext);
   useConsultaST();
@@ -50,6 +51,8 @@ const useSummary = () => {
   const handleAfterPrint = React.useCallback(() => {}, []);
 
   const handleBeforePrint = React.useCallback(() => {
+    const currentDate = new Date();
+    setPrintDate(currentDate.toLocaleDateString());
     return Promise.resolve();
   }, []);
 
@@ -62,7 +65,7 @@ const useSummary = () => {
 
   // soma do frete + valor final
   const calcularTotalComFrete = () => {
-    console.log(totalOrders, freteTotal)
+    console.log(totalOrders, freteTotal);
     let valorFrete;
     if (typeof freteTotal === "string" && freteTotal.includes("%")) {
       const percentualFrete = parseFloat(freteTotal.replace("%", "")) || 0;
@@ -77,7 +80,7 @@ const useSummary = () => {
 
     const total = totalOrders + valorFrete;
     setTotalComFrete(total);
-    console.log(total)
+    console.log(total);
     return total;
   };
 

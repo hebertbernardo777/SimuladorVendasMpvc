@@ -84,7 +84,9 @@ const Summary = () => {
             <Print ref={componentRef} />
           </div>
         </div>
+       
       </div>
+      
     </>
   );
 };

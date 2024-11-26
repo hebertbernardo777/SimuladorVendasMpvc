@@ -6,7 +6,7 @@ import CurrencyInput from "react-currency-input-field";
 import "./CheckBox.css";
 
 const CheckBox = ({ setFieldValue, values }) => {
-  const { freteSelected, setFreteSelected, } =
+  const { setFreteSelected, } =
     useContext(DataContext);
 
   const handleCheckboxChange = (name) => {
@@ -61,7 +61,6 @@ const CheckBox = ({ setFieldValue, values }) => {
       setFreteSelected(null);
     }
   };
-  
 
   useEffect(() => {
     calcFreteSelected(values);

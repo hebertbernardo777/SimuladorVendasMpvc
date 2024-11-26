@@ -137,6 +137,8 @@ const CategoryProducts = () => {
                 </div>
               )}
             </div>
+
+            
             <div className="btn-steps">
               <Link to="/orders">
                 <Button className="btn" type="Button" children={"voltar"} />

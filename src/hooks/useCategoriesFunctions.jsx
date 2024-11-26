@@ -3,10 +3,8 @@ import { DataContext } from "../context/DataContext";
 import { api } from "../lib/products";
 
 const useCategoriesFunctions = () => {
+  const [posts, setPosts] = useState([]);
   const {
-    posts,
-    setPosts,
-    loading,
     setLoading,
     selectedCategory,
     setSelectedCategory,
@@ -22,20 +20,20 @@ const useCategoriesFunctions = () => {
   const [letterInitial, setLetterInitial] = useState("");
 
   useEffect(() => {
-    setLoading(true)
+    console.log("Chamando API..."); // Verifique se está entrando no useEffect
+    setLoading(true);
     api
       .get("/")
       .then((response) => {
+        console.log("Resposta da API:", response); // Aqui, você verifica toda a resposta
         setPosts(response.data);
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err.toJSON());
+        console.log("Erro na API:", err); // Verifique se há erro
         setLoading(false);
       });
   }, []);
-
-  if (loading) return <p>carregando</p>;
 
   const rows = posts.rows || [];
 
@@ -103,8 +101,8 @@ const useCategoriesFunctions = () => {
     console.log("Selected Product CODPROD:", product.CODPROD); // Verifique se está definido
     setSelectedProduct(product.DESCRPROD);
     setIsActive(product.CODPROD);
-    console.log(product)
-    };
+    console.log(product);
+  };
 
   const handleSelectLine = (setFieldValue, line) => {
     setSelectSubLinha(line);

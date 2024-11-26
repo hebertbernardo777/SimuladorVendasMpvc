@@ -22,6 +22,7 @@ export const DataContextProvider = ({ children }) => {
   const [fretePercente, setFretePercente] = useState("");
   const [freteTotal, setFreteTotal] = useState(0);
   const [valueST, setValueST] = useState(0);
+  const [printDate, setPrintDate] = useState(null);
 
   const [data, setData] = useState({
     tipoVenda: "",
@@ -114,6 +115,7 @@ export const DataContextProvider = ({ children }) => {
     setFreteTotal,
     valueST,
     setValueST,
+    printDate, setPrintDate
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

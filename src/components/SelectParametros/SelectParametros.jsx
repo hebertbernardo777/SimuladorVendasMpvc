@@ -15,8 +15,8 @@ const SelectParametros = ({ setFieldValue }) => {
         label="Tipo de venda"
         defaultOption="Selecione uma opção"
         options={[
-          { value: "pedido", label: "Pedido de venda" },
-          { value: "orcamento", label: "Orçamento de venda" },
+          { value: "1001 - Pedido", label: "Pedido de venda" },
+          { value: "1000 - Orcamento", label: "Orçamento de venda" },
         ]}
       />
       <SelectField
