@@ -15,7 +15,7 @@ const ProductSummary = () => {
           {results.categories &&
             Object.entries(results.categories).map(
               ([category, categoryData]) => (
-                <div key={category}>
+                <div key={category} className="line-infos">
                   <p>
                     Valor {formatFirstLetter(String(category))}:{" "}
                     <span>

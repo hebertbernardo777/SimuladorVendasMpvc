@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { DataContext } from "../context/DataContext";
 import useOrders from "./useOrders";
-import useCalcProducts from "./useCalcProducts";
 import { ProductContext } from "../context/ProductContext";
 
 const useConsultaST = () => {
@@ -73,7 +72,6 @@ const useConsultaST = () => {
           const vrlCMSDestino = (item.ALIQDEST / 100) * baseAliqExterna;
           const calTotalCMS = vrlCMSDestino - vlrCMSInterno;
           totalCMS = calTotalCMS;
-          console.log(totalCMS);
         }
         setValueST(parseFloat(totalCMS.toFixed(2)));
         return totalCMS;
@@ -93,8 +91,6 @@ const useConsultaST = () => {
     (acc, item) => (item.consultarST * item.quantity || 0) + acc,
     0
   );
-
-  console.log(totalValueST);
 
   return {
     calcConsultaST,

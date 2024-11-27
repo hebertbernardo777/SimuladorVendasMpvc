@@ -24,8 +24,7 @@ export const AuthContextProvider = ({ children }) => {
   const signIn = async (username, password) => {
     try {
       const response = await api.post("/login", { user: username, password });
-      console.log("Resposta da API:", response.data);
-      if (response.data.rows && response.data.rows.length > 0) {
+           if (response.data.rows && response.data.rows.length > 0) {
         const { NOMEUSU, CODVEND } = response.data.rows[0];
         setUser(NOMEUSU);
         setCodVend(CODVEND)

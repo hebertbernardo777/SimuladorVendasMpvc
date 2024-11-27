@@ -35,8 +35,6 @@ const CategoryProducts = () => {
   } = useCategoriesFunctions();
 
   const handleSubmit = (values) => {
-    console.log("Form values on submit:", values);
-    console.log("Produto Selecionado para Submissão:", selectedProduct);
     if (!selectedProduct) {
       alert("Por favor, selecione um produto.");
       return;
@@ -138,7 +136,6 @@ const CategoryProducts = () => {
               )}
             </div>
 
-            
             <div className="btn-steps">
               <Link to="/orders">
                 <Button className="btn" type="Button" children={"voltar"} />

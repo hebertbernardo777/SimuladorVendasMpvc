@@ -24,11 +24,11 @@ const NewOrders = () => {
         initialValues={data}
         enableReinitialize={true}
         validationSchema={Yup.object({
-          tipoVenda: Yup.string(),
-          faturamento: Yup.string(),
-          frete: Yup.string(),
+          tipoVenda: Yup.string().required('Campo Obrigatório'),
+          faturamento: Yup.string().required('Campo Obrigatório'),
+          frete: Yup.string().required('Campo Obrigatório'),
           transportadora: Yup.string(),
-          negociacao: Yup.string(),
+          negociacao: Yup.string().required('Campo Obrigatório'),
           valorFinal: Yup.boolean(),
           freteNegociado: Yup.boolean(),
           consultarST: Yup.boolean(),

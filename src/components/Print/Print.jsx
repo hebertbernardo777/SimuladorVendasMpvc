@@ -40,16 +40,16 @@ const Print = forwardRef((props, ref) => {
           <div>
             <p>
               Cliente:
-              <span>{selectedClient.RAZAOSOCIAL || clientNoRegister}</span>
+              <span>{selectedClient?.RAZAOSOCIAL || clientNoRegister}</span>
             </p>
             <p>
               Endereço:
               <span>
-                {selectedClient.TIPO} {selectedClient.NOMEEND}
+                {selectedClient?.TIPO} {selectedClient?.NOMEEND}
               </span>
             </p>
             <p>
-              Município: <span>{selectedClient.NOMECID}</span>
+              Município: <span>{selectedClient?.NOMECID}</span>
             </p>
             <p>
               Vendendor: <span></span>
@@ -57,7 +57,7 @@ const Print = forwardRef((props, ref) => {
           </div>
           <div>
             <p>
-              CNPJ/CPF: <span>{selectedClient.CGC_CPF}</span>
+              CNPJ/CPF: <span>{selectedClient?.CGC_CPF}</span>
             </p>
           </div>
           <div>

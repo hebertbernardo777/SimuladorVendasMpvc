@@ -2,19 +2,19 @@
  display: flex;
  flex-direction: column;
  align-items: center;
- margin-bottom: 40px;
+ margin-bottom: 20px;
 }
 
 .cards {
   display: flex;
-  gap: 15px;
+  gap: 10px;
 }
 
 .container-total{
   display: flex;
   width: 100%;
   justify-content: space-around;
-  margin-top: 40px;
+  margin-top: 25px;
 }
 
 .section-products {
@@ -27,9 +27,8 @@
   gap: 10px;
 }
 
-img {
-  width: 40%;
-  margin-bottom: 10px;
+.section-products img {
+  width: 30%;
 }
 
 .container-product h4 {
@@ -110,13 +109,17 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
-  border-top: 1px solid #ccc;
+  margin-top: 10px;
+  height: 250px;
   background-color: #eeeeee;
+  border-radius: 0 0 10px 10px;
 }
 
 .infos h3{
-  margin-top: 20px;
+  margin: 10px 0;
+  font-size: 26px;
+  font-weight: 500;
+  color: black;
 }
 
 .btn-product p {
@@ -130,12 +133,12 @@ button {
   align-items: center;
   width: 450px;
   padding: 10px 40px;
-  margin-bottom: 10px;  
+  
 }
 
 .infos-products p{
-  width: 160px;
-  text-align: left;
+  display: flex;
+  justify-content: center;
 }
 
 .infos-products span{

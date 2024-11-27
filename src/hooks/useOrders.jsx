@@ -52,7 +52,6 @@ const useOrders = () => {
       .get("/")
       .then((response) => {
         setPosts(response.data);
-        console.log(response.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -70,15 +69,12 @@ const useOrders = () => {
       Array.isArray(posts.paramsMargem) &&
       posts.paramsMargem.length > 0
     ) {
-      console.log("Dados de paramsMargem:", posts.paramsMargem); // Verifique o que está aqui
       const margem = posts.paramsMargem[0];
 
       const { DESCONTOREP } = margem;
-      console.log("DESCONTOREP:", DESCONTOREP); // Verifique o valor
       setDiscountREP(DESCONTOREP);
 
       const { DESCONTOAPR } = margem;
-      console.log("DESCONTOAPR:", DESCONTOAPR); // Verifique o valor
       setDiscountAPR(DESCONTOAPR);
     } else {
       console.log("Erro: paramsMargem não está definido ou está vazio.");
@@ -87,9 +83,6 @@ const useOrders = () => {
 
   const handleChangeNegociacao = (e, setFieldValue) => {
     const codTipoVenda = e.target.value;
-    console.log("Valor selecionado:", codTipoVenda); // Verifique o valor selecionado
-    console.log(posts.tiposNegociacao); // Verifique se há dados aqui
-
     const negociacaoSelecionada = posts.tiposNegociacao.find(
       (tipo) => tipo.CODTIPVENDA === Number(codTipoVenda)
     );
@@ -109,8 +102,7 @@ const useOrders = () => {
   };
 
   const handleSubmit = (values) => {
-    console.log("Form values on submit:", values);
-    if (!validateClientSelection()) {
+      if (!validateClientSelection()) {
       return;
     }
 

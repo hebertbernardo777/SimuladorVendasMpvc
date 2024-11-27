@@ -18,7 +18,6 @@ const Clients = ({ style, onClose = () => {} }) => {
       .get("/")
       .then((response) => {
         setPosts(response.data);
-        console.log(response.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -37,8 +36,6 @@ const Clients = ({ style, onClose = () => {} }) => {
 
   const handleSelectCliente = (client) => {
     setSelectedClient(client);
-    console.log(client);
-    console.log(selectedClient);
     onClose();
   };
 

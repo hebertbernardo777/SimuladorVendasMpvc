@@ -20,12 +20,10 @@ const useCategoriesFunctions = () => {
   const [letterInitial, setLetterInitial] = useState("");
 
   useEffect(() => {
-    console.log("Chamando API..."); // Verifique se está entrando no useEffect
     setLoading(true);
     api
       .get("/")
       .then((response) => {
-        console.log("Resposta da API:", response); // Aqui, você verifica toda a resposta
         setPosts(response.data);
         setLoading(false);
       })
@@ -98,17 +96,15 @@ const useCategoriesFunctions = () => {
   };
 
   const handleSelectProduct = (product) => {
-    console.log("Selected Product CODPROD:", product.CODPROD); // Verifique se está definido
-    setSelectedProduct(product.DESCRPROD);
+      setSelectedProduct(product.DESCRPROD);
     setIsActive(product.CODPROD);
-    console.log(product);
+   
   };
 
   const handleSelectLine = (setFieldValue, line) => {
     setSelectSubLinha(line);
     setFieldValue("line", line);
-    console.log("Selected Line:", line);
-  };
+     };
 
   return {
     categories,

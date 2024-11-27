@@ -51,9 +51,6 @@ const useCartProducts = () => {
     consultarST: valueST,
   };
 
-  console.log(newItem);
-  console.log(cartItems);
-
   const handleFocus = (e) => {
     e.target.value = "";
   };

@@ -6,7 +6,7 @@
   width: 700px;
   max-height: 800px;
   border-radius: 5px;
-  background-color: #ccc;
+  background-color: #cfcccc;
   margin-bottom: 50px;
 }
 
@@ -18,7 +18,7 @@
 
 .container-summary h3 {
   text-align: center;
-  border-bottom: 1px solid #8d8d8d;
+  border-bottom: 1px solid #257c3d;
   padding: 20px;
   text-transform: uppercase;
   font-weight: 600;
@@ -27,12 +27,12 @@
 .cart-summary {
   display: flex;
   justify-content: space-around;
-  border-bottom: 1px solid #8d8d8d;
+  border-bottom: 1px solid #257c3d;
 }
 
 .cart-infos {
   width: 50%;
-  border-right: 1px solid #8d8d8d;
+  border-right: 1px solid #257c3d;
 }
 
 .cart {
@@ -52,7 +52,6 @@
 .summary-discount {
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #8d8d8d;
   padding: 13px 20px;
 }
 
@@ -76,19 +75,19 @@
   width: 50%;
   font-weight: 600;
   cursor: pointer;
-  opacity: 0.8;
+  opacity: 1;
   margin-top: 20px;
 }
 
 .summary-btn .btn:hover {
-  opacity: 1;
+  opacity: 0.8;
 }
 
 .drafts-link {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  text-align: center;
+  gap: 70px;
   margin: 20px 0;
 }
 
@@ -113,8 +112,6 @@
   cursor: pointer;
 }
 
-.drafts-print .icon-print{
-font-size: 20px;
-
- 
+.drafts-print .icon-print {
+  font-size: 20px;
 }

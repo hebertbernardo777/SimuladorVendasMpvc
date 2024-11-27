@@ -46,6 +46,7 @@ const Products = () => {
               <div className="btn-product">
                 <p>Qtd:</p>
                 <button onClick={minusQuantity}>
+               
                   <FiMinusCircle className="icon-minus" />
                 </button>
                 <span className="results">{quantity.toFixed(0)} </span>

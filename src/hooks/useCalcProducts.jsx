@@ -51,7 +51,7 @@ const useCalcProducts = () => {
   const suframa = data.suframa;
   const products = posts.rows || [];
   const product = products.find((p) => p.DESCRPROD === selectedProduct);
-  console.log(selectedProductData);
+
 
   useEffect(() => {
     if (product) {
@@ -238,21 +238,17 @@ const useCalcProducts = () => {
   //valor total do pedido sem desconto
   let totalValueItem;
 
-  console.log("value no cal", productPrice);
-
   if (data.consultarST === true) {
     totalValueItem = (productPrice + valueST) * quantity;
   } else {
     totalValueItem = productPrice * quantity;
   }
-  console.log(discount);
-
+ 
   // valor do pedido com desconto
   const calculateOrderTotalDiscount = () => {
     const totalPriceWithoutDiscount = priceInitial * quantity;
     const discountApplied =
       (totalPriceWithoutDiscount * parseFloat(discount)) / 100; //valor total do pedido * o desconto valor do desconto
-    console.log(discountApplied);
 
     setTotalPrice(totalPriceWithoutDiscount);
     setDiscountApplied(discountApplied);
@@ -264,7 +260,7 @@ const useCalcProducts = () => {
 
   // armazena desconto % por produto
   const totalDiscountApllied = (discountApplied / totalValueItem) * 100;
-  console.log(totalDiscountApllied);
+ 
   useEffect(() => {
     if (product && product.AD_IMGAPP) {
       const path = `./ImageProducts/${product.AD_IMGAPP}.png`;

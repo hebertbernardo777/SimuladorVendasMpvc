@@ -83,8 +83,6 @@ const useRotas = () => {
     }
   };
 
-  console.log(freteSelected);
-
   // Calcula o percentual de frete quando as dependências mudam
   useEffect(() => {
     const calcFrete = percenteFrete();

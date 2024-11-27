@@ -7,7 +7,7 @@
   padding: 10px;
   gap: 10px;
   background-color: #f6f6f6;
-  box-shadow: 5px 5px 10px #22222270;
+  box-shadow: 1px 3px 10px rgba(34, 34, 34, 0.13);
 }
 
 .container-card h3 {
@@ -50,6 +50,7 @@
   .container-card img {
     width: 45%;
   }
+  
   .title-discount {
     font-size: 30px;
   }
