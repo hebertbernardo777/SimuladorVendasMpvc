@@ -42,18 +42,22 @@ const useEnvio = () => {
   };
 
   const handleEnvio = () => {
-       api
-      .post("/", dataSend)
-      .then((response) => {
-        const nunotaResponse = response.data.outBinds?.nunota?.[0];
-        if (nunotaResponse) {
-          setNunota(nunotaResponse);
-          sendItems(nunotaResponse); // Envia os itens após obter o NUNOTA
-        }
-      })
-      .catch((error) => {
-        console.error("Erro ao enviar pedido:", error);
-      });
+    if (cartItems && cartItems.length > 0) {
+      api
+        .post("/", dataSend)
+        .then((response) => {
+          const nunotaResponse = response.data.outBinds?.nunota?.[0];
+          if (nunotaResponse) {
+            setNunota(nunotaResponse);
+            sendItems(nunotaResponse); // Envia os itens após obter o NUNOTA
+          }
+        })
+        .catch((error) => {
+          console.error("Erro ao enviar pedido:", error);
+        });
+    } else {
+      alert("O carrinho está vazio. Adicione itens antes de enviar o pedido.");
+    }
   };
 
   const sendItems = (nunota) => {
@@ -94,14 +98,18 @@ const useEnvio = () => {
       })
       .filter(Boolean);
 
-    apiItens
-      .post("/", itemsOrders)
-      .then((response) => {
-        alert("Pedido enviado com sucesso");
-      })
-      .catch((error) => {
-        console.error("Erro ao enviar itens:", error);
-      });
+    if (cartItems && cartItems.length > 0) {
+      apiItens
+        .post("/", itemsOrders)
+        .then((response) => {
+          alert("Pedido enviado com sucesso");
+        })
+        .catch((error) => {
+          console.error("Erro ao enviar itens:", error);
+        });
+    } else {
+      alert("O carrinho está vazio. Adicione itens antes de enviar o pedido.");
+    }
   };
 
   return { nunota, handleEnvio };

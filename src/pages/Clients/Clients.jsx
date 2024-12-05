@@ -8,9 +8,9 @@ import Loading from "../../components/Loading/Loading";
 
 const Clients = ({ style, onClose = () => {} }) => {
   const [searchClient, setSearchClient] = useState("");
-  const { posts, setPosts, selectedClient, setSelectedClient } =
-    useContext(DataContext);
+  const { setSelectedClient } = useContext(DataContext);
   const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -26,7 +26,7 @@ const Clients = ({ style, onClose = () => {} }) => {
       });
   }, []);
 
-  const clients = posts.rows || [];
+  const clients = posts || [];
 
   const filterClients = clients.filter(
     (client) =>
@@ -39,14 +39,11 @@ const Clients = ({ style, onClose = () => {} }) => {
     onClose();
   };
 
-  const handleSubmit = (values) => {
-    console.log(values);
-  };
 
   return (
     <>
       <div className="clients-container" style={style}>
-        <Formik initialValues={{ searchClients: "" }} onSubmit={handleSubmit}>
+        <Formik initialValues={{ searchClients: "" }} >
           {({ handleChange }) => (
             <div>
               <Search

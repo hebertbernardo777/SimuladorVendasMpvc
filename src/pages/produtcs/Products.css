@@ -64,10 +64,10 @@ button {
 }
 
 .btn-product {
+  width: 300px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  gap: 20px;
 }
 
 .btn-product p:nth-last-child(-n +1){
@@ -85,7 +85,7 @@ button {
 }
 
 .icon-plus {
-  color: green;
+  color: #257c3d;
   font-size: 16px;
 }
 

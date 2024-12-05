@@ -18,7 +18,7 @@
 
 .container-summary h3 {
   text-align: center;
-  border-bottom: 1px solid #257c3d;
+  border-bottom: .5px solid #257c3d;
   padding: 20px;
   text-transform: uppercase;
   font-weight: 600;
