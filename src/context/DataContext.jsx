@@ -66,6 +66,7 @@ export const DataContextProvider = ({ children }) => {
       valorFinal: false,
       freteNegociado: false,
       consultarST: false,
+      selectOpcoes:"D",
       observacoes: "",
       search: "",
     });

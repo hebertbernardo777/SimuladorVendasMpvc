@@ -102,6 +102,7 @@ const useOrders = () => {
   };
 
   const handleSubmit = (values) => {
+    console.log(values)
       if (!validateClientSelection()) {
       return;
     }
